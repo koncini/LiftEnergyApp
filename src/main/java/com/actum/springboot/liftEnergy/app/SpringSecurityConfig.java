@@ -27,10 +27,16 @@ public class SpringSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll().anyRequest()
-				.authenticated().and().formLogin().successHandler(successHandler).loginPage("/login").permitAll().and()
-				.logout().permitAll();
-		return null;
+		http.authorizeHttpRequests().requestMatchers("/", "/css/**", "/js/**", "/images/**", "/index").permitAll()
+				.requestMatchers("/ver/**").hasAnyRole("USER").requestMatchers("/uploads/**").hasAnyRole("USER")
+				.requestMatchers("/form/**").hasAnyRole("ADMIN")
+				/*
+				 * .requestMatchers("/eliminar/**").hasAnyRole("ADMIN")
+				 * .requestMatchers("/factura/**").hasAnyRole("ADMIN")
+				 */
+				.anyRequest().authenticated().and().formLogin().successHandler(successHandler).loginPage("/login")
+				.permitAll().and().logout().permitAll();
+		return http.build();
 	}
 
 	@Autowired

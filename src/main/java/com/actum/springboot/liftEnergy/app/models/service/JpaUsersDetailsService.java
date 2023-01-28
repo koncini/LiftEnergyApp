@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.actum.springboot.liftEnergy.app.models.dao.IUsuarioDao;
 import com.actum.springboot.liftEnergy.app.models.entity.Role;
@@ -17,9 +18,9 @@ import com.actum.springboot.liftEnergy.app.models.entity.Usuario;
 
 import jakarta.transaction.Transactional;
 
+@Service("jpaUsersDetailService")
+public class JpaUsersDetailsService implements UserDetailsService {
 
-public class JpaUsersDetailsService implements UserDetailsService{
-	
 	@Autowired
 	private IUsuarioDao usuarioDao;
 

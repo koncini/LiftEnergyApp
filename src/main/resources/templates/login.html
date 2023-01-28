@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${title}"></title>
+</head>
+<body>
+	<div>
+		<div th:text="${message}"></div>
+		<div>
+			<form th:action="@{/login}" method="post">
+				<div>
+					<input type="text" name="username" id="username"
+						placeholder="Username" autofocus required />
+				</div>
+				<div>
+					<input type="password" name="password" id="password"
+						placeholder="Password" required />
+				</div>
+				<div>
+					<input type="submit" value="Sing In" />
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
