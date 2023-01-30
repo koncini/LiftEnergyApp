@@ -7,5 +7,11 @@
 </head>
 <body>
 	<h1 th:text="${message}"></h1>
+	<div sec:authorize="isAuthenticated()">
+		<form th:action="@{/logout}" method="post" id="logoutForm">
+			<button onclick="document.getElemenById('logoutForm').submit();"
+				type="submit">Sing Out</button>
+		</form>
+	</div>
 </body>
 </html>

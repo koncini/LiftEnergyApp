@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -30,13 +31,13 @@ public class IndexController {
 		} else {
 			logger.info("Usuario '" + authentication.getName() + "' No Tiene Acceso");
 		}
-		
+
 		model.addAttribute("title", "Lift Energy Group");
-		model.addAttribute("message", "Por Favor Inicie Sesión");
-				
+		model.addAttribute("message", "Dashboard Lift Energy");
+
 		return "index";
 	}
-	
+
 	private boolean hasRole(String role) {
 		SecurityContext context = SecurityContextHolder.getContext();
 
