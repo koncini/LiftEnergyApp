@@ -17,8 +17,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "unit_notes")
-public class UnitNote implements Serializable {
+@Table(name = "unit_events")
+public class UnitEvent implements Serializable {
 
 	/**
 	 * 
@@ -37,8 +37,17 @@ public class UnitNote implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timeStamp;
 
-	private String note;
-
+	private Integer level;
+	
+	@Column(name = "event_name")
+	private String eventName;
+	
+	@Column(name = "event_detail")
+	private String eventDetail;
+	
+	@Column(name = "event_attended")
+	private Boolean eventAttended;
+	
 	public Long getId() {
 		return id;
 	}
@@ -55,12 +64,52 @@ public class UnitNote implements Serializable {
 		this.timeStamp = timestamp;
 	}
 
-	public String getNote() {
-		return note;
+	public Integer getLevel() {
+		return level;
 	}
 
-	public void setNote(String note) {
-		this.note = note;
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	public Unit getUnit() {
+		return unit;
+	}
+
+	public void setUnit(Unit unit) {
+		this.unit = unit;
+	}
+
+	public Date getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(Date timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public String getEventName() {
+		return eventName;
+	}
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
+	public String getEventDetail() {
+		return eventDetail;
+	}
+
+	public void setEventDetail(String eventDetail) {
+		this.eventDetail = eventDetail;
+	}
+
+	public Boolean getEventAttended() {
+		return eventAttended;
+	}
+
+	public void setEventAttended(Boolean eventAttended) {
+		this.eventAttended = eventAttended;
 	}
 
 }

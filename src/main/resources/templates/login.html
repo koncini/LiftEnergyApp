@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title th:text="${title}"></title>
+<title th:text="'Lift Energy ' + ${title}"></title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}" />
 </head>
 <body>
-	<div>
-		<div th:text="${message}"></div>
-		<div>
-			<form th:action="@{/login}" method="post">
-				<div>
-					<input type="text" name="username" id="username"
-						placeholder="Username" autofocus required />
-				</div>
-				<div>
-					<input type="password" name="password" id="password"
-						placeholder="Password" required />
-				</div>
-				<div>
-					<input type="submit" value="Sing In" />
-				</div>
-			</form>
+	<div class="container">
+		<p style="text-align: center;">
+			<img th:src="@{/images/LEG.png}" style="max-width: 480px">
+		</p>
+		<div class="card border-success text-center mx-auto" style="max-width: 380px;">
+			<div class="card-header" th:text="${message}"></div>
+			<div class="card-body">
+				<form th:action="@{/login}" method="post">
+					<div>
+						<input type="text" name="username" id="username"
+							placeholder="Username" autofocus required />
+					</div>
+					<div>
+						<input type="password" name="password" id="password"
+							placeholder="Password" required />
+					</div>
+					<div>
+						<input type="submit" class="btn btn-lg btn-success" value="Ingresar" />
+					</div>
+				</form>
+			</div>
+
 		</div>
 	</div>
 </body>

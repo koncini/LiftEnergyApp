@@ -8,6 +8,8 @@ import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 
 public interface ISensorDao extends CrudRepository<Sensor, Long> {
 
-	public List<Sensor> findAll();
+	public List<Sensor> findByEnabledTrue();
+
+	public List<Sensor> findByEnabledIsTrueAndUnitId(Long unitId);
 
 }

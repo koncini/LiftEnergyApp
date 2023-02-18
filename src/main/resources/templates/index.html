@@ -2,16 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8">
-<title th:text="${title}"></title>
+	<head th:replace="layout/layout :: head"></head>
 </head>
 <body>
+	<header th:replace="layout/layout :: header"></header>
 	<h1 th:text="${message}"></h1>
-	<div sec:authorize="isAuthenticated()">
-		<form th:action="@{/logout}" method="post" id="logoutForm">
-			<button onclick="document.getElemenById('logoutForm').submit();"
-				type="submit">Sing Out</button>
-		</form>
-	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>

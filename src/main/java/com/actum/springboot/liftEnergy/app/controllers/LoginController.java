@@ -24,7 +24,7 @@ public class LoginController {
 			model.addAttribute("error", "Error en el login: Nombre o Usuario Incorrectos");
 		}
 		
-		model.addAttribute("title", "Logueo Lift Energy");
+		model.addAttribute("title", "Logueo");
 		model.addAttribute("message", "Por Favor Inicie Sesión");
 
 		return "login";
