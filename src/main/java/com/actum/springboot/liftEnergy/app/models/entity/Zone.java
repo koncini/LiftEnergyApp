@@ -34,6 +34,8 @@ public class Zone implements Serializable {
 	private Double latitude;
 
 	private Double longitude;
+	
+	private Boolean enabled;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "zone_id")
@@ -86,6 +88,14 @@ public class Zone implements Serializable {
 
 	public void addUnit(Unit unit) {
 		units.add(unit);
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

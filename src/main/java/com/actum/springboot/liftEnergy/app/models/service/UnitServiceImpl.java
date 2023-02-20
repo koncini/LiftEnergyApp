@@ -9,6 +9,7 @@ import com.actum.springboot.liftEnergy.app.models.dao.ISensorDao;
 import com.actum.springboot.liftEnergy.app.models.dao.ISensorDataDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao;
+import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
@@ -76,6 +77,12 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
+	public List<ZoneNameAndId> findEnabledZones() {
+		return zoneDao.findIdAndNameByEnabledIsTrue();
+	}
+
+	@Override
+	@Transactional
 	public void deleteZone(Long id) {
 		zoneDao.deleteById(id);
 	}
@@ -121,7 +128,7 @@ public class UnitServiceImpl implements IUnitService {
 	public List<Sensor> findEnabledSensorsById(Long id) {
 		return sensorDao.findByEnabledIsTrueAndUnitId(id);
 	}
-	
+
 	@Override
 	@Transactional
 	public void saveSensorData(SensorData sensorData) {

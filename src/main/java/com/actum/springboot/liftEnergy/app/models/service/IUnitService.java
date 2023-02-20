@@ -2,6 +2,7 @@ package com.actum.springboot.liftEnergy.app.models.service;
 
 import java.util.List;
 
+import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
@@ -40,5 +41,7 @@ public interface IUnitService {
 	public List<Sensor> findEnabledSensorsById(Long id);
 
 	public void saveSensorData(SensorData sensorData);
+
+	public List<ZoneNameAndId> findEnabledZones();
 
 }

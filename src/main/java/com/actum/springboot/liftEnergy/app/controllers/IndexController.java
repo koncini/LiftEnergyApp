@@ -32,7 +32,7 @@ public class IndexController {
 			logger.info("Usuario '" + authentication.getName() + "' No Tiene Acceso");
 		}
 
-		model.addAttribute("title", "Lift Energy Group");
+		model.addAttribute("title", "Dashboard");
 		model.addAttribute("message", "Dashboard Lift Energy");
 
 		return "index";
