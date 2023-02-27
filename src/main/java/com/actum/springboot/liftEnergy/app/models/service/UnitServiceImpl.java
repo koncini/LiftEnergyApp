@@ -1,5 +1,6 @@
 package com.actum.springboot.liftEnergy.app.models.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,6 +132,12 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
+	public Sensor findEnabledSensorById(Long id) {
+		return sensorDao.findByIdAndEnabledTrue(id).orElse(null);
+	}
+	
+	@Override
+	@Transactional
 	public void saveSensorData(SensorData sensorData) {
 		sensorDataDao.save(sensorData);
 	}
@@ -139,6 +146,12 @@ public class UnitServiceImpl implements IUnitService {
 	@Transactional
 	public List<SensorData> findDinagraphData() {
 		return sensorDataDao.findByDinagraphReadingTrue();
+	}
+
+	@Override
+	@Transactional
+	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp) {
+		sensorDataDao.insertSensorData(sensorId, data, unit, dinagraphReading, timeStamp);	
 	}
 
 }

@@ -28,7 +28,7 @@ public class UnitEvent implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonBackReference
 	private Unit unit;
@@ -37,17 +37,18 @@ public class UnitEvent implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timeStamp;
 
-	private Integer level;
-	
 	@Column(name = "event_name")
 	private String eventName;
-	
+
 	@Column(name = "event_detail")
 	private String eventDetail;
-	
+
+	@Column(name = "event_priority")
+	private Integer eventPriority;
+
 	@Column(name = "event_attended")
 	private Boolean eventAttended;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -62,14 +63,6 @@ public class UnitEvent implements Serializable {
 
 	public void setTimestamp(Date timestamp) {
 		this.timeStamp = timestamp;
-	}
-
-	public Integer getLevel() {
-		return level;
-	}
-
-	public void setLevel(Integer level) {
-		this.level = level;
 	}
 
 	public Unit getUnit() {
@@ -102,6 +95,14 @@ public class UnitEvent implements Serializable {
 
 	public void setEventDetail(String eventDetail) {
 		this.eventDetail = eventDetail;
+	}
+
+	public Integer getEventPriority() {
+		return eventPriority;
+	}
+
+	public void setEventPriority(Integer eventPriority) {
+		this.eventPriority = eventPriority;
 	}
 
 	public Boolean getEventAttended() {

@@ -1,6 +1,9 @@
 package com.actum.springboot.liftEnergy.app.models.service;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.data.repository.query.Param;
 
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
@@ -39,6 +42,10 @@ public interface IUnitService {
 	public List<SensorData> findDinagraphData();
 
 	public List<Sensor> findEnabledSensorsById(Long id);
+
+	public Sensor findEnabledSensorById(Long id);
+	
+	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp);
 
 	public void saveSensorData(SensorData sensorData);
 

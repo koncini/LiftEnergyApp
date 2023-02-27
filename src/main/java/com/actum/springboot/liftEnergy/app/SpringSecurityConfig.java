@@ -3,6 +3,7 @@ package com.actum.springboot.liftEnergy.app;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,12 +29,13 @@ public class SpringSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-			.authorizeHttpRequests().requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll()
-			.requestMatchers("/api/**").permitAll()
+			.authorizeHttpRequests().requestMatchers("/", "/css/**", "/js/**", "/images/**", "/error/**").permitAll()
+			.requestMatchers(HttpMethod.POST, "/api/sensors-data/upload-data/**").permitAll()
 			.requestMatchers("/units/**").hasAnyRole("USER")
 			.requestMatchers("/zone/**").hasAnyRole("ADMIN")
 			.anyRequest().authenticated().and()
 			.formLogin().successHandler(successHandler).loginPage("/login").permitAll().and()
+			.csrf().disable()
 			.logout().permitAll();
 		return http.build();
 	}

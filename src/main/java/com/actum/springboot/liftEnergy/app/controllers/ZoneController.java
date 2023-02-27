@@ -19,9 +19,11 @@ public class ZoneController {
 
 	@GetMapping("/listar-zonas")
 	public @ResponseBody List<ZoneNameAndId> listarZonas(Model model) {
-		return unitService.findEnabledZones();
+		List<ZoneNameAndId> zoneNames = unitService.findEnabledZones();
+		model.addAttribute("zoneNames", zoneNames);
+		return zoneNames;
 	}
-	
+
 	@GetMapping("/zona/{id}")
 	public String verZona(Model model) {
 		return "zona";

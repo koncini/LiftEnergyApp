@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -34,6 +35,7 @@ public class SensorData implements Serializable {
 	private String unit;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "sensor_id", insertable = false, updatable = false)
 	@JsonBackReference
 	private Sensor sensor;
 
@@ -43,6 +45,20 @@ public class SensorData implements Serializable {
 
 	@Column(name = "dinagraph_reading")
 	private Boolean dinagraphReading;
+
+	public SensorData() {
+		super();
+	}
+
+	public SensorData(Long id, Double data, String unit, Sensor sensor, Date timeStamp, Boolean dinagraphReading) {
+		super();
+		this.id = id;
+		this.data = data;
+		this.unit = unit;
+		this.sensor = sensor;
+		this.timeStamp = timeStamp;
+		this.dinagraphReading = dinagraphReading;
+	}
 
 	public Long getId() {
 		return id;

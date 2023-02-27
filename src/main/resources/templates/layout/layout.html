@@ -18,19 +18,30 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
-					<li class="nav-item active">
-						<a class="nav-link"
-							th:href="@{/index}">Home <span class="sr-only">(current)</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" th:href="@{/listar-zonas}">Zonas</a>
+					<li class="nav-item active"><a class="nav-link"
+						th:href="@{/index}">Home <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item active"><a class="nav-link"
+						th:href="@{/usuarios}">Usuarios</a></li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="dropdown show">
+						<a class="btn btn-outline-dark dropdown-toggle"
+							th:href="@{/listar-zonas}" role="button" id="dropdownMenuLink"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zonas</a>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							<a class="dropdown-item" th:each="zone_name: ${zoneNames}"></a>
+						    <a class="dropdown-item" href="#">Action</a>
+						    <a class="dropdown-item" href="#">Another action</a>
+						    <a class="dropdown-item" href="#">Something else here</a>														
+						</div>							
 					</li>
 				</ul>
 			</div>
 			<div sec:authorize="isAuthenticated()">
 				<form th:action="@{/logout}" method="post" id="logoutForm">
-					<button class="btn btn-danger" onclick="document.getElemenById('logoutForm').submit();"
+					<button class="btn btn-danger"
+						onclick="document.getElemenById('logoutForm').submit();"
 						type="submit">Salir</button>
 				</form>
 			</div>
@@ -50,14 +61,19 @@
 
 	<footer th:fragment="footer" class="container">
 		<hr />
-		<img th:src="@{/images/Actum_Logo.jpg}" alt="Actum logo" style="max-width: 100px;"/>
+		<img th:src="@{/images/Actum_Logo.jpg}" alt="Actum logo"
+			style="max-width: 100px;" />
+		<p sec:authorize="isAuthenticated()">
+			Usuario logeado: <span sec:authentication="name"></span> | Roles: <span
+				sec:authentication="principal.authorities"></span>
+		</p>			
 		<p>
 			Desarrollado por Actum.<br /> &copy; Company 2023, Inc. Todos los
 			derechos reservados. Términos de uso y privacidad.<br />
 		</p>
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Bootstrap JS -->
-		<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+		<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 		<script th:src="@{/js/popper.min.js}"></script>
 		<script th:src="@{/js/bootstrap.min.js}"></script>
 		<script th:src="@{/js/jquery-ui.min.js}"></script>

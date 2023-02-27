@@ -50,7 +50,14 @@ public class Unit implements Serializable {
 	@JsonManagedReference
 	private List<UnitEvent> events;
 
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "unit_id")
+	@JsonManagedReference
+	private List<Node> nodes;
+
 	private String settings;
+
+	private String metrics;
 
 	private Double latitude;
 
@@ -104,6 +111,26 @@ public class Unit implements Serializable {
 
 	public void setSettings(String settings) {
 		this.settings = settings;
+	}
+
+	public List<Node> getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(List<Node> nodes) {
+		this.nodes = nodes;
+	}
+
+	public String getMetrics() {
+		return metrics;
+	}
+
+	public void setMetrics(String metrics) {
+		this.metrics = metrics;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public Double getLatitude() {
