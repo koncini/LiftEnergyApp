@@ -2,11 +2,66 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<head th:replace="layout/layout :: head"></head>
+<head th:replace="layout/layout :: head"></head>
 </head>
 <body>
 	<header th:replace="layout/layout :: header"></header>
-	<h1 th:text="${message}"></h1>
+
+	<div class="container my-2">
+		<h1 th:text="${title}"></h1>
+
+		<div class="containerHr my-4">
+
+			<div class="card">
+				<div class="card-header">
+					<h1 class="card-title" th:text="${zoneMessage}"></h1>
+				</div>
+				<div class="card-body">
+					<span th:text="${zoneSummary}"></span>
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-header">
+					<h1 class="card-title" th:text="${echonomicsMessage}"></h1>
+				</div>
+				<div class="card-body">
+					<span th:text="${echonomicsInfo}"></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<table class="table table-stripped table-hover table-bordered">
+				<thead class="thead-dark">
+					<tr>
+						<th>Identificador</th>
+						<th>Nombre</th>
+						<th>Ubicación</th>
+						<th>Productividad</th>
+						<th>Estado</th>
+						<th>Habilitado</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="zone: ${zones}">
+						<td th:text=${zone.id}></td>
+						<td th:text=${zone.name}></td>
+						<td th:text="${zone.latitude}+ ' ' +${zone.longitude}"></td>
+						<td th:text="${productionZone}+' BPD'"></td>
+						<td th:text="'Productivo'"></td>
+						<td th:text=${zone.enabled}></td>
+						<td><a class="btn btn-primary btn-xs"
+							th:href="@{'/zona/' + ${zone.id} + '/listar-unidades'}"
+							th:text="'Ver Unidades'">></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script th:replace="js/commodities :: commodities"></script>
 	<footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>

@@ -3,12 +3,11 @@ package com.actum.springboot.liftEnergy.app.models.service;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 
 public interface IUnitService {
@@ -44,11 +43,13 @@ public interface IUnitService {
 	public List<Sensor> findEnabledSensorsById(Long id);
 
 	public Sensor findEnabledSensorById(Long id);
-	
+
 	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp);
 
 	public void saveSensorData(SensorData sensorData);
 
 	public List<ZoneNameAndId> findEnabledZones();
 
+	public List<User> findAllUsers();
+	
 }

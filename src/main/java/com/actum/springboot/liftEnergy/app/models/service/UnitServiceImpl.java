@@ -6,14 +6,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.actum.springboot.liftEnergy.app.models.dao.INodeDao;
 import com.actum.springboot.liftEnergy.app.models.dao.ISensorDao;
 import com.actum.springboot.liftEnergy.app.models.dao.ISensorDataDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitDao;
+import com.actum.springboot.liftEnergy.app.models.dao.IUnitEventDao;
+import com.actum.springboot.liftEnergy.app.models.dao.IUnitNoteDao;
+import com.actum.springboot.liftEnergy.app.models.dao.IUserDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 
 import jakarta.transaction.Transactional;
@@ -33,13 +38,18 @@ public class UnitServiceImpl implements IUnitService {
 	@Autowired
 	private ISensorDataDao sensorDataDao;
 
-	/*
-	 * @Autowired private IUnitNoteDao unitNoteDao;
-	 * 
-	 * @Autowired private IUnitEventDao unitEventDao;
-	 * 
-	 * @Autowired private INodeDao nodeDao;
-	 */
+	@Autowired
+	private IUserDao userDao;
+
+	@Autowired
+	private IUnitNoteDao unitNoteDao;
+
+	@Autowired
+	private IUnitEventDao unitEventDao;
+
+	@Autowired
+	private INodeDao nodeDao;
+
 	@Override
 	@Transactional
 	public List<Unit> findAllUnits() {
@@ -135,7 +145,7 @@ public class UnitServiceImpl implements IUnitService {
 	public Sensor findEnabledSensorById(Long id) {
 		return sensorDao.findByIdAndEnabledTrue(id).orElse(null);
 	}
-	
+
 	@Override
 	@Transactional
 	public void saveSensorData(SensorData sensorData) {
@@ -151,7 +161,13 @@ public class UnitServiceImpl implements IUnitService {
 	@Override
 	@Transactional
 	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp) {
-		sensorDataDao.insertSensorData(sensorId, data, unit, dinagraphReading, timeStamp);	
+		sensorDataDao.insertSensorData(sensorId, data, unit, dinagraphReading, timeStamp);
+	}
+	
+	@Override
+	@Transactional
+	public List<User> findAllUsers(){
+		return (List<User>) userDao.findAll();
 	}
 
 }

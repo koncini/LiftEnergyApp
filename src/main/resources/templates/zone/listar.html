@@ -2,11 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<head th:replace="layout/layout :: head"></head>
+<head th:replace="layout/layout :: head"></head>
 </head>
 <body>
 	<header th:replace="layout/layout :: header"></header>
-	<h1 th:text="${message}"></h1>
+
+	<div class="container my-2">
+		<h1 th:text="${message}"></h1>
+	</div>
+	
 	<footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>

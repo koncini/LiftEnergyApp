@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<head th:replace="layout/layout :: head"></head>
 </head>
 <body>
+	<header th:replace="layout/layout :: header"></header>
 
+	<div class="container my-2">
+		<h1 th:text="${message}"></h1>
+
+		<div class="container">
+			<canvas id="chartTempD1" height="300"></canvas>
+			<script>
+				function generateGraph(DATA) {
+					var ctx = document.getElementById('chartTempD1')
+							.getContext('2d');
+					var myLineChart = new Chart(ctx, {
+						type : 'line',
+						data : {
+							datasets : [ {
+								label : 'Temperatura',
+								borderColor : '#FF0000',
+								data : DATA,
+								type : 'line',
+								pointRadius : 0,
+								fill : false,
+								lineTension : 0,
+								borderWidth : 2
+							} ]
+						},
+						options : {
+							scales : {
+								xAxes : [ {
+									type : 'time',
+									scaleLabel : {
+										display : true,
+										abelString : 'Hora'
+									}
+								} ],
+								yAxes : [ {
+									type : 'linear',
+									scaleLabel : {
+										display : true,
+										labelString : '[°C]'
+									}
+								} ]
+							},
+						}
+					});
+				}
+			</script>
+		</div>
+	</div>
+
+	<!-- 	<script th:replace="sensor/js/graficar :: graficar"></script> -->
+	<footer th:replace="layout/layout :: footer"></footer>
+	<script th:src="@{/js/smoothie2.js}"></script>
 </body>
 </html>
