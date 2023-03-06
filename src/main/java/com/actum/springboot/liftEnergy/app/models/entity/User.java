@@ -29,7 +29,8 @@ public class User implements Serializable {
 
 	private String name;
 
-	private String lastName;
+	@Column(name = "last_name")
+	private String lastname;
 
 	private String email;
 
@@ -93,12 +94,12 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getEmail() {

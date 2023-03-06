@@ -13,54 +13,55 @@
 		<h4 class="card-title"></h4>
 
 		<div class="containerHr">
-			<div>
-				<ul class="list-group my-2">
-					<li class="list-group-item list-group-item-success"
-						th:text="'Datos de Unidad'"></li>
-					<li class="list-group-item" th:text="${unit.settings}"></li>
-				</ul>
+			<div class="card">
+				<div class="card-header my-2">
+					<h3 th:text="'Datos de Unidad'"></h3>
+				</div>
+				<div class="card-body">
+					<span th:text="${unit.settings}"></span>
+				</div>
 			</div>
 
-			<div>
-				<ul class="list-group my-2">
-					<li class="list-group-item list-group-item-success"
-						th:text="'Datos del Pozo'"></li>
-					<li class="list-group-item" th:text="${unit.metrics}"></li>
-				</ul>
+			<div class="card">
+				<div class="card-header my-2">
+					<h3 class="card-title" th:text="'Datos del pozo'"></h3>
+				</div>
+				<div class="card-body">
+					<span th:text="${unit.metrics}"></span>
+				</div>
 			</div>
 		</div>
 
 		<div class="container">
-			<div>
-				<ul class="list-group my-2">
-					<li class="list-group-item list-group-item-success"
-						th:text="'Sensores'"></li>
-				</ul>
-			</div>
+			<div class="card my-2">
+				<div class="card-header">
+					<h3 th:text="'Sensores'"></h3>
+				</div>
+				<div class="card-body">
+					<table class="table table-bordered table-striped table-hover my-4">
+						<thead class="thead-dark">
+							<tr>
+								<th>Identificador</th>
+								<th>Tipo</th>
+								<th>Estado</th>
+								<th>Habilitado</th>
+								<th>Accion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="sensor: ${unit.sensors}">
+								<td th:text="${sensor.id}"></td>
+								<td th:text="${sensor.type}"></td>
+								<td th:text="'Activo'"></td>
+								<td th:text="${sensor.enabled}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{'/unidad/' + ${unit.id} + '/analisis'}"
+									th:text="'Analizar'"></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 
-			<div>
-				<table class="table table-bordered table-striped table-hover my-4">
-					<thead class="thead-dark">
-						<tr>
-							<th>Identificador</th>
-							<th>Tipo</th>
-							<th>Estado</th>
-							<th>Habilitado</th>
-							<th>Accion</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="sensor: ${unit.sensors}">
-							<td th:text="${sensor.id}"></td>
-							<td th:text="${sensor.type}"></td>
-							<td></td>
-							<td th:text="${sensor.enabled}"></td>
-							<td>
-								<a class="btn btn-primary btn-xs" th:href="@{'/unidad/' + ${unit.id} + '/analisis'}"  th:text="'Analizar'"></a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
 

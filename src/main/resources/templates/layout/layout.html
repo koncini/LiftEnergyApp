@@ -22,25 +22,26 @@
 					<li class="nav-item active"><a class="nav-link"
 						th:href="@{/index}">Home <span class="sr-only">(current)</span>
 					</a></li>
-					<li class="nav-item active"><a class="nav-link"
-						th:href="@{/usuarios/listar-usuarios}">Usuarios</a></li>
+					<li class="nav-item active" sec:authorize="hasRole('ADMIN')">
+						<a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Users</a>
+					</li>
 				</ul>
-<!-- 				<ul class="navbar-nav"> -->
-<!-- 					<li class="dropdown show" th:each="zone: ${zones}"><a -->
-<!-- 						class="btn btn-outline-dark dropdown-toggle" role="button" -->
-<!-- 						id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" -->
-<!-- 						aria-expanded="false">Zonas</a> -->
-<!-- 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink"> -->
-<!-- 							<a class="dropdown-item" th:href="@{${zone.id}}" th:text="${zone.name}"></a> -->
-<!-- 						</div> -->
-<!-- 					</li> -->
-<!-- 				</ul> -->
+				<!-- 				<ul class="navbar-nav"> -->
+				<!-- 					<li class="dropdown show" th:each="zone: ${zones}"><a -->
+				<!-- 						class="btn btn-outline-dark dropdown-toggle" role="button" -->
+				<!-- 						id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" -->
+				<!-- 						aria-expanded="false">Zonas</a> -->
+				<!-- 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink"> -->
+				<!-- 							<a class="dropdown-item" th:href="@{${zone.id}}" th:text="${zone.name}"></a> -->
+				<!-- 						</div> -->
+				<!-- 					</li> -->
+				<!-- 				</ul> -->
 			</div>
 			<div sec:authorize="isAuthenticated()">
 				<form th:action="@{/logout}" method="post" id="logoutForm">
 					<button class="btn btn-danger"
 						onclick="document.getElemenById('logoutForm').submit();"
-						type="submit">Salir</button>
+						type="submit">Singout</button>
 				</form>
 			</div>
 		</nav>
@@ -62,10 +63,10 @@
 		<img th:src="@{/images/Actum_Logo.jpg}" alt="Actum logo"
 			style="max-width: 100px;" />
 		<p sec:authorize="isAuthenticated()">
-			Usuario logeado: <span sec:authentication="name"></span> | Roles: <span
-				sec:authentication="principal.authorities"></span> Desarrollado por
-			Actum.<br /> &copy; Company 2023, Inc. Todos los derechos
-			reservados. Términos de uso y privacidad.<br />
+			Logged User: <span sec:authentication="name"></span> | Roles: <span
+				sec:authentication="principal.authorities"></span> Developed by
+			Actum.<br /> &copy; Company 2023, Inc. All rigths reserveds. Terms
+			of use and privacy.<br />
 		</p>
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Bootstrap JS -->

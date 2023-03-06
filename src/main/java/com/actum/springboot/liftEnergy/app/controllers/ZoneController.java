@@ -47,7 +47,7 @@ public class ZoneController {
 		
 		//Borrar luego
 		Random random = new Random();
-		int production = random.nextInt(60);
+		int production = random.nextInt(48000) + 2000;
 		
 		model.addAttribute("title", "Unidades de Zona");
 		model.addAttribute("message", "Unidades de Zona ".concat(zone.getName()));
