@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
 <meta charset="UTF-8" />
-<title th:text="'Lift Energy ' + ${title}"></title>
+<title th:text="'Proflow Dynamics ' + ${title}"></title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}" />
 <link rel="stylesheet" th:href="@{/css/paneles.css}" />
@@ -11,7 +11,7 @@
 <body>
 	<header th:fragment="header">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<a class="navbar-brand" th:href="@{/index}">Lift Energy</a>
+			<a class="navbar-brand" th:href="@{/index}">Proflow Dynamics</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarNav" aria-controls="navbarNav"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -26,16 +26,6 @@
 						<a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Users</a>
 					</li>
 				</ul>
-				<!-- 				<ul class="navbar-nav"> -->
-				<!-- 					<li class="dropdown show" th:each="zone: ${zones}"><a -->
-				<!-- 						class="btn btn-outline-dark dropdown-toggle" role="button" -->
-				<!-- 						id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" -->
-				<!-- 						aria-expanded="false">Zonas</a> -->
-				<!-- 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink"> -->
-				<!-- 							<a class="dropdown-item" th:href="@{${zone.id}}" th:text="${zone.name}"></a> -->
-				<!-- 						</div> -->
-				<!-- 					</li> -->
-				<!-- 				</ul> -->
 			</div>
 			<div sec:authorize="isAuthenticated()">
 				<form th:action="@{/logout}" method="post" id="logoutForm">
@@ -60,12 +50,12 @@
 
 	<footer th:fragment="footer" class="container">
 		<hr />
-		<img th:src="@{/images/Actum_Logo.jpg}" alt="Actum logo"
-			style="max-width: 100px;" />
+		<img th:src="@{/images/proflow_min_logo.png}" alt="Proflow logo"
+			style="max-width: 50px;" />
 		<p sec:authorize="isAuthenticated()">
-			Logged User: <span sec:authentication="name"></span> | Roles: <span
-				sec:authentication="principal.authorities"></span> Developed by
-			Actum.<br /> &copy; Company 2023, Inc. All rigths reserveds. Terms
+			Logged User: <span sec:authentication="name"></span><br/>
+			Developed by Actum. &copy; Company 2023, Inc.<br/>
+			All rigths reserved. Terms
 			of use and privacy.<br />
 		</p>
 		<!-- Optional JavaScript -->
