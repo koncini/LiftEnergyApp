@@ -59,11 +59,11 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<ul class="nav navbar-nav d-md-down-none">
-			<li class="nav-item px-3"><a class="nav-link" href="#">Dashboard</a>
+			<li class="nav-item px-3" sec:authorize="hasRole('USER')"><a class="nav-link" th:href="@{/index}">Dashboard</a>
 			</li>
-			<li class="nav-item px-3"><a class="nav-link" href="#">Users</a>
+			<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Users</a>
 			</li>
-			<li class="nav-item px-3"><a class="nav-link" href="#">Settings</a>
+			<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Settings</a>
 			</li>
 		</ul>
 		<ul class="nav navbar-nav ml-auto">
@@ -77,71 +77,21 @@
 			<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
 					<i class="icon-location-pin"></i>
 			</a></li>
-			<li class="nav-item dropdown"><a class="nav-link"
-				data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-				aria-expanded="false"> <img class="img-avatar"
-					src="img/avatars/6.jpg" alt="admin@bootstrapmaster.com">
-			</a>
-				<div class="dropdown-menu dropdown-menu-right">
-					<div class="dropdown-header text-center">
-						<strong>Account</strong>
-					</div>
-					<a class="dropdown-item" href="#"> <i class="fa fa-bell-o"></i>
-						Updates <span class="badge badge-info">42</span>
-					</a> <a class="dropdown-item" href="#"> <i class="fa fa-envelope-o"></i>
-						Messages <span class="badge badge-success">42</span>
-					</a> <a class="dropdown-item" href="#"> <i class="fa fa-tasks"></i>
-						Tasks <span class="badge badge-danger">42</span>
-					</a> <a class="dropdown-item" href="#"> <i class="fa fa-comments"></i>
-						Comments <span class="badge badge-warning">42</span>
-					</a>
-					<div class="dropdown-header text-center">
-						<strong>Settings</strong>
-					</div>
-					<a class="dropdown-item" href="#"> <i class="fa fa-user"></i>
-						Profile
-					</a> <a class="dropdown-item" href="#"> <i class="fa fa-wrench"></i>
-						Settings
-					</a> <a class="dropdown-item" href="#"> <i class="fa fa-usd"></i>
-						Payments <span class="badge badge-secondary">42</span>
-					</a> <a class="dropdown-item" href="#"> <i class="fa fa-file"></i>
-						Projects <span class="badge badge-primary">42</span>
-					</a>
-					<div class="divider"></div>
-					<a class="dropdown-item" href="#"> <i class="fa fa-shield"></i>
-						Lock Account
-					</a> <a class="dropdown-item" href="#"> <i class="fa fa-lock"></i>
-						Logout
-					</a>
-				</div></li>
 		</ul>
-		<button class="navbar-toggler aside-menu-toggler d-md-down-none"
-			type="button" data-toggle="aside-menu-lg-show">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<button class="navbar-toggler aside-menu-toggler d-lg-none"
-			type="button" data-toggle="aside-menu-show">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+		<div sec:authorize="isAuthenticated()">
+			<form th:action="@{/logout}" method="post" id="logoutForm">
+				<button class="btn btn-danger mx-2"
+					onclick="document.getElemenById('logoutForm').submit();"
+					type="submit">Sing Out</button>
+			</form>
+		</div>
 	</header>
 	<div class="app-body">
 		<div class="sidebar">
 			<nav class="sidebar-nav">
 				<ul class="nav">
-					<li class="nav-item"><a class="nav-link" href="index.html">
-							<i class="nav-icon icon-speedometer"></i> Dashboard <span
-							class="badge badge-primary">NEW</span>
-					</a></li>
-					<li class="nav-title">Theme</li>
-					<li class="nav-item"><a class="nav-link" href="colors.html">
-							<i class="nav-icon icon-drop"></i> Colors
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="typography.html"> <i class="nav-icon icon-pencil"></i>
-							Typography
-					</a></li>
-					<li class="nav-title">Components</li>
-					<li class="nav-item nav-dropdown"><a
+					<li class="nav-title" sec:authorize="hasRole('MANAGER')">MANAGER</li>
+					<li class="nav-item nav-dropdown" sec:authorize="hasRole('MANAGER')"><a
 						class="nav-link nav-dropdown-toggle" href="#"> <i
 							class="nav-icon icon-puzzle"></i> Base
 					</a>
@@ -211,7 +161,7 @@
 									Tooltips
 							</a></li>
 						</ul></li>
-					<li class="nav-item nav-dropdown"><a
+					<li class="nav-item nav-dropdown" sec:authorize="hasRole('MANAGER')"><a
 						class="nav-link nav-dropdown-toggle" href="#"> <i
 							class="nav-icon icon-cursor"></i> Buttons
 					</a>
@@ -233,32 +183,7 @@
 									class="nav-icon icon-cursor"></i> Brand Buttons
 							</a></li>
 						</ul></li>
-					<li class="nav-item"><a class="nav-link" href="charts.html">
-							<i class="nav-icon icon-pie-chart"></i> Charts
-					</a></li>
-					<li class="nav-item nav-dropdown"><a
-						class="nav-link nav-dropdown-toggle" href="#"> <i
-							class="nav-icon icon-star"></i> Icons
-					</a>
-						<ul class="nav-dropdown-items">
-							<li class="nav-item"><a class="nav-link"
-								href="icons/coreui-icons.html"> <i
-									class="nav-icon icon-star"></i> CoreUI Icons <span
-									class="badge badge-success">NEW</span>
-							</a> <a class="nav-link" href="icons/flags.html"> <i
-									class="nav-icon icon-star"></i> Flags
-							</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="icons/font-awesome.html"> <i
-									class="nav-icon icon-star"></i> Font Awesome <span
-									class="badge badge-secondary">4.7</span>
-							</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="icons/simple-line-icons.html"> <i
-									class="nav-icon icon-star"></i> Simple Line Icons
-							</a></li>
-						</ul></li>
-					<li class="nav-item nav-dropdown"><a
+					<li class="nav-item nav-dropdown" sec:authorize="hasRole('MANAGER')"><a
 						class="nav-link nav-dropdown-toggle" href="#"> <i
 							class="nav-icon icon-bell"></i> Notifications
 					</a>
@@ -276,13 +201,9 @@
 									class="nav-icon icon-bell"></i> Modals
 							</a></li>
 						</ul></li>
-					<li class="nav-item"><a class="nav-link" href="widgets.html">
-							<i class="nav-icon icon-calculator"></i> Widgets <span
-							class="badge badge-primary">NEW</span>
-					</a></li>
-					<li class="divider"></li>
-					<li class="nav-title">Extras</li>
-					<li class="nav-item nav-dropdown"><a
+					<li class="divider" sec:authorize="hasRole('OPERATION_STAFF')"></li>
+					<li class="nav-title" sec:authorize="hasRole('OPERATION_STAFF')">OPERATION STAFF</li>
+					<li class="nav-item nav-dropdown" sec:authorize="hasRole('OPERATION_STAFF')"><a
 						class="nav-link nav-dropdown-toggle" href="#"> <i
 							class="nav-icon icon-star"></i> Pages
 					</a>
@@ -301,40 +222,57 @@
 								target="_top"> <i class="nav-icon icon-star"></i> Error 500
 							</a></li>
 						</ul></li>
-					<li class="nav-item mt-auto"><a
-						class="nav-link nav-link-success" href="https://coreui.io"
-						target="_top"> <i class="nav-icon icon-cloud-download"></i>
-							Download CoreUI
-					</a></li>
-					<li class="nav-item"><a class="nav-link nav-link-danger"
-						href="https://coreui.io/pro/" target="_top"> <i
-							class="nav-icon icon-layers"></i> Try CoreUI <strong>PRO</strong>
-					</a></li>
+					<li class="divider" sec:authorize="hasRole('MAINTENANCE_STAFF')"></li>
+					<li class="nav-title" sec:authorize="hasRole('MAINTENANCE_STAFF')">MAINTENANCE STAFF</li>
+					<li class="nav-item nav-dropdown" sec:authorize="hasRole('MAINTENANCE_STAFF')"><a
+						class="nav-link nav-dropdown-toggle" href="#"> <i
+							class="nav-icon icon-star"></i> Pages
+					</a>
+						<ul class="nav-dropdown-items">
+							<li class="nav-item"><a class="nav-link" href="login.html"
+								target="_top"> <i class="nav-icon icon-star"></i> Login
+							</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="register.html" target="_top"> <i
+									class="nav-icon icon-star"></i> Register
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="404.html"
+								target="_top"> <i class="nav-icon icon-star"></i> Error 404
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="500.html"
+								target="_top"> <i class="nav-icon icon-star"></i> Error 500
+							</a></li>
+						</ul></li>
+					<li class="divider"></li>
+					<li class="nav-title">PRODUCTION STAFF</li>
+					<li class="nav-item nav-dropdown"><a
+						class="nav-link nav-dropdown-toggle" href="#"> <i
+							class="nav-icon icon-star"></i> Pages
+					</a>
+						<ul class="nav-dropdown-items">
+							<li class="nav-item"><a class="nav-link" href="login.html"
+								target="_top"> <i class="nav-icon icon-star"></i> Login
+							</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="register.html" target="_top"> <i
+									class="nav-icon icon-star"></i> Register
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="404.html"
+								target="_top"> <i class="nav-icon icon-star"></i> Error 404
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="500.html"
+								target="_top"> <i class="nav-icon icon-star"></i> Error 500
+							</a></li>
+						</ul></li>												
 				</ul>
 			</nav>
 			<button class="sidebar-minimizer brand-minimizer" type="button"></button>
 		</div>
 		<main class="main">
 			<!-- Breadcrumb-->
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
-				<li class="breadcrumb-item"><a href="#">Admin</a></li>
-				<li class="breadcrumb-item active">Dashboard</li>
-				<!-- Breadcrumb Menu-->
-				<li class="breadcrumb-menu d-md-down-none">
-					<div class="btn-group" role="group" aria-label="Button group">
-						<a class="btn" href="#"> <i class="icon-speech"></i>
-						</a> <a class="btn" href="./"> <i class="icon-graph"></i>
-							 Dashboard
-						</a> <a class="btn" href="#"> <i class="icon-settings"></i>
-							 Settings
-						</a>
-					</div>
-				</li>
-			</ol>
-			<div class="container-fluid">
+			<div class="container-fluid my-4">
 				<div class="animated fadeIn">
-					<div class="row">
+					<div class="row" sec:authorize="hasRole('MANAGER')">
 						<div class="col-sm-6 col-lg-3">
 							<div class="card text-white bg-primary">
 								<div class="card-body pb-0">
@@ -429,8 +367,8 @@
 						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-5">
-									<h4 class="card-title mb-0">Traffic</h4>
-									<div class="small text-muted">November 2017</div>
+									<h4 class="card-title mb-0">General Production</h4>
+									<div class="small text-muted">March 2023</div>
 								</div>
 								<!-- /.col-->
 								<div class="col-sm-7 d-none d-md-block">
@@ -510,6 +448,36 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="container">
+					<table class="table table-stripped table-hover table-bordered">
+						<thead class="thead-dark">
+							<tr>
+								<th>Id</th>
+								<th>Name</th>
+								<th>Location</th>
+								<th>Productivity</th>
+								<th>Status</th>
+								<th>Enabled</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="zone: ${zones}">
+								<td th:text=${zone.id}></td>
+								<td th:text=${zone.name}></td>
+								<td th:text="${zone.latitude}+ ' ' +${zone.longitude}"></td>
+								<td th:text="${productionZone}+' BPD'"></td>
+								<td th:text="'Productivo'"></td>
+								<td th:text=${zone.enabled}></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{'/zona/' + ${zone.id} + '/listar-unidades'}"
+									th:text="'Ver Unidades'">></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+								
 			</div>
 		</main>
 		<aside class="aside-menu">
@@ -837,31 +805,30 @@
 					</div>
 					<small class="text-muted">25GB/256GB</small>
 				</div>
-			</div>
+			</div>			
 		</aside>
 	</div>
+	
 	<footer class="app-footer">
-		<div>
-			<a href="https://coreui.io">CoreUI</a> <span>&copy; 2018
-				creativeLabs.</span>
-		</div>
-		<div class="ml-auto">
-			<span>Powered by</span> <a href="https://coreui.io">CoreUI</a>
-		</div>
+		<p sec:authorize="isAuthenticated()">
+			Logged User: <span sec:authentication="name"></span><br />
+			Developed by Actum. &copy; Company 2023, Inc. All rights
+			reserved. Terms of use and privacy.<br />
+		</p>
+		<!-- CoreUI and necessary plugins-->
+		<base src="../">
+		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="node_modules/pace-progress/pace.min.js"></script>
+		<script
+			src="node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+		<script src="node_modules/@coreui/coreui/dist/js/coreui.min.js"></script>
+		<!-- Plugins and scripts required by this view-->
+		<script src="node_modules/chart.js/dist/Chart.min.js"></script>
+		<script
+			src="node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
+		<script src="js/main.js"></script>		
 	</footer>
-	<!-- CoreUI and necessary plugins-->
-	<base src="../">
-	<script src="node_modules/jquery/dist/jquery.min.js"></script>
-	<script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
-	<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="node_modules/pace-progress/pace.min.js"></script>
-	<script
-		src="node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
-	<script src="node_modules/@coreui/coreui/dist/js/coreui.min.js"></script>
-	<!-- Plugins and scripts required by this view-->
-	<script src="node_modules/chart.js/dist/Chart.min.js"></script>
-	<script
-		src="node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
-	<script src="js/main.js"></script>
 </body>
 </html>
