@@ -1,38 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<title th:text="'Proflow Dynamics ' + ${title}"></title>
-<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}" />
-<link rel="stylesheet" th:href="@{/css/login.css}" />
-</head>
-<body>
-	<div class="container my-4">
-		<p style="text-align: center;">
-			<img th:src="@{/images/proflow_logo.png}" style="max-width: 380px">
-		</p>
-		<div class="card border-dark text-center mx-auto"
-			style="max-width: 380px;">
-			<div class="card-header" th:text="${message}"></div>
-			<div class="card-body">
-				<div class="alert alert-danger" th:if="${error != null}"
-					th:text="${error}"></div>
-				<form th:action="@{/login}" method="post">
-					<div>
-						<input class="form-input my-2" type="text" name="username"
-							id="username" placeholder="Username" autofocus required />
-					</div>
-					<div>
-						<input class="form-input my-2" type="password" name="password"
-							id="password" placeholder="Password" required />
-					</div>
-					<div>
-						<input type="submit" class="btn btn-lg btn-dark" value="Sing In" />
-					</div>
-				</form>
-			</div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<title th:text="'Proflow Dynamics ' + ${title}"></title>
+    <!-- Icons-->
+    <link href="node_modules/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+    <link href="node_modules/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="node_modules/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+    <!-- Main styles for this application-->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{css/login.css}" />
+    <link href="vendors/pace-progress/css/pace.min.css" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics-->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-		</div>
-	</div>
-</body>
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      // Shared ID
+      gtag('config', 'UA-118965717-3');
+      // Bootstrap ID
+      gtag('config', 'UA-118965717-5');
+    </script>
+  </head>
+  <body class="app flex-row align-items-center">
+    <div class="container">
+      <p style="text-align: center;">
+		<img th:src="@{/img/proflow_logo.png}" style="max-width: 270px">
+	  </p>
+      <div class="row justify-content-center">
+        <div class="col-md-8" style="max-width: 420px;">
+          <div class="card-group" >
+            <div class="card p-4">
+              <div class="card-body">
+                <h1>Login</h1>
+                <p class="text-muted">Sign In to your account</p>
+                <form action="/login" method="post" id="loginForm">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="icon-user"></i>
+                      </span>
+                    </div>
+                    <input class="form-control" type="text" name="username" placeholder="Username">
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="icon-lock"></i>
+                      </span>
+                    </div>
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" form="loginForm" class="btn btn-dark px-4">Login</button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button class="btn btn-link px-0" type="button">Forgot password?</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/pace-progress/pace.min.js"></script>
+    <script src="node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+    <script src="node_modules/@coreui/coreui/dist/js/coreui.min.js"></script>
+  </body>
 </html>
