@@ -28,18 +28,18 @@ public class LoginController {
 	public String login(@RequestParam(value = "error", required = false) String error, Model model, Principal principal,
 			RedirectAttributes flash) {
 		
+		model.addAttribute("title", titleString);
+		model.addAttribute("message", messageString);
+		
 		if (principal != null) {
 			flash.addFlashAttribute("info", infoString);
-			return "redirect:/index";
+			return "login";
 		}
 
 		if (error != null) {
 			model.addAttribute("error", errorString);
 		}
 		
-		model.addAttribute("title", titleString);
-		model.addAttribute("message", messageString);
-
 		return "login";
 	}
 

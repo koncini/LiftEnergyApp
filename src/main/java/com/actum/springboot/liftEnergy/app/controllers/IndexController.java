@@ -12,10 +12,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 
@@ -63,7 +65,15 @@ public class IndexController {
 			logger.info(userString + authentication.getName() + noAccessString);
 		}
 		
-		List<Zone> zones = unitService.findAllZones();
+		List<Zone> zones = null;
+		
+		if (hasRole("ROLE_ADMIN")) {
+			zones = unitService.findAllZones();
+		} else {
+			String userName = getCurrentUserName();
+			User currentUser = unitService.findUserByName(userName);
+			zones = unitService.findZonesbyUserId(currentUser.getId());
+		}
 		
 		//Borrar luego
 		Random random = new Random();
@@ -102,5 +112,18 @@ public class IndexController {
 		}
 
 		return false;
+	}
+	
+	private String getCurrentUserName() {
+		
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		Authentication auth = context.getAuthentication();
+
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		
+		String userName = userDetails.getUsername();
+				
+		return userName;
 	}
 }

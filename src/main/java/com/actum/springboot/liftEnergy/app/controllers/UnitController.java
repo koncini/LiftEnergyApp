@@ -19,7 +19,7 @@ public class UnitController {
 
 	@Autowired
 	private IUnitService unitService;
-
+		
 	@GetMapping("/ver/{id}")
 	public String verUnidad(@PathVariable Long id, Model model) {
 		Unit unit = unitService.findOneUnit(id);

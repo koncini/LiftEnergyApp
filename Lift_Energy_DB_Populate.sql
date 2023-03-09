@@ -1,6 +1,7 @@
 /*zones and units*/
 CREATE TABLE `db_lift_energy`.`zones` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT,
   `name` VARCHAR(45) NOT NULL,
   `latitude` DECIMAL(18,9) NOT NULL,
   `longitude` DECIMAL(18,9) NOT NULL,
@@ -24,10 +25,18 @@ CREATE TABLE `db_lift_energy`.`zones` (
     ON UPDATE CASCADE
 );
 
-INSERT INTO zones (name, latitude, longitude, enabled) VALUES ('puerto_lopez', '4.101343084890358', '-72.96195644931187', 1);
-INSERT INTO zones (name, latitude, longitude, enabled) VALUES ('puerto_gaitan', '4.311573551410244', '-72.09491823968902', 1);
-INSERT INTO zones (name, latitude, longitude, enabled) VALUES ('puerto_gaitan_2', '4.311573551410244', '-72.09491823968902', 0);
-INSERT INTO zones (name, latitude, longitude, enabled) VALUES ('ecopetrol', '4.311573551410244', '-72.09491823968902', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('puerto_lopez', 1, '4.101343084890358', '-72.96195644931187', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('puerto_gaitan', 3, '4.311573551410244', '-72.09491823968902', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('puerto_gaitan_2', 3, '4.311573551410244', '-72.09491823968902', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('ecopetrol', 3, '4.311573551410244', '-72.09491823968902', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('ecopetrol_2', 1, '4.101343084890358', '-72.96195644931187', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('barrancabermeja', 3, '7.098664625943645', '-73.87160477085736', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('barrancabermeja_2', 3, '7.098664625943645', '-73.87160477085736', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('maracaibo', 3, '4.311573551410244', '-72.09491823968902', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('maracaibo_2', 3, '4.101343084890358', '-72.96195644931187', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('maracaibo_3', 3, '4.311573551410244', '-72.09491823968902', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('orinoco', 3, '4.311573551410244', '-72.09491823968902', 1);
+INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('orinoco_2', 1, '4.311573551410244', '-72.09491823968902', 1);
 
 INSERT INTO units (zone_id, settings, metrics, latitude, longitude, enabled) VALUES (1, '[{"name":"working_hours","value":100},{"name":"work_mode","value":"continuous"},{"name":"dinagraph_enabled","value":"true"},{"name":"well_depth_detection_enabled","value":"false"},{"name":"meassuring_mode","value":"daily"},{"name":"event_warnings","value":"true"}]', '{"well_data":[{"name":"crude_density","unit":"lb/gal","value":50},{"name":"crude_viscosity","unit":"API","value":30},{"name":"HS2_level","unit":"ppm","value":5},{"name":"sand_content","unit":"ppm","value":10},{"name":"well_temperature","unit":"°F","value":56},{"name":"water_proportion","unit":"%","value":8},{"name":"well_depth","unit":"ft","value":1000},{"name":"well_pressure","unit":"psi","value":20},{"name":"well_production","unit":"BPD","value":4}],"unit_data":[{"name":"company","value":"Lift Energy"},{"name":"stroke_length","unit":"in","value":100.5},{"name":"artificial_lift_type","value":"conventional"},{"name":"rotation","value":"cw"},{"name":"counter_balance_effect","unit":"Klb","value":9.39},{"name":"counter_balance_moment","unit":"Kin-lb","value":188.434}],"motor_data":[{"name":"motor_type","value":"electric"},{"name":"motor_rating","unit":"HP","value":25},{"name":"full_load_amps","unit":"A","value":65},{"name":"rated_rpm","unit":"rpm","value":1800},{"name":"voltage","unit":"V","value":440},{"name":"frequency","unit":"Hz","value":60},{"name":"phase","value":3}],"power_cost":[{"name":"consumption","unit":"peso/kwh","value":750},{"name":"demand","unit":"kw","value":6000}]}', '4.101343084890358', '-72.96195644931187', 1);
 INSERT INTO units (zone_id, settings, metrics, latitude, longitude, enabled) VALUES (1, '[{"name":"working_hours","value":100},{"name":"work_mode","value":"continuous"},{"name":"dinagraph_enabled","value":"true"},{"name":"well_depth_detection_enabled","value":"false"},{"name":"meassuring_mode","value":"daily"},{"name":"event_warnings","value":"true"}]', '{"well_data":[{"name":"crude_density","unit":"lb/gal","value":50},{"name":"crude_viscosity","unit":"API","value":30},{"name":"HS2_level","unit":"ppm","value":5},{"name":"sand_content","unit":"ppm","value":10},{"name":"well_temperature","unit":"°F","value":56},{"name":"water_proportion","unit":"%","value":8},{"name":"well_depth","unit":"ft","value":1000},{"name":"well_pressure","unit":"psi","value":20},{"name":"well_production","unit":"BPD","value":4}],"unit_data":[{"name":"company","value":"Lift Energy"},{"name":"stroke_length","unit":"in","value":100.5},{"name":"artificial_lift_type","value":"conventional"},{"name":"rotation","value":"cw"},{"name":"counter_balance_effect","unit":"Klb","value":9.39},{"name":"counter_balance_moment","unit":"Kin-lb","value":188.434}],"motor_data":[{"name":"motor_type","value":"electric"},{"name":"motor_rating","unit":"HP","value":25},{"name":"full_load_amps","unit":"A","value":65},{"name":"rated_rpm","unit":"rpm","value":1800},{"name":"voltage","unit":"V","value":440},{"name":"frequency","unit":"Hz","value":60},{"name":"phase","value":3}],"power_cost":[{"name":"consumption","unit":"peso/kwh","value":750},{"name":"demand","unit":"kw","value":6000}]}', '4.311573551410244', '-72.09491823968902', 1);
@@ -140,7 +149,8 @@ CREATE TABLE `db_lift_energy`.`users` (
   `enabled` BOOLEAN NOT NULL DEFAULT 1,
   `last_login` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE);
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE
+);
 
   CREATE TABLE `db_lift_energy`.`authorities` (
   `id` INT NOT NULL AUTO_INCREMENT,

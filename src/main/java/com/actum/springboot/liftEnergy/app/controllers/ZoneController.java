@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,15 @@ public class ZoneController {
 
 	@Autowired
 	private IUnitService unitService;
+	
+	@Value("${texto.zonecontroller.listunits.unit}")
+	private String unitString;
+	
+	@Value("${texto.zonecontroller.listunits.title}")
+	private String titleString;
+	
+	@Value("${texto.zonecontroller.listunits.zone}")
+	private String zoneString;
 
 	@GetMapping("/listar-zonas")
 	public @ResponseBody List<ZoneNameAndId> mostrarZonas(Model model) {
@@ -49,8 +59,8 @@ public class ZoneController {
 		Random random = new Random();
 		int production = random.nextInt(48000) + 2000;
 		
-		model.addAttribute("title", "Unidades de Zona");
-		model.addAttribute("message", "Unidades de Zona ".concat(zone.getName()));
+		model.addAttribute("title", titleString);
+		model.addAttribute("message", unitString.concat(zoneString).concat(zone.getName()));
 		model.addAttribute("productionUnit", production);
 		model.addAttribute("units", units);
 		return "unit/listar";

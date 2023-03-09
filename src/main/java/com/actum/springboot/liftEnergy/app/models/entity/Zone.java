@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -36,12 +37,15 @@ public class Zone implements Serializable {
 	private Double longitude;
 	
 	private Boolean enabled;
-
+	
+	@Column(name = "user_id")
+	private Long userId; 
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "zone_id")
 	@JsonManagedReference
 	private List<Unit> units;
-
+	
 	public Zone() {
 		units = new ArrayList<Unit>();
 	}
@@ -96,6 +100,14 @@ public class Zone implements Serializable {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public Long getUser_id() {
+		return userId;
+	}
+
+	public void setUser_id(Long user_id) {
+		this.userId = user_id;
 	}
 
 }

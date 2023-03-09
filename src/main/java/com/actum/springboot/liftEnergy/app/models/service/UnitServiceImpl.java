@@ -170,4 +170,14 @@ public class UnitServiceImpl implements IUnitService {
 		return (List<User>) userDao.findAll();
 	}
 
+	@Override
+	public List<Zone> findZonesbyUserId(Long id) {
+		return (List<Zone>) zoneDao.findAllByUserId(id);
+	}
+
+	@Override
+	public User findUserByName(String name) {
+		return userDao.findByUsername(name);
+	}
+
 }

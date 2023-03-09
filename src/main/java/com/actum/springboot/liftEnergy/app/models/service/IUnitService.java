@@ -19,6 +19,8 @@ public interface IUnitService {
 	public void deleteZone(Long id);
 
 	public Zone findOneZone(Long id);
+	
+	public List<Zone> findZonesbyUserId(Long id);
 
 	public void saveUnit(Unit unit);
 
@@ -51,5 +53,7 @@ public interface IUnitService {
 	public List<ZoneNameAndId> findEnabledZones();
 
 	public List<User> findAllUsers();
+
+	public User findUserByName(String name);
 	
 }

@@ -1,62 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	
 	<head th:fragment="head">
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport"
-			content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-		<meta name="description"
-			content="CoreUI - Open Source Bootstrap Admin Template">
-		<meta name="author" content="Łukasz Holeczek">
-		<meta name="keyword"
-			content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 		<title th:text="'Proflow Dynamics ' + ${title}"></title>
-		<link rel="apple-touch-icon" sizes="57x57"
-			href="assets/favicon/apple-icon-57x57.png">
-		<link rel="apple-touch-icon" sizes="60x60"
-			href="assets/favicon/apple-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="72x72"
-			href="assets/favicon/apple-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="76x76"
-			href="assets/favicon/apple-icon-76x76.png">
-		<link rel="apple-touch-icon" sizes="114x114"
-			href="assets/favicon/apple-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="120x120"
-			href="assets/favicon/apple-icon-120x120.png">
-		<link rel="apple-touch-icon" sizes="144x144"
-			href="assets/favicon/apple-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="152x152"
-			href="assets/favicon/apple-icon-152x152.png">
-		<link rel="apple-touch-icon" sizes="180x180"
-			href="assets/favicon/apple-icon-180x180.png">
-		<link rel="icon" type="image/png" sizes="192x192"
-			href="assets/favicon/android-icon-192x192.png">
-		<link rel="icon" type="image/png" sizes="32x32"
-			href="assets/favicon/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="96x96"
-			href="assets/favicon/favicon-96x96.png">
-		<link rel="icon" type="image/png" sizes="16x16"
-			href="assets/favicon/favicon-16x16.png">
-		<link rel="manifest" href="assets/favicon/manifest.json">
-		<meta name="msapplication-TileColor" content="#ffffff">
-		<meta name="msapplication-TileImage"
-			content="assets/favicon/ms-icon-144x144.png">
-		<meta name="theme-color" content="#ffffff">
-		<!-- Vendors styles-->
-		<link rel="stylesheet" href="node_modules/simplebar/dist/simplebar.css">
-		<link rel="stylesheet" href="css/vendors/simplebar.css">
+		<!-- Icons-->
+		<link th:href="@{../../node_modules/@coreui/icons/css/coreui-icons.min.css}" rel="stylesheet">
+		<link th:href="@{../../node_modules/flag-icon-css/css/flag-icon.min.css}" rel="stylesheet">
+		<link th:href="@{../../node_modules/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+		<link th:href="@{../../node_modules/simple-line-icons/css/simple-line-icons.css}" rel="stylesheet">
 		<!-- Main styles for this application-->
-		<link href="css/style.css" rel="stylesheet">
-		<!-- We use those styles to show code examples, you should remove them in your application.-->
-		<link rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
-		<link href="css/examples.css" rel="stylesheet">
+		<link th:href="@{../../css/style.css}" rel="stylesheet">
+		<link th:href="@{../../vendors/pace-progress/css/pace.min.css}" rel="stylesheet">
 		<!-- Global site tag (gtag.js) - Google Analytics-->
-		<script async=""
-			src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
+		
 			function gtag() {
 				dataLayer.push(arguments);
 			}
@@ -66,168 +29,158 @@
 			// Bootstrap ID
 			gtag('config', 'UA-118965717-5');
 		</script>
-		<link href="node_modules/@coreui/chartjs/dist/css/coreui-chartjs.css"
-			rel="stylesheet">
 	</head>
-		
+	
 	<body>
 	
-		<div th:fragment="sidebar" class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
-		
-			<div class="sidebar-brand d-none d-md-flex">
-				<svg class="sidebar-brand-full" width="118" height="46" alt="Proflow Logo">
-	          		<use th:href="@{assets/brand/proflow_logo_min.svg#full}"></use>
-	        	</svg>
-				<svg class="sidebar-brand-narrow" width="46" height="46" alt="Proflow Logo">
-	          		<use th:href="@{assets/brand/proflow_logo_min.svg#signet}"></use>
-	        	</svg>
-			</div>
-			
-			<ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
-				<li class="nav-title">Admin</li>
-				<li class="nav-item">
-					<a class="nav-link" href="colors.html">
-						<svg class="nav-icon">
-							<use th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-pencil}"></use>
-		            	</svg> Settings
-					</a>
+		<header th:fragment="header" class="app-header navbar">
+			<button class="navbar-toggler sidebar-toggler d-lg-none mr-auto"
+				type="button" data-toggle="sidebar-show">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand" href="#"> <img class="navbar-brand-full"
+				src="../../img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
+				<img class="navbar-brand-minimized" src="../../img/brand/sygnet.svg"
+				width="40" height="40" alt="Proflow Logo">
+			</a>
+			<button class="navbar-toggler sidebar-toggler d-md-down-none"
+				type="button" data-toggle="sidebar-lg-show">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<ul class="nav navbar-nav d-md-down-none">
+				<li class="nav-item px-3" sec:authorize="hasRole('USER')"><a class="nav-link" th:href="@{/index}">Dashboard</a>
 				</li>
-				
-				<li class="nav-item">
-					<a class="nav-link" href="typography.html">
-						<svg class="nav-icon">
-			            	<use th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-running}"></use>
-			            </svg> Users
-					</a>
+				<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Users</a>
 				</li>
-				
-				<li class="nav-title">Manager</li>
-				<li class="nav-group"><a class="nav-link nav-group-toggle" href="#"> 
-					<svg class="nav-icon">
-		            	<use th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-puzzle}"></use>
-		            </svg> Financial Info
-					</a>
+				<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Settings</a>
 				</li>
-				
-				<li class="nav-group">
-					<a class="nav-link nav-group-toggle" href="#"> 
-						<svg class="nav-icon">
-			            	<use th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-cursor}"></use>
-			            </svg> Production Goals
-					</a>
-					<ul class="nav-group-items">
-						<li class="nav-item"><a class="nav-link"
-							href="buttons/buttons.html"><span class="nav-icon"></span>
-								Buttons</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="buttons/button-group.html"><span class="nav-icon"></span>
-								Buttons Group</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="buttons/dropdowns.html"><span class="nav-icon"></span>
-								Dropdowns</a></li>
-					</ul>
-				</li>
-				
-				<li class="nav-divider"></li>
-				<li class="nav-title">operation staff</li>
-				<li class="nav-group">
-					<a class="nav-link nav-group-toggle" href="#">
-						<svg class="nav-icon">
-			            <use th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-star}"></use>
-			            </svg> Pages
-					</a>
-					<ul class="nav-group-items">
-						<li class="nav-item"><a class="nav-link" href="login.html"
-							target="_top"> <svg class="nav-icon">
-	                  <use
-										th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-account-logout}"></use>
-	                </svg> Login
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="register.html"
-							target="_top"> <svg class="nav-icon">
-	                  <use
-										th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-account-logout}"></use>
-	                </svg> Register
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="404.html"
-							target="_top"> <svg class="nav-icon">
-	                  <use
-										th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-bug}"></use>
-	                </svg> Error 404
-						</a></li>
-						<li class="nav-item"><a class="nav-link" href="500.html"
-							target="_top"> <svg class="nav-icon">
-	                  	<use th:href="@{node_modules/@coreui/icons/sprites/free.svg#cil-bug}"></use>
-	                	</svg> Error 500
-						</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-divider"></li>
-				<li class="nav-title">maintenance staff</li>
-				<li class="nav-divider"></li>
-				<li class="nav-title">production staff</li>
 			</ul>
-		</div>
-	
-		<div class="wrapper d-flex flex-column min-vh-100 bg-light">
-			<header th:fragment="header" class="header bg-dark header-sticky mb-4">
-				<div class="container-fluid">
-					<a class="header-brand d-md-none" th:href="@{/}">
-					<svg width="118" height="46" alt="CoreUI Logo">
-	              	<use th:href="@{assets/brand/coreui.svg#full}"></use>
-	            </svg></a>
-					<ul class="header-nav d-none d-md-flex">
-						<li class="nav-item" sec:authorize="hasRole('ADMIN')">
-							<a class="nav-link" th:href="@{/index}">Dashboard</a>
-						</li>
-						<li class="nav-item" sec:authorize="hasRole('ADMIN')">
-							<a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Users</a>
-						</li>
-						<li class="nav-item" sec:authorize="hasRole('ADMIN')">
-							<a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Settings</a>
-						</li>
-					</ul>
-					
-					<div sec:authorize="isAuthenticated()">
-						<form th:action="@{/logout}" method="post" id="logoutForm">
-							<button class="btn btn-danger"
-								onclick="document.getElemenById('logoutForm').submit();"
-								type="submit">Sing Out</button>
-						</form>
-					</div>
-				</div>
-			</header>
-	
+			<ul class="nav navbar-nav ml-auto">
+				<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
+						<i class="icon-bell"></i> <span
+						class="badge badge-pill badge-danger">5</span>
+				</a></li>
+				<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
+						<i class="icon-list"></i>
+				</a></li>
+			</ul>
+			<div sec:authorize="isAuthenticated()">
+				<form th:action="@{/logout}" method="post" id="logoutForm">
+					<button class="btn btn-danger mx-2"
+						onclick="document.getElemenById('logoutForm').submit();"
+						type="submit">Sing Out</button>
+				</form>
+			</div>
+		</header>
+		
+		<div th:fragment="sidebar" class="sidebar">
+			<nav class="sidebar-nav">
+				<ul class="nav">
+					<li class="nav-title" sec:authorize="hasRole('MANAGER')">MANAGER</li>
+					<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+						class="nav-link" href="#"> <i
+							class="nav-icon icon-wallet"></i> Financial Info
+					</a>
+					</li>
+					<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+						class="nav-link" href="#"> <i
+							class="nav-icon icon-speedometer"></i> Production Analysis
+					</a>
+					</li>
+					<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+						class="nav-link" href="#"> <i
+							class="nav-icon icon-pie-chart"></i>General Graphs
+					</a>
+					</li>
+					<li class="divider" sec:authorize="hasRole('OPERATION_STAFF')"></li>
+					<li class="nav-title" sec:authorize="hasRole('OPERATION_STAFF')">OPERATION STAFF</li>
+					<li class="nav-item nav-dropdown" sec:authorize="hasRole('OPERATION_STAFF')"><a
+						class="nav-link nav-dropdown-toggle" href="#"> <i
+							class="nav-icon icon-fire"></i> Oil Field Production
+					</a>
+						<ul class="nav-dropdown-items">
+							<li class="nav-item"><a class="nav-link" href="login.html"
+								target="_top"> <i class="nav-icon icon-graph"></i> Production Graphs
+							</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="register.html" target="_top"> <i
+									class="nav-icon icon-location-pin"></i> Oil Fields
+							</a></li>
+						</ul></li>
+					<li class="divider" sec:authorize="hasRole('MAINTENANCE_STAFF')"></li>
+					<li class="nav-title" sec:authorize="hasRole('MAINTENANCE_STAFF')">MAINTENANCE STAFF</li>
+					<li class="nav-item nav-dropdown" sec:authorize="hasRole('MAINTENANCE_STAFF')"><a
+						class="nav-link nav-dropdown-toggle" href="#"> <i
+							class="nav-icon icon-drop"></i> Oil Well Production
+					</a>
+						<ul class="nav-dropdown-items">
+							<li class="nav-item"><a class="nav-link" href="login.html"
+								target="_top"> <i class="nav-icon icon-graph"></i> Production Graphs
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="login.html"
+								target="_top"> <i class="nav-icon icon-location-pin"></i> Oil Wells
+							</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="register.html" target="_top"> <i
+									class="nav-icon icon-settings"></i> Settings
+							</a></li>
+						</ul></li>
+					<li class="divider"></li>
+					<li class="nav-title">PRODUCTION STAFF</li>
+					<li class="nav-item nav-dropdown"><a
+						class="nav-link nav-dropdown-toggle" href="#"> <i
+							class="nav-icon icon-bell"></i> Notifications
+					</a>
+						<ul class="nav-dropdown-items">
+							<li class="nav-item"><a class="nav-link" href="login.html"
+								target="_top"> <i class="nav-icon icon-question"></i> Events
+							</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="register.html" target="_top"> <i
+									class="nav-icon icon-note"></i> Notes
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="404.html"
+								target="_top"> <i class="nav-icon icon-close"></i> Alarms
+							</a></li>
+						</ul></li>												
+				</ul>
+			</nav>
+			<button class="sidebar-minimizer brand-minimizer" type="button"></button>
 		</div>
 		
-		<footer th:fragment="footer" class="container">
-			<hr />
-			<img th:src="@{/images/proflow_min_logo.png}" alt="Proflow logo"
-				style="max-width: 50px;" />
-			<p sec:authorize="isAuthenticated()">
-				Logged User: <span sec:authentication="name"></span><br />
-				Developed by Actum. &copy; Company 2023, Inc.<br /> All rights
-				reserved. Terms of use and privacy.<br />
-			</p>
-			<script
-				src="node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js"></script>
-			<script src="node_modules/simplebar/dist/simplebar.min.js"></script>
-			<!-- Optional JavaScript -->
-			<!-- jQuery first, then Bootstrap JS -->
-			<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
-			<script th:src="@{/js/popper.min.js}"></script>
-			<script th:src="@{/js/bootstrap.min.js}"></script>
-			<script th:src="@{/js/jquery-ui.min.js}"></script>
-			<script th:src="@{/js/main.js}"></script>
-			<!-- CoreUI and necessary plugins-->
-			<script src="node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js"></script>
-			<script src="node_modules/simplebar/dist/simplebar.min.js"></script>
-			<!-- Plugins and scripts required by this view-->
-			<script src="node_modules/chart.js/dist/chart.min.js"></script>
-			<script src="node_modules/@coreui/chartjs/dist/js/coreui-chartjs.js"></script>
-			<script src="node_modules/@coreui/utils/dist/coreui-utils.js"></script>
-			<script src="js/main.js"></script>
-		</footer>	
+		<aside th:fragment="aside" class="aside-menu">
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="nav-item"><a class="nav-link active"
+					data-toggle="tab" href="#timeline" role="tab"> <i
+						class="icon-list"></i>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" data-toggle="tab"
+					href="#messages" role="tab"> <i class="icon-speech"></i>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" data-toggle="tab"
+					href="#settings" role="tab"> <i class="icon-settings"></i>
+				</a></li>
+			</ul>		
+		</aside>		
+					
 	</body>
+	
+	<footer th:fragment="footer" class="app-footer">
+		<p sec:authorize="isAuthenticated()">
+			Logged User: <span sec:authentication="name"></span><br />
+			Developed by Actum. &copy; Company 2023, Inc. All rights
+			reserved. Terms of use and privacy.<br />
+		</p>
+		<!-- CoreUI and necessary plugins-->
+		<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="../../node_modules/popper.js/dist/umd/popper.min.js"></script>
+		<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="../../node_modules/pace-progress/pace.min.js"></script>
+		<script src="../../node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+		<script src="../../node_modules/@coreui/coreui/dist/js/coreui.min.js"></script>
+		<!-- Plugins and scripts required by this view-->
+		<script src="../../node_modules/chart.js/dist/Chart.min.js"></script>
+		<script src="../../node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
+		<script src="../../js/main.js"></script>		
+	</footer>
 </html>
