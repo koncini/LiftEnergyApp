@@ -1,16 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <head th:replace="layout/layout :: head"></head>
 </head>
-<body>
+
+<body
+	class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+
 	<header th:replace="layout/layout :: header"></header>
 
-	<div class="container my-2">
-		<h1 th:text="${message}"></h1>
+	<div class="app-body">
+		<div th:replace="layout/layout :: sidebar"></div>
+		<main class="main">
+			<!-- Breadcrumb-->
+
+			<div class="container my-2">
+
+				<h1 th:text="${message}"></h1>
+
+				<div>
+					<table class="table table-bordered table-striped table-hover my-4">
+						<thead class="thead-dark">
+							<tr>
+								<th>Id</th>
+								<th>Location</th>
+								<th>Productivity</th>
+								<th>Enabled</th>
+								<th>Edit Oil Field</th>
+								<th>Delete Oil Field</th>
+								<th>Oil Wells</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="zone: ${zones}">
+								<td th:text=${zone.id}></td>
+								<td th:text="${zone.latitude}+ ' ' +${zone.longitude}"></td>
+								<td th:text="${productionZone}+' BPD'"></td>
+								<td th:text="${zone.enabled}"></td>
+								<td><a class="btn btn-info btn-xs" th:text="'Edit'"></a></td>
+								<td><a class="btn btn-danger btn-xs" th:text="'Delete'"></a></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{'/zona/' + ${zone.id} + '/listar-unidades'}"
+									th:text="'List Oil Wells'">></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</main>
+		<aside th:replace="layout/layout :: aside"></aside>
 	</div>
-	
+
 	<footer th:replace="layout/layout :: footer"></footer>
 </body>
-</html>

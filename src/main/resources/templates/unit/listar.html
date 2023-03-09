@@ -30,6 +30,8 @@
 								<th>Operation Mode</th>
 								<th>Status</th>
 								<th>Enabled</th>
+								<th>Edit Oil Well</th>
+								<th>Delete Oil Well</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -41,6 +43,8 @@
 								<td th:text="'Automatic'"></td>
 								<td th:text="'Idle'"></td>
 								<td th:text="${unit.enabled}"></td>
+								<td><a class="btn btn-info btn-xs" th:text="'Edit'"></a></td>
+								<td><a class="btn btn-danger btn-xs" th:text="'Delete'"></a></td>
 							</tr>
 						</tbody>
 					</table>

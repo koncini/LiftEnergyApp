@@ -3,6 +3,7 @@ package com.actum.springboot.liftEnergy.app.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,18 @@ public class UserController {
 	
 	@Autowired
 	private IUnitService unitService;
+	
+	@Value("${texto.usercontroller.list.message}")
+	private String messageString;
+	
+	@Value("${texto.usercontroller.list.title}")
+	private String titleString;
 
 	@GetMapping("/listar-usuarios")
 	public String listarUsuarios(Model model) {
 		List<User> usuarios = unitService.findAllUsers();
-		model.addAttribute("title", "Usuarios");
-		model.addAttribute("message", "Control de Usuarios");
+		model.addAttribute("title", titleString);
+		model.addAttribute("message", messageString);
 		model.addAttribute("users", usuarios);
 		return"user/listar";
 	}

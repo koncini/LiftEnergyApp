@@ -3,6 +3,7 @@ package com.actum.springboot.liftEnergy.app.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,18 @@ public class UnitController {
 
 	@Autowired
 	private IUnitService unitService;
+	
+	@Value("${texto.unitcontroller.watchunits.message}")
+	private String messageWatchString;
+	
+	@Value("${texto.unitcontroller.watchunits.title}")
+	private String titleWatchString;
+	
+	@Value("${texto.unitcontroller.watchsensor.title}")
+	private String titleWatchSensorString;
+
+	@Value("${texto.unitcontroller.watchsensor.message}")
+	private String messageWatchSensorString;
 		
 	@GetMapping("/ver/{id}")
 	public String verUnidad(@PathVariable Long id, Model model) {
@@ -28,11 +41,20 @@ public class UnitController {
 			return "redirect:/index";
 		}
 
-		model.addAttribute("title", "Unidad");
-		model.addAttribute("message", "Resumen de Unidad ".concat(unit.getId().toString()));
+		model.addAttribute("title", titleWatchString);
+		model.addAttribute("message", messageWatchString.concat(unit.getId().toString()));
 		model.addAttribute("unit", unit);
 
 		return "unit/ver";
+	}
+	
+	@GetMapping("/listar-unidades-detallado")
+	public String listarUnidades(Model model) {
+		List<Unit> units = unitService.findAllUnits();
+		model.addAttribute("title", "Oil Wells");
+		model.addAttribute("message", "All Oil Wells");
+		model.addAttribute("units", units);
+		return "unit/listar";
 	}
 
 	@GetMapping("{id}/analisis")
@@ -40,8 +62,8 @@ public class UnitController {
 		List<Sensor> availableSensors = unitService.findEnabledSensors();
 
 		model.addAttribute("sensors", availableSensors);
-		model.addAttribute("title", "Sensores");
-		model.addAttribute("message", "Analisis de unidad");
+		model.addAttribute("title", titleWatchSensorString);
+		model.addAttribute("message", messageWatchSensorString);
 		return "sensor/graficar";
 	}
 
