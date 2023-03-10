@@ -49,7 +49,7 @@ public class ZoneController {
 	public String listarZonas(Model model) {
 		List<Zone> zones = unitService.findAllZones();
 		model.addAttribute("title", titleString);
-		model.addAttribute("message", "All Oil Wells");
+		model.addAttribute("message", "All Oil Fields");
 		model.addAttribute("zones", zones);
 		return"zone/listar";
 	}

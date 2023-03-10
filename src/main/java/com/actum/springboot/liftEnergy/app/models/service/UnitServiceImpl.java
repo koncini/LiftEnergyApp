@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.actum.springboot.liftEnergy.app.models.dao.INodeDao;
 import com.actum.springboot.liftEnergy.app.models.dao.ISensorDao;
 import com.actum.springboot.liftEnergy.app.models.dao.ISensorDataDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitDao;
@@ -18,6 +17,8 @@ import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 
@@ -46,9 +47,6 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Autowired
 	private IUnitEventDao unitEventDao;
-
-	@Autowired
-	private INodeDao nodeDao;
 
 	@Override
 	@Transactional
@@ -178,6 +176,46 @@ public class UnitServiceImpl implements IUnitService {
 	@Override
 	public User findUserByName(String name) {
 		return userDao.findByUsername(name);
+	}
+
+	@Override
+	public void saveUnitNote(UnitNote note) {
+		unitNoteDao.save(note);
+	}
+
+	@Override
+	public List<UnitNote> findAllUnitNotes() {
+		return (List<UnitNote>) unitNoteDao.findAll();
+	}
+
+	@Override
+	public void deleteUnitNote(Long id) {
+		unitNoteDao.deleteById(id);
+	}
+
+	@Override
+	public UnitNote findOneUnitNote(Long id) {
+		return unitNoteDao.findById(id).orElse(null);
+	}
+
+	@Override
+	public void saveUnitEvent(UnitEvent event) {
+		unitEventDao.save(event);		
+	}
+
+	@Override
+	public List<UnitEvent> findAllUnitEvents() {
+		return (List<UnitEvent>) unitEventDao.findAll();
+	}
+
+	@Override
+	public void deleteUnitEvent(Long id) {
+		unitEventDao.deleteById(id);
+	}
+
+	@Override
+	public UnitEvent findOneUnitEvent(Long id) {
+		return unitEventDao.findById(id).orElse(null);
 	}
 
 }

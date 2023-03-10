@@ -7,6 +7,8 @@ import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 
@@ -55,5 +57,21 @@ public interface IUnitService {
 	public List<User> findAllUsers();
 
 	public User findUserByName(String name);
+	
+	public void saveUnitNote(UnitNote note);
+
+	public List<UnitNote> findAllUnitNotes();
+
+	public void deleteUnitNote(Long id);
+
+	public UnitNote findOneUnitNote(Long id);
+	
+	public void saveUnitEvent(UnitEvent event);
+	
+	public List<UnitEvent> findAllUnitEvents();
+	
+	public void deleteUnitEvent(Long id);
+	
+	public UnitEvent findOneUnitEvent(Long id);
 	
 }

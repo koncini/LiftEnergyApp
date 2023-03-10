@@ -12,7 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitSettings;
+import com.actum.springboot.liftEnergy.app.models.entity.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/unidad")
@@ -34,12 +40,20 @@ public class UnitController {
 	private String messageWatchSensorString;
 		
 	@GetMapping("/ver/{id}")
-	public String verUnidad(@PathVariable Long id, Model model) {
+	public String verUnidad(@PathVariable Long id, Model model) throws JsonMappingException, JsonProcessingException {
 		Unit unit = unitService.findOneUnit(id);
 
 		if (unit == null) {
 			return "redirect:/index";
 		}
+		
+		String unitSettings = unit.getSettings();
+		String unitMetrics = unit.getMetrics();
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+		
+		ObjectMapper mapper = new ObjectMapper();
+		WellDataWrapper data = mapper.readValue(unitMetrics, WellDataWrapper.class);
 
 		model.addAttribute("title", titleWatchString);
 		model.addAttribute("message", messageWatchString.concat(unit.getId().toString()));
