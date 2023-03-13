@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.actum.springboot.liftEnergy.app.models.entity.MotorData;
+import com.actum.springboot.liftEnergy.app.models.entity.PowerCost;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitData;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitSettings;
+import com.actum.springboot.liftEnergy.app.models.entity.WellData;
 import com.actum.springboot.liftEnergy.app.models.entity.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -53,12 +57,20 @@ public class UnitController {
 		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
 		
 		ObjectMapper mapper = new ObjectMapper();
-		WellDataWrapper wellData = mapper.readValue(unitMetrics, WellDataWrapper.class);
+		WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
+		
+		List<WellData> wellData = wellDataWrapper.getWellData();
+		List<UnitData> unitData = wellDataWrapper.getUnitData();
+		List<MotorData> motorData = wellDataWrapper.getMotorData();
+		List<PowerCost> powerCost = wellDataWrapper.getPowerCost();
 
 		model.addAttribute("title", titleWatchString);
 		model.addAttribute("message", messageWatchString.concat(unit.getId().toString()));
 		model.addAttribute("settings", settings);
 		model.addAttribute("wellData", wellData);
+		model.addAttribute("unitData", unitData);
+		model.addAttribute("motorData", motorData);
+		model.addAttribute("powerCost", powerCost);
 		model.addAttribute("unit", unit);
 
 		return "unit/ver";
