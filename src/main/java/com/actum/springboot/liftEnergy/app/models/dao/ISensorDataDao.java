@@ -17,10 +17,11 @@ public interface ISensorDataDao extends CrudRepository<SensorData, Long> {
 
 	@Modifying
 	@Query(value = "INSERT INTO Sensors_data (sensor_id, data, unit, dinagraph_reading, time) VALUES (:sensorId, :data, :unit, :dinagraphReading, :timeStamp)", nativeQuery = true)
-	public void insertSensorData(@Param("sensorId") Long sensorId, @Param("data") Double data, @Param("unit") String unit,
-			@Param("dinagraphReading") Boolean dinagraphReading, @Param("timeStamp") Date timeStamp);
+	public void insertSensorData(@Param("sensorId") Long sensorId, @Param("data") Double data,
+			@Param("unit") String unit, @Param("dinagraphReading") Boolean dinagraphReading,
+			@Param("timeStamp") Date timeStamp);
 
-	@Query("SELECT sd FROM SensorData sd WHERE sd.timeStamp BETWEEN :startOfDay AND :now")
-	public List<SensorData> findByTimestampBetween(@Param("startOfDay") LocalDateTime startOfDay, @Param("now") LocalDateTime now);
-
+	@Query("SELECT sd FROM SensorData sd JOIN sd.sensor s WHERE s.id = :sensorId AND sd.timeStamp BETWEEN :startOfDay AND :now")
+	public List<SensorData> findBySensorIdAndTimestampBetween(@Param("sensorId") Long sensorId,
+			@Param("startOfDay") LocalDateTime startOfDay, @Param("now") LocalDateTime now);
 }

@@ -1,5 +1,6 @@
 package com.actum.springboot.liftEnergy.app.models.service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -221,6 +222,13 @@ public class UnitServiceImpl implements IUnitService {
 	@Override
 	public List<UnitNote> getNotesByUnit(Long id) {
 		return unitNoteDao.findAllNotesByUnitId(id);
+	}
+
+	@Override
+	public List<SensorData> getSensorDataFromToday(Long sensorId) {
+        LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime now = LocalDateTime.now();
+        return sensorDataDao.findBySensorIdAndTimestampBetween(sensorId, startOfDay, now);
 	}
 
 }

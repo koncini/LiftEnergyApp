@@ -75,5 +75,7 @@ public interface IUnitService {
 	public void deleteUnitEvent(Long id);
 	
 	public UnitEvent findOneUnitEvent(Long id);
-		
+	
+	public List<SensorData> getSensorDataFromToday(Long sensorId);
+			
 }

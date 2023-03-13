@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
+import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 
 @RestController("api SensorData")
@@ -61,6 +63,7 @@ public class SensorDataController {
 	
 	@GetMapping("/get-data/{sensor_id}")
 	private Map<String, String> getSensorData(@PathVariable(value = "sensor_id") Long sensorId){
+		List<SensorData> todayData = unitService.getSensorDataFromToday(sensorId);
         Map<String, String> example = new HashMap<>();
         example.put("message", "Hello, World!");
         return example;

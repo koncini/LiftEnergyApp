@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.actum.springboot.liftEnergy.app.clients.CommoditiesClient;
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
@@ -28,6 +29,9 @@ public class IndexController {
 	
 	@Autowired
 	private IUnitService unitService;
+	
+	@Autowired
+	private CommoditiesClient commoditiesClient;
 
 	protected final Log logger = LogFactory.getLog(this.getClass());
 	
@@ -75,6 +79,10 @@ public class IndexController {
 			zones = unitService.findZonesbyUserId(currentUser.getId());
 		}
 		
+		Long Summary = zoneProductionSummary((long) 1);
+		
+		String commoditiesData = commoditiesClient.getCommoditiesData();
+		
 		//Borrar luego
 		Random random = new Random();
 		int production = random.nextInt(100000) + 2000;
@@ -87,11 +95,11 @@ public class IndexController {
 		
 		return "index";
 	}
-	
+		
 	private Long zoneProductionSummary(Long zoneId) {
 		return null;
 	}
-	
+		
 	private boolean hasRole(String role) {
 		SecurityContext context = SecurityContextHolder.getContext();
 
