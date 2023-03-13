@@ -102,7 +102,7 @@ public class UnitServiceImpl implements IUnitService {
 	public Zone findOneZone(Long id) {
 		return zoneDao.findById(id).orElse(null);
 	}
-
+	
 	@Override
 	@Transactional
 	public void saveSensor(Sensor sensor) {
@@ -229,6 +229,16 @@ public class UnitServiceImpl implements IUnitService {
         LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime now = LocalDateTime.now();
         return sensorDataDao.findBySensorIdAndTimestampBetween(sensorId, startOfDay, now);
+	}
+
+	@Override
+	public List<Zone> findTop5ZonesByProduction() {
+		return zoneDao.findTop5ByOrderByProductionDesc();
+	}
+
+	@Override
+	public List<Zone> findTop5ZonesByProductionAndUserId(Long id) {
+		return zoneDao.findTop5ByUserIdOrderByProductionDesc(id);
 	}
 
 }

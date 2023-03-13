@@ -23,6 +23,10 @@ public interface IUnitService {
 	public Zone findOneZone(Long id);
 	
 	public List<Zone> findZonesbyUserId(Long id);
+	
+	public List<Zone> findTop5ZonesByProduction();
+	
+	public List<Zone> findTop5ZonesByProductionAndUserId(Long id);
 
 	public void saveUnit(Unit unit);
 
