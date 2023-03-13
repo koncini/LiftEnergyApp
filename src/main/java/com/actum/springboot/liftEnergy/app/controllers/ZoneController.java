@@ -67,7 +67,7 @@ public class ZoneController {
 		Zone zone = unitService.findOneZone(id);
 		List<Unit> units = zone.getUnits();
 		Map<Long, List<UnitSettings>> unitSettingMap = new HashMap<>();
-		Map<Long, List<WellData>> wellDataMap = new HashMap<>();
+		Map<Long, Number> wellProductionMap = new HashMap<>();
 		
 		for (Unit unit: units) {
 			Long unitId = unit.getId();
@@ -81,8 +81,8 @@ public class ZoneController {
 			ObjectMapper mapper = new ObjectMapper();
 			WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
 			
-			List<WellData> wellData = wellDataWrapper.getWellData();
-			wellDataMap.put(unitId, wellData);
+			WellData wellData = wellDataWrapper.getWellDataByName("well_production");
+			wellProductionMap.put(unitId, wellData.getValue());
 
 		}
 		
@@ -90,7 +90,7 @@ public class ZoneController {
 		model.addAttribute("message", unitString.concat(zoneString).concat(zone.getName()));
 		model.addAttribute("units", units);
 		model.addAttribute("unitSettings", unitSettingMap);
-		model.addAttribute("wellData", wellDataMap);
+		model.addAttribute("wellData", wellProductionMap);
 
 		return "unit/listar";
 	}

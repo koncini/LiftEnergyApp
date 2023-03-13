@@ -49,5 +49,41 @@ public class WellDataWrapper {
 	public void setPowerCost(List<PowerCost> powerCost) {
 		this.powerCost = powerCost;
 	}
+	
+	public WellData getWellDataByName(String name) {
+	    for (WellData wellData : wellData) {
+	        if (wellData.getName().equals(name)) {
+	            return wellData;
+	        }
+	    }
+	    return null;
+	}
+	
+	public UnitData getUnitDataByName(String name) {
+	    for (UnitData unitData : unitData) {
+	        if (unitData.getName().equals(name)) {
+	            return unitData;
+	        }
+	    }
+	    return null;
+	}
+	
+	public MotorData getMotorDataByName(String name) {
+	    for (MotorData motorData : motorData) {
+	        if (motorData.getName().equals(name)) {
+	            return motorData;
+	        }
+	    }
+	    return null;
+	}
+	
+	public PowerCost getPowerCostByName(String name) {
+	    for (PowerCost powerCost : powerCost) {
+	        if (powerCost.getName().equals(name)) {
+	            return powerCost;
+	        }
+	    }
+	    return null;
+	}
 
 }
