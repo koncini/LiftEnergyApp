@@ -98,7 +98,7 @@ public class IndexController {
 		model.addAttribute("title", titleString);
 		model.addAttribute("zoneMessage", zoneMessageString);
 		model.addAttribute("echonomicsMessage", financialMessageString);
-		model.addAttribute("exchangeRateData", exchangeRateData);
+		model.addAttribute("exchangeRateData", exchangeRateData.getRates());
 
 		return "index";
 	}

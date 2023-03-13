@@ -1,7 +1,8 @@
 package com.actum.springboot.liftEnergy.app.controllers;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitSettings;
+import com.actum.springboot.liftEnergy.app.models.entity.WellData;
+import com.actum.springboot.liftEnergy.app.models.entity.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/zona")
@@ -55,18 +63,35 @@ public class ZoneController {
 	}
 	
 	@GetMapping("/{id}/listar-unidades")
-	public String listarUnidades(@PathVariable Long id, Model model) {
+	public String listarUnidades(@PathVariable Long id, Model model) throws JsonMappingException, JsonProcessingException {
 		Zone zone = unitService.findOneZone(id);
 		List<Unit> units = zone.getUnits();
+		Map<Long, List<UnitSettings>> unitSettingMap = new HashMap<>();
+		Map<Long, List<WellData>> wellDataMap = new HashMap<>();
 		
-		//Borrar luego
-		Random random = new Random();
-		int production = random.nextInt(48000) + 2000;
+		for (Unit unit: units) {
+			Long unitId = unit.getId();
+			String unitSettings = unit.getSettings();
+			ObjectMapper objectMapper = new ObjectMapper();
+			
+			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+			unitSettingMap.put(unitId, settings);
+			
+			String unitMetrics = unit.getMetrics();
+			ObjectMapper mapper = new ObjectMapper();
+			WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
+			
+			List<WellData> wellData = wellDataWrapper.getWellData();
+			wellDataMap.put(unitId, wellData);
+
+		}
 		
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", unitString.concat(zoneString).concat(zone.getName()));
-		model.addAttribute("productionUnit", production);
 		model.addAttribute("units", units);
+		model.addAttribute("unitSettings", unitSettingMap);
+		model.addAttribute("wellData", wellDataMap);
+
 		return "unit/listar";
 	}
 

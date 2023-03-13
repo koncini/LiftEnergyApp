@@ -39,7 +39,7 @@
 								<td><a class="btn btn-primary btn-xs"
 									th:href="@{'/unidad/ver/' + ${unit.id}}" th:text="${unit.id}"></a></td>
 								<td th:text="${unit.latitude}+ ' ' +${unit.longitude}"></td>
-								<td th:text="${productionUnit}+' BPD'"></td>
+								<td th:text="${wellData.get(unit.id)}+' BPD'"></td>
 								<td th:text="'Automatic'"></td>
 								<td th:text="'Idle'"></td>
 								<td th:text="${unit.enabled}"></td>
