@@ -3,6 +3,7 @@ package com.actum.springboot.liftEnergy.app.controllers.api;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,5 +58,18 @@ public class SensorDataController {
 		unitService.insertSensorData(sensorId, data, sensorUnit, dinagraphReading, timeStamp);
 		return ResponseEntity.ok("Data uploaded successfully");
 	}
-
+	
+	@GetMapping("/get-data/{sensor_id}")
+	private Map<String, String> getSensorData(@PathVariable(value = "sensor_id") Long sensorId){
+        Map<String, String> example = new HashMap<>();
+        example.put("message", "Hello, World!");
+        return example;
+	}
+		
+	@GetMapping("/get-dinagraph-data/{unit_id}")
+	private Map<String, String> getDinagraphData(@PathVariable(value = "unit_id") Long unitId){
+        Map<String, String> example = new HashMap<>();
+        example.put("message", "Hello, World!");
+        return example;
+	}
 }

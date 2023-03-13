@@ -82,12 +82,14 @@ public class IndexController {
 		model.addAttribute("zones", zones);
 		model.addAttribute("title", titleString);
 		model.addAttribute("zoneMessage", zoneMessageString);
-		model.addAttribute("zoneSummary", "[{\"name\":\"producion_maxima_diaria\",\"value\":60},{\"name\":\"producion_minima_diaria\",\"value\":1},{\"name\":\"meta_produccion\",\"value\":\"45\"},{\"name\":\"promedio_produccion\",\"value\":\"52\"},{\"name\":\"costo_produccion\",\"value\":300},{\"name\":\"valor_generado\",\"value\":\"450\"}]");
 		model.addAttribute("echonomicsMessage", financialMessageString);
-		model.addAttribute("echonomicsInfo", "{\"data\":{\"success\":true,\"timestamp\":1677703260,\"date\":\"2023-03-01\",\"base\":\"USD\",\"rates\":{\"BRENTOIL\":0.011841326228538,\"GBP\":0.8323683321252446,\"USD\":1,\"WTIOIL\":0.012858428700013},\"unit\":\"per barrel\"}}");
 		model.addAttribute("productionZone", production);
 		
 		return "index";
+	}
+	
+	private Long zoneProductionSummary(Long zoneId) {
+		return null;
 	}
 	
 	private boolean hasRole(String role) {
