@@ -38,6 +38,8 @@ public class Zone implements Serializable {
 	
 	private Boolean enabled;
 	
+	private Long production;
+	
 	@Column(name = "user_id")
 	private Long userId; 
 	
@@ -108,6 +110,22 @@ public class Zone implements Serializable {
 
 	public void setUser_id(Long user_id) {
 		this.userId = user_id;
+	}
+
+	public Long getProduction() {
+		return production;
+	}
+
+	public void setProduction(Long production) {
+		this.production = production;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 }

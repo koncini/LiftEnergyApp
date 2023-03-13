@@ -66,6 +66,8 @@ public interface IUnitService {
 
 	public UnitNote findOneUnitNote(Long id);
 	
+	public List<UnitNote> getNotesByUnit(Long id);
+	
 	public void saveUnitEvent(UnitEvent event);
 	
 	public List<UnitEvent> findAllUnitEvents();
@@ -73,5 +75,5 @@ public interface IUnitService {
 	public void deleteUnitEvent(Long id);
 	
 	public UnitEvent findOneUnitEvent(Long id);
-	
+		
 }

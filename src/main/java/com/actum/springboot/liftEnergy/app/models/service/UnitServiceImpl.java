@@ -218,4 +218,9 @@ public class UnitServiceImpl implements IUnitService {
 		return unitEventDao.findById(id).orElse(null);
 	}
 
+	@Override
+	public List<UnitNote> getNotesByUnit(Long id) {
+		return unitNoteDao.findAllNotesByUnitId(id);
+	}
+
 }

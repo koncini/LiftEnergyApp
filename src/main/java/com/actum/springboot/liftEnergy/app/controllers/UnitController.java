@@ -53,10 +53,12 @@ public class UnitController {
 		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
 		
 		ObjectMapper mapper = new ObjectMapper();
-		WellDataWrapper data = mapper.readValue(unitMetrics, WellDataWrapper.class);
+		WellDataWrapper wellData = mapper.readValue(unitMetrics, WellDataWrapper.class);
 
 		model.addAttribute("title", titleWatchString);
 		model.addAttribute("message", messageWatchString.concat(unit.getId().toString()));
+		model.addAttribute("settings", settings);
+		model.addAttribute("wellData", wellData);
 		model.addAttribute("unit", unit);
 
 		return "unit/ver";
