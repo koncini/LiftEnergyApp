@@ -1,5 +1,6 @@
 package com.actum.springboot.liftEnergy.app.models.dao;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +17,10 @@ public interface ISensorDataDao extends CrudRepository<SensorData, Long> {
 
 	@Modifying
 	@Query(value = "INSERT INTO Sensors_data (sensor_id, data, unit, dinagraph_reading, time) VALUES (:sensorId, :data, :unit, :dinagraphReading, :timeStamp)", nativeQuery = true)
-	void insertSensorData(@Param("sensorId") Long sensorId, @Param("data") Double data,
-			@Param("unit") String unit, @Param("dinagraphReading") Boolean dinagraphReading,
-			@Param("timeStamp") Date timeStamp);
+	public void insertSensorData(@Param("sensorId") Long sensorId, @Param("data") Double data, @Param("unit") String unit,
+			@Param("dinagraphReading") Boolean dinagraphReading, @Param("timeStamp") Date timeStamp);
+
+	@Query("SELECT sd FROM SensorData sd WHERE sd.timeStamp BETWEEN :startOfDay AND :now")
+	public List<SensorData> findByTimestampBetween(@Param("startOfDay") LocalDateTime startOfDay, @Param("now") LocalDateTime now);
 
 }
