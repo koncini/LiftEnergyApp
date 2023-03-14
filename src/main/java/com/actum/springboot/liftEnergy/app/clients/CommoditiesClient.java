@@ -14,7 +14,7 @@ public class CommoditiesClient {
 	}
 
 	public String getCommoditiesData() {
-		String url = "https://commodities-api.com/api/latest?access_key=79a690j553ihh3vagakhwak9835by77b4412k70t5ar1q9z290s24x32x1y5";
+		String url = "https://commodities-api.com/api/latest?access_key=o33myrdoy95skx2zwzkp8pa3dm857xda0akg2vqqz9gear63ih4c8kv9t5l7";
 		return this.restTemplate.getForObject(url, String.class);
 	}
 

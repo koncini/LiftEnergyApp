@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.actum.springboot.liftEnergy.app.clients.CommoditiesClient;
 import com.actum.springboot.liftEnergy.app.models.entity.ExchangeRateData;
@@ -101,6 +103,11 @@ public class IndexController {
 		model.addAttribute("exchangeRateData", exchangeRateData.getRates());
 
 		return "index";
+	}
+	
+	@PostMapping("/submit-form")
+	public String submitForm(@RequestParam("options") String selectedOption) {
+		return selectedOption;
 	}
 
 	private Long zoneProductionSummary(Long zoneId) {

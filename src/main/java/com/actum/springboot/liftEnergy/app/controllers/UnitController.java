@@ -1,6 +1,8 @@
 package com.actum.springboot.liftEnergy.app.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.actum.springboot.liftEnergy.app.models.entity.MotorData;
 import com.actum.springboot.liftEnergy.app.models.entity.PowerCost;
@@ -77,22 +80,59 @@ public class UnitController {
 	}
 	
 	@GetMapping("/listar-unidades-detallado")
-	public String listarUnidades(Model model) {
+	public String listarUnidades(Model model) throws JsonMappingException, JsonProcessingException {
 		List<Unit> units = unitService.findAllUnits();
+		
+		Map<Long, List<UnitSettings>> unitSettingMap = new HashMap<>();
+		Map<Long, Number> wellProductionMap = new HashMap<>();
+		
+		for (Unit unit: units) {
+			Long unitId = unit.getId();
+			String unitSettings = unit.getSettings();
+			ObjectMapper objectMapper = new ObjectMapper();
+			
+			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+			unitSettingMap.put(unitId, settings);
+			
+			String unitMetrics = unit.getMetrics();
+			ObjectMapper mapper = new ObjectMapper();
+			WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
+			
+			WellData wellData = wellDataWrapper.getWellDataByName("well_production");
+			wellProductionMap.put(unitId, wellData.getValue());
+
+		}
+		
 		model.addAttribute("title", "Oil Wells");
 		model.addAttribute("message", "All Oil Wells");
 		model.addAttribute("units", units);
+		model.addAttribute("unitSettings", unitSettingMap);
+		model.addAttribute("wellData", wellProductionMap);
 		return "unit/listar";
 	}
 
 	@GetMapping("{id}/analisis")
 	public String analizarUnidad(@PathVariable Long id, Model model) {
 		List<Sensor> availableSensors = unitService.findEnabledSensors();
-
+	
 		model.addAttribute("sensors", availableSensors);
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
 		return "sensor/graficar";
+	}
+	
+	@GetMapping("{id}/analisis-dinagrafico")
+	public String analisiDinagrafico(@PathVariable Long id, Model model) {
+		model.addAttribute("title", titleWatchSensorString);
+		model.addAttribute("message", messageWatchSensorString);
+		return "sensor/dinagraph";
+	}
+	
+	@GetMapping("{id}/dinagraphic-analisis")
+	public String analisiDinagrafico2(@PathVariable Long id, Model model) {
+		model.addAttribute("title", titleWatchSensorString);
+		model.addAttribute("message", messageWatchSensorString);
+		return "sensor/dinagraph2";
 	}
 
 }

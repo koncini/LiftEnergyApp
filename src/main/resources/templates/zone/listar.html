@@ -34,7 +34,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="zone: ${zones}">
+							<tr th:each="zone: ${zones}"
+								th:style="${zone.production lt 10000} ? 'background-color: rgb(255, 150, 150);' : ''">
 								<td th:text=${zone.id}></td>
 								<td th:text="${zone.latitude}+ ' ' +${zone.longitude}"></td>
 								<td th:text="${zone.production}+' BPD'"></td>
