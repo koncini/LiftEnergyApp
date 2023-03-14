@@ -62,17 +62,14 @@ public class SensorDataController {
 	}
 	
 	@GetMapping("/get-data/{sensor_id}")
-	private Map<String, String> getSensorData(@PathVariable(value = "sensor_id") Long sensorId){
-		List<SensorData> todayData = unitService.getSensorDataFromToday(sensorId);
-        Map<String, String> example = new HashMap<>();
-        example.put("message", "Hello, World!");
-        return example;
+	private ResponseEntity<List<SensorData>> getSensorData(@PathVariable(value = "sensor_id") Long sensorId){
+		List<SensorData> todayData = unitService.getSensorDataFromCurrentYear(sensorId);
+        return ResponseEntity.ok(todayData);
 	}
 		
 	@GetMapping("/get-dinagraph-data/{unit_id}")
-	private Map<String, String> getDinagraphData(@PathVariable(value = "unit_id") Long unitId){
-        Map<String, String> example = new HashMap<>();
-        example.put("message", "Hello, World!");
-        return example;
+	private ResponseEntity<List<SensorData>> getDinagraphData(@PathVariable(value = "unit_id") Long unitId){
+		List<SensorData> todayData = unitService.getSensorDataFromCurrentYear(unitId);
+        return ResponseEntity.ok(todayData);
 	}
 }

@@ -1,6 +1,5 @@
 package com.actum.springboot.liftEnergy.app.models.dao;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,5 +22,12 @@ public interface ISensorDataDao extends CrudRepository<SensorData, Long> {
 
 	@Query("SELECT sd FROM SensorData sd JOIN sd.sensor s WHERE s.id = :sensorId AND sd.timeStamp BETWEEN :startOfDay AND :now")
 	public List<SensorData> findBySensorIdAndTimestampBetween(@Param("sensorId") Long sensorId,
-			@Param("startOfDay") LocalDateTime startOfDay, @Param("now") LocalDateTime now);
+			@Param("startOfDay") Date startOfDay, @Param("now") Date now);
+
+	@Query("SELECT sd FROM SensorData sd JOIN sd.sensor s WHERE s.id = :sensorId AND YEAR(sd.timeStamp) = YEAR(:now) AND MONTH(sd.timeStamp) = MONTH(:now)")
+	public List<SensorData> findBySensorIdAndTimeStampCurrentMonth(@Param("sensorId") Long sensorId,
+			@Param("now") Date now);
+	
+	@Query("SELECT sd FROM SensorData sd WHERE sd.sensor.id = :sensorId AND YEAR(sd.timeStamp) = :year")
+    public List<SensorData> findBySensorIdAndTimeStampCurrentYear(@Param("sensorId") Long sensorId, @Param("year") int year);
 }

@@ -81,5 +81,9 @@ public interface IUnitService {
 	public UnitEvent findOneUnitEvent(Long id);
 	
 	public List<SensorData> getSensorDataFromToday(Long sensorId);
+	
+	public List<SensorData> getSensorDataFromCurrentMonth(Long sensorId);
+	
+	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId);
 			
 }

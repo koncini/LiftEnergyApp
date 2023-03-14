@@ -1,6 +1,7 @@
 package com.actum.springboot.liftEnergy.app.models.service;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class UnitServiceImpl implements IUnitService {
 	public Zone findOneZone(Long id) {
 		return zoneDao.findById(id).orElse(null);
 	}
-	
+
 	@Override
 	@Transactional
 	public void saveSensor(Sensor sensor) {
@@ -162,10 +163,10 @@ public class UnitServiceImpl implements IUnitService {
 	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp) {
 		sensorDataDao.insertSensorData(sensorId, data, unit, dinagraphReading, timeStamp);
 	}
-	
+
 	@Override
 	@Transactional
-	public List<User> findAllUsers(){
+	public List<User> findAllUsers() {
 		return (List<User>) userDao.findAll();
 	}
 
@@ -201,7 +202,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	public void saveUnitEvent(UnitEvent event) {
-		unitEventDao.save(event);		
+		unitEventDao.save(event);
 	}
 
 	@Override
@@ -226,9 +227,14 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	public List<SensorData> getSensorDataFromToday(Long sensorId) {
-        LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
-        LocalDateTime now = LocalDateTime.now();
-        return sensorDataDao.findBySensorIdAndTimestampBetween(sensorId, startOfDay, now);
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		Date startOfDay = calendar.getTime();
+		Date now = new Date();
+		return sensorDataDao.findBySensorIdAndTimestampBetween(sensorId, startOfDay, now);
 	}
 
 	@Override
@@ -239,6 +245,17 @@ public class UnitServiceImpl implements IUnitService {
 	@Override
 	public List<Zone> findTop5ZonesByProductionAndUserId(Long id) {
 		return zoneDao.findTop5ByUserIdOrderByProductionDesc(id);
+	}
+
+	@Override
+	public List<SensorData> getSensorDataFromCurrentMonth(Long sensorId) {
+		Date now = new Date();
+		return sensorDataDao.findBySensorIdAndTimeStampCurrentMonth(sensorId, now);
+	}
+
+	@Override
+	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId) {
+		return sensorDataDao.findBySensorIdAndTimeStampCurrentYear(sensorId, 2023);
 	}
 
 }

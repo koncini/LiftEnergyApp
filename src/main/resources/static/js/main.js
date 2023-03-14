@@ -181,56 +181,57 @@ var cardChart4 = new Chart($('#card-chart4'), {
   }
 }); // eslint-disable-next-line no-unused-vars
 
-var mainChart = new Chart($('#general-production-chart'), {
-  type: 'line',
-  data: {
-    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'],
-    datasets: [{
-      label: 'My First dataset',
-      backgroundColor: hexToRgba(getStyle('--info'), 10),
-      borderColor: getStyle('--info'),
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: [165, 180, 70, 69, 77, 57, 125, 165, 172, 91, 173, 138, 155, 89, 50, 161, 65, 163, 160, 103, 114, 185, 125, 196, 183, 64, 137, 95, 112, 175]
-    }, {
-      label: 'My Second dataset',
-      backgroundColor: 'transparent',
-      borderColor: getStyle('--success'),
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: [92, 97, 80, 100, 86, 97, 83, 98, 87, 98, 93, 83, 87, 98, 96, 84, 91, 97, 88, 86, 94, 86, 95, 91, 98, 91, 92, 80, 83, 82]
-    }]
-  },
-  options: {
-    maintainAspectRatio: false,
-    legend: {
-      display: false
-    },
-    scales: {
-      xAxes: [{
-        gridLines: {
-          drawOnChartArea: false
-        }
-      }],
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          maxTicksLimit: 5,
-          stepSize: Math.ceil(10000 / 5),
-          max: 10000
-        }
-      }]
-    },
-    elements: {
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-        hoverBorderWidth: 3
-      }
-    }
-  }
-});
+//var mainChart = new Chart($('#general-production-chart'), {
+//  type: 'line',
+//  data: {
+//    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'],
+//    datasets: [{
+//      label: 'My First dataset',
+//      backgroundColor: hexToRgba(getStyle('--info'), 10),
+//      borderColor: getStyle('--info'),
+//      pointHoverBackgroundColor: '#fff',
+//      borderWidth: 2,
+//      data: [165, 180, 70, 69, 77, 57, 125, 165, 172, 91, 173, 138, 155, 89, 50, 161, 65, 163, 160, 103, 114, 185, 125, 196, 183, 64, 137, 95, 112, 175]
+//    }, {
+//      label: 'My Second dataset',
+//      backgroundColor: 'transparent',
+//      borderColor: getStyle('--success'),
+//      pointHoverBackgroundColor: '#fff',
+//      borderWidth: 2,
+//      data: [92, 97, 80, 100, 86, 97, 83, 98, 87, 98, 93, 83, 87, 98, 96, 84, 91, 97, 88, 86, 94, 86, 95, 91, 98, 91, 92, 80, 83, 82]
+//    }]
+//  },
+//  options: {
+//    maintainAspectRatio: false,
+//    legend: {
+//      display: false
+//    },
+//    scales: {
+//      xAxes: [{
+//        gridLines: {
+//          drawOnChartArea: false
+//        }
+//      }],
+//      yAxes: [{
+//        ticks: {
+//          beginAtZero: true,
+//          maxTicksLimit: 5,
+//          stepSize: Math.ceil(10000 / 5),
+//          max: 10000
+//        }
+//      }]
+//    },
+//    elements: {
+//      point: {
+//        radius: 0,
+//        hitRadius: 10,
+//        hoverRadius: 4,
+//        hoverBorderWidth: 3
+//      }
+//    }
+//  }
+//});
+
 var brandBoxChartLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 var brandBoxChartOptions = {
   responsive: true,
@@ -323,7 +324,7 @@ var brandBoxChart4 = new Chart($('#social-box-chart-4'), {
 
 // Sensors Chart
 
-var mainChart = new Chart($('#sensors-chart'), {
+var sensorChart = new Chart($('#sensors-chart'), {
   type: 'line',
   data: {
     labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'],
@@ -365,4 +366,63 @@ var mainChart = new Chart($('#sensors-chart'), {
       }
     }
   }
+});
+
+//OJO solo pruebas
+
+const data = [];
+
+for (let i = 0; i < 24; i++) {
+  const value = Math.floor(Math.random() * (90000 - 10000 + 1) + 10000);
+  const timestamp = new Date();
+  timestamp.setHours(i);
+  const formattedTimestamp = timestamp.toLocaleTimeString('es-CO', {hour12: false, hourCycle: 'h23'});
+  if (timestamp > new Date()) {
+    data.push({ value: 0, timestamp: formattedTimestamp });
+  } else {
+    data.push({ value, timestamp: formattedTimestamp });
+  }
+}
+const chartData = {
+  labels: data.map(item => item.timestamp),
+  datasets: [{
+    label: 'maracaibo_2',
+    data: data.map(item => item.value),
+    borderColor: 'blue',
+    fill: false
+  }, {
+    label: 'puerto_gaitan_2',
+    data: data.map(item => item.value * 2),
+    borderColor: 'green',
+    fill: false
+  }, {
+    label: 'maracaibo',
+    data: data.map(item => item.value * 3),
+    borderColor: 'red',
+    fill: false
+  }, {
+    label: 'ecopetrol_2',
+    data: data.map(item => item.value * 4),
+    borderColor: 'orange',
+    fill: false
+  }, {
+    label: 'orinoco_2',
+    data: data.map(item => item.value * 5),
+    borderColor: 'purple',
+    fill: false
+  }]
+};
+
+const chartOptions = {
+  responsive: true,
+  title: {
+    display: false,
+    text: 'Chart Title'
+  }
+};
+
+const mainChart = new Chart($('#general-production-chart'), {
+  type: 'line',
+  data: chartData,
+  options: chartOptions
 });
