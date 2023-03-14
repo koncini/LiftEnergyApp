@@ -35,7 +35,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="unit: ${units}">
+							<tr th:each="unit: ${units}"
+								th:style="${wellData.get(unit.id) lt 2200} ? 'background-color: rgb(255, 150, 150);' : ''">
 								<td><a class="btn btn-primary btn-xs"
 									th:href="@{'/unidad/ver/' + ${unit.id}}" th:text="${unit.id}"></a></td>
 								<td th:text="${unit.latitude}+ ' ' +${unit.longitude}"></td>
