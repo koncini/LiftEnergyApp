@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -59,6 +60,13 @@ public class IndexController {
 
 	@Value("${texto.indexcontroller.index.financialmessage}")
 	private String financialMessageString;
+	
+	private Long eventsUnattended;
+
+	@PostConstruct
+	public void init() {
+	    eventsUnattended = unitService.getCountOfUnattendedEvents();
+	}
 
 	@GetMapping(value = { "/index", "/" })
 	public String index(Model model, Authentication authentication, HttpServletRequest request)
@@ -90,12 +98,13 @@ public class IndexController {
 		ExchangeRateWrapper exchangeRates = objectMapper.readValue(commoditiesData, ExchangeRateWrapper.class);
 
 		ExchangeRateData exchangeRateData = exchangeRates.getData();
-
+		
 		model.addAttribute("zones", zones);
 		model.addAttribute("title", titleString);
 		model.addAttribute("zoneMessage", zoneMessageString);
 		model.addAttribute("echonomicsMessage", financialMessageString);
 		model.addAttribute("exchangeRateData", exchangeRateData.getRates());
+		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "index";
 	}

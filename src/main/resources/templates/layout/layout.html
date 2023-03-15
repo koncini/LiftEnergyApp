@@ -74,7 +74,7 @@
 		<ul class="nav navbar-nav ml-auto">
 			<li class="nav-item d-md-down-none"><a class="nav-link" th:href="@{../../unit-events/list-events}">
 					<i class="icon-bell"></i> <span
-					class="badge badge-pill badge-danger">5</span>
+					class="badge badge-pill badge-danger" th:text="${eventsUnattended}"></span>
 			</a></li>
 		</ul>
 		<div sec:authorize="isAuthenticated()">
@@ -182,11 +182,11 @@
 </body>
 
 <footer th:fragment="footer" class="app-footer">
-	<p sec:authorize="isAuthenticated()" style="margin-top: 7px">
+	<p sec:authorize="isAuthenticated()" style="display: inline-block; vertical-align: bottom;">
 		Logged User: <span sec:authentication="name"></span><br /> Developed
 		by Actum for <a><img
 			src='https://www.linkpicture.com/q/image-removebg-preview_38.png'
-			type='image' style="max-width: 48px; margin-bottom: -15px" alt="Lift Energy Group"></a> &copy; Company 2023, Inc. All rights reserved.
+			type='image' style="max-width: 48px; margin-bottom: -15px; margin-top: -38px" alt="Lift Energy Group"></a> &copy; Company 2023, Inc. All rights reserved.
 		Terms of use and privacy.<br />
 	</p>
 	<!-- CoreUI and necessary plugins-->

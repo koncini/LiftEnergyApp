@@ -27,25 +27,34 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.annotation.PostConstruct;
+
 @Controller
 @RequestMapping("/unidad")
 public class UnitController {
 
 	@Autowired
 	private IUnitService unitService;
-	
+
 	@Value("${texto.unitcontroller.watchunits.message}")
 	private String messageWatchString;
-	
+
 	@Value("${texto.unitcontroller.watchunits.title}")
 	private String titleWatchString;
-	
+
 	@Value("${texto.unitcontroller.watchsensor.title}")
 	private String titleWatchSensorString;
 
 	@Value("${texto.unitcontroller.watchsensor.message}")
 	private String messageWatchSensorString;
-		
+
+	private Long eventsUnattended;
+
+	@PostConstruct
+	public void init() {
+		eventsUnattended = unitService.getCountOfUnattendedEvents();
+	}
+
 	@GetMapping("/ver/{id}")
 	public String verUnidad(@PathVariable Long id, Model model) throws JsonMappingException, JsonProcessingException {
 		Unit unit = unitService.findOneUnit(id);
@@ -53,15 +62,16 @@ public class UnitController {
 		if (unit == null) {
 			return "redirect:/index";
 		}
-		
+
 		String unitSettings = unit.getSettings();
 		String unitMetrics = unit.getMetrics();
 		ObjectMapper objectMapper = new ObjectMapper();
-		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
-		
+		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {
+		});
+
 		ObjectMapper mapper = new ObjectMapper();
 		WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
-		
+
 		List<WellData> wellData = wellDataWrapper.getWellData();
 		List<UnitData> unitData = wellDataWrapper.getUnitData();
 		List<MotorData> motorData = wellDataWrapper.getMotorData();
@@ -75,63 +85,73 @@ public class UnitController {
 		model.addAttribute("motorData", motorData);
 		model.addAttribute("powerCost", powerCost);
 		model.addAttribute("unit", unit);
+		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "unit/ver";
 	}
-	
+
 	@GetMapping("/listar-unidades-detallado")
 	public String listarUnidades(Model model) throws JsonMappingException, JsonProcessingException {
 		List<Unit> units = unitService.findAllUnits();
-		
+
 		Map<Long, List<UnitSettings>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
-		
-		for (Unit unit: units) {
+
+		for (Unit unit : units) {
 			Long unitId = unit.getId();
 			String unitSettings = unit.getSettings();
 			ObjectMapper objectMapper = new ObjectMapper();
-			
-			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+
+			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {
+			});
 			unitSettingMap.put(unitId, settings);
-			
+
 			String unitMetrics = unit.getMetrics();
 			ObjectMapper mapper = new ObjectMapper();
 			WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
-			
+
 			WellData wellData = wellDataWrapper.getWellDataByName("well_production");
 			wellProductionMap.put(unitId, wellData.getValue());
 
 		}
-		
+
 		model.addAttribute("title", "Oil Wells");
 		model.addAttribute("message", "All Oil Wells");
 		model.addAttribute("units", units);
 		model.addAttribute("unitSettings", unitSettingMap);
 		model.addAttribute("wellData", wellProductionMap);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
 		return "unit/listar";
 	}
 
 	@GetMapping("{id}/analisis")
 	public String analizarUnidad(@PathVariable Long id, Model model) {
 		List<Sensor> availableSensors = unitService.findEnabledSensors();
-	
+
 		model.addAttribute("sensors", availableSensors);
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
 		return "sensor/graficar";
 	}
-	
+
 	@GetMapping("{id}/analisis-dinagrafico")
 	public String analisiDinagrafico(@PathVariable Long id, Model model) {
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
 		return "sensor/dinagraph";
 	}
-	
+
 	@GetMapping("{id}/dinagraphic-analisis")
 	public String analisiDinagrafico2(@PathVariable Long id, Model model) {
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
 		return "sensor/dinagraph2";
 	}
 

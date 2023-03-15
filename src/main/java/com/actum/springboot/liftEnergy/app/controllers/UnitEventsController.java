@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 
+import jakarta.annotation.PostConstruct;
+
 @Controller
 @RequestMapping("/unit-events")
 public class UnitEventsController {
@@ -27,13 +29,22 @@ public class UnitEventsController {
 	
 	@Value("${texto.uniteventcontroller.list.title}")
 	private String titleString;
+	
+	private Long eventsUnattended;
 
+	@PostConstruct
+	public void init() {
+		eventsUnattended = unitService.getCountOfUnattendedEvents();
+	}
+	
 	@GetMapping("/list-events/{id}")
 	public String listEventsByUnit(@PathVariable Long id, Model model) {
 		List<UnitEvent> unitEventsFiltered = null;
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", messageString);
 		model.addAttribute("unitEvents", unitEventsFiltered);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
 		return "events/listar";
 	}
 
@@ -51,6 +62,8 @@ public class UnitEventsController {
 		model.addAttribute("message", messageString);
 		model.addAttribute("unitEvents", unitEvents);
 		model.addAttribute("unitEventsUnits", units);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
 		return "events/listar";
 	}
 

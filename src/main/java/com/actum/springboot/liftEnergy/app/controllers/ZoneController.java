@@ -25,6 +25,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.annotation.PostConstruct;
+
 @Controller
 @RequestMapping("/zona")
 public class ZoneController {
@@ -40,11 +42,20 @@ public class ZoneController {
 	
 	@Value("${texto.zonecontroller.listunits.zone}")
 	private String zoneString;
+	
+	private Long eventsUnattended;
 
+	@PostConstruct
+	public void init() {
+	    eventsUnattended = unitService.getCountOfUnattendedEvents();
+	}
+	
 	@GetMapping("/listar-zonas")
 	public @ResponseBody List<ZoneNameAndId> mostrarZonas(Model model) {
 		List<ZoneNameAndId> zoneNames = unitService.findEnabledZones();
 		model.addAttribute("zoneNames", zoneNames);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
 		return zoneNames;
 	}
 
@@ -59,6 +70,8 @@ public class ZoneController {
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", "All Oil Fields");
 		model.addAttribute("zones", zones);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
 		return"zone/listar";
 	}
 	
@@ -91,6 +104,7 @@ public class ZoneController {
 		model.addAttribute("units", units);
 		model.addAttribute("unitSettings", unitSettingMap);
 		model.addAttribute("wellData", wellProductionMap);
+		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "unit/listar";
 	}
