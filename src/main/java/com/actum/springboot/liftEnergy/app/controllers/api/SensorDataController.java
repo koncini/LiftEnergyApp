@@ -89,7 +89,7 @@ public class SensorDataController {
 		List<SensorData> todayData = unitService.getSensorDataFromCurrentYear(unitId);
 		return ResponseEntity.ok(todayData);
 	}
-	
+
 	private void detectOutOfRangeVariable(Double data, Sensor sensor)
 			throws JsonMappingException, JsonProcessingException {
 
@@ -98,41 +98,31 @@ public class SensorDataController {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		SensorSetting settings = objectMapper.readValue(sensorSetting, SensorSetting.class);
-		
+
 		if (data < settings.getMinValue()) {
-			RestTemplate restTemplate = new RestTemplate();
-			URI uri = UriComponentsBuilder.fromUriString("http://localhost:8090/pushover/message")
-			        .queryParam("title", "Variable From Oil Well Under Range")
-			        .queryParam("message", sensor.getType())
-			        .build()
-			        .toUri();
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			
-			HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
-			
-			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
-			String responseBody = responseEntity.getBody();
-			
+			String response = sendMessage("Variable From Oil Well Over Range", sensor);
+			System.out.println(response + " value over range");
 		} else if (data > settings.getMaxValue()) {
-			RestTemplate restTemplate = new RestTemplate();
-			URI uri = UriComponentsBuilder.fromUriString("http://localhost:8090/pushover/message")
-			        .queryParam("title", "Variable From Oil Well Over Range")
-			        .queryParam("message", sensor.getType())
-			        .build()
-			        .toUri();
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			
-			HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
-			
-			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
-			String responseBody = responseEntity.getBody();
-			
+			String response = sendMessage("Variable From Oil Well Under Range", sensor);
+			System.out.println(response + " value under range");
 		} else {
 			System.out.println("value between limit");
 		}
+	}
+
+	private String sendMessage(String message, Sensor sensor) {
+		RestTemplate restTemplate = new RestTemplate();
+		URI uri = UriComponentsBuilder.fromUriString("http://localhost:8090/pushover/message")
+				.queryParam("title", message).queryParam("message", sensor.getType()).build().toUri();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
+
+		ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, requestEntity,
+				String.class);
+		String responseBody = responseEntity.getBody();
+		return responseBody;
 	}
 }

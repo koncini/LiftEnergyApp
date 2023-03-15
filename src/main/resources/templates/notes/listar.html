@@ -26,6 +26,7 @@
 							<th>User Origin</th>
 							<th>Note</th>
 							<th>Date</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -35,6 +36,7 @@
 							<td th:text="${unitNotesUsers[note.id]}"></td>
 							<td th:text="${note.note}"></td>
 							<td th:text="${note.timeStamp}"></td>
+							<td><a class="btn btn-danger btn-xs" th:text="'Delete'"></a></td>							
 						</tr>
 					</tbody>
 				</table>
