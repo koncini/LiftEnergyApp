@@ -1,188 +1,209 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	
-	<head th:fragment="head">
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-		<title th:text="'Proflow Dynamics ' + ${title}"></title>
-		<!-- Icons-->
-		<link th:href="@{../../node_modules/@coreui/icons/css/coreui-icons.min.css}" rel="stylesheet">
-		<link th:href="@{../../node_modules/flag-icon-css/css/flag-icon.min.css}" rel="stylesheet">
-		<link th:href="@{../../node_modules/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
-		<link th:href="@{../../node_modules/simple-line-icons/css/simple-line-icons.css}" rel="stylesheet">
-		<!-- Main styles for this application-->
-		<link th:href="@{../../css/style.css}" rel="stylesheet">
-		<link th:href="@{../../vendors/pace-progress/css/pace.min.css}" rel="stylesheet">
-		<!-- Global site tag (gtag.js) - Google Analytics-->
-		<script src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-		
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
-			// Shared ID
-			gtag('config', 'UA-118965717-3');
-			// Bootstrap ID
-			gtag('config', 'UA-118965717-5');
-		</script>
-	</head>
-	
-	<body>
-	
-		<header th:fragment="header" class="app-header navbar">
-			<button class="navbar-toggler sidebar-toggler d-lg-none mr-auto"
-				type="button" data-toggle="sidebar-show">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<a class="navbar-brand" href="#"> <img class="navbar-brand-full"
-				src="../../img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
-				<img class="navbar-brand-minimized" src="../../img/brand/sygnet.svg"
-				width="40" height="40" alt="Proflow Logo">
-			</a>
-			<button class="navbar-toggler sidebar-toggler d-md-down-none"
-				type="button" data-toggle="sidebar-lg-show">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<ul class="nav navbar-nav d-md-down-none">
-				<li class="nav-item px-3" sec:authorize="hasRole('USER')"><a class="nav-link" th:href="@{/index}">Dashboard</a>
-				</li>
-				<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Users</a>
-				</li>
-				<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/usuarios/listar-usuarios}">Settings</a>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav ml-auto">
-				<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
-						<i class="icon-bell"></i> <span
-						class="badge badge-pill badge-danger">5</span>
-				</a></li>
-				<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
-						<i class="icon-list"></i>
-				</a></li>
-			</ul>
-			<div sec:authorize="isAuthenticated()">
-				<form th:action="@{/logout}" method="post" id="logoutForm">
-					<button class="btn btn-danger mx-2"
-						onclick="document.getElemenById('logoutForm').submit();"
-						type="submit">Sing Out</button>
-				</form>
-			</div>
-		</header>
-		
-		<div th:fragment="sidebar" class="sidebar">
-			<nav class="sidebar-nav">
-				<ul class="nav">
-					<li class="nav-title" sec:authorize="hasRole('MANAGER')">MANAGER</li>
-					<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
-						class="nav-link" href="#"> <i
-							class="nav-icon icon-wallet"></i> Financial Info
-					</a>
-					</li>
-					<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
-						class="nav-link" href="#"> <i
-							class="nav-icon icon-speedometer"></i> Production Analysis
-					</a>
-					</li>
-					<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
-						class="nav-link" href="#"> <i
-							class="nav-icon icon-pie-chart"></i>General Graphs
-					</a>
-					</li>
-					<li class="divider" sec:authorize="hasRole('OPERATION_STAFF')"></li>
-					<li class="nav-title" sec:authorize="hasRole('OPERATION_STAFF')">OPERATION STAFF</li>
-					<li class="nav-item nav-dropdown" sec:authorize="hasRole('OPERATION_STAFF')"><a
-						class="nav-link nav-dropdown-toggle" href="#"> <i
-							class="nav-icon icon-fire"></i> Oil Field Production
-					</a>
-						<ul class="nav-dropdown-items">
-							<li class="nav-item"><a class="nav-link" href="login.html"
-								target="_top"> <i class="nav-icon icon-graph"></i> Production Graphs
-							</a></li>
-							<li class="nav-item"><a class="nav-link"
-								th:href="@{../../zona/listar-zonas-detallado}" target="_top"> <i
-									class="nav-icon icon-location-pin"></i> Oil Fields
-							</a></li>
-						</ul></li>
-					<li class="divider" sec:authorize="hasRole('MAINTENANCE_STAFF')"></li>
-					<li class="nav-title" sec:authorize="hasRole('MAINTENANCE_STAFF')">MAINTENANCE STAFF</li>
-					<li class="nav-item nav-dropdown" sec:authorize="hasRole('MAINTENANCE_STAFF')"><a
-						class="nav-link nav-dropdown-toggle" href="#"> <i
-							class="nav-icon icon-drop"></i> Oil Well Production
-					</a>
-						<ul class="nav-dropdown-items">
-							<li class="nav-item"><a class="nav-link" href="login.html"
-								target="_top"> <i class="nav-icon icon-graph"></i> Production Graphs
-							</a></li>
-							<li class="nav-item"><a class="nav-link" th:href="@{../../unidad/listar-unidades-detallado}"
-								target="_top"> <i class="nav-icon icon-location-pin"></i> Oil Wells
-							</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="register.html" target="_top"> <i
-									class="nav-icon icon-settings"></i> Settings
-							</a></li>
-						</ul></li>
-					<li class="divider"></li>
-					<li class="nav-title">PRODUCTION STAFF</li>
-					<li class="nav-item nav-dropdown"><a
-						class="nav-link nav-dropdown-toggle" href="#"> <i
-							class="nav-icon icon-bell"></i> Notifications
-					</a>
-						<ul class="nav-dropdown-items">
-							<li class="nav-item"><a class="nav-link" href="login.html"
-								target="_top"> <i class="nav-icon icon-question"></i> Events
-							</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="register.html" target="_top"> <i
-									class="nav-icon icon-note"></i> Notes
-							</a></li>
-							<li class="nav-item"><a class="nav-link" href="404.html"
-								target="_top"> <i class="nav-icon icon-close"></i> Alarms
-							</a></li>
-						</ul></li>												
-				</ul>
-			</nav>
-			<button class="sidebar-minimizer brand-minimizer" type="button"></button>
+
+<head th:fragment="head">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<title th:text="'Proflow Dynamics ' + ${title}"></title>
+<!-- Icons-->
+<link
+	th:href="@{../../node_modules/@coreui/icons/css/coreui-icons.min.css}"
+	rel="stylesheet">
+<link
+	th:href="@{../../node_modules/flag-icon-css/css/flag-icon.min.css}"
+	rel="stylesheet">
+<link
+	th:href="@{../../node_modules/font-awesome/css/font-awesome.min.css}"
+	rel="stylesheet">
+<link
+	th:href="@{../../node_modules/simple-line-icons/css/simple-line-icons.css}"
+	rel="stylesheet">
+<!-- Main styles for this application-->
+<link th:href="@{../../css/style.css}" rel="stylesheet">
+<link th:href="@{../../vendors/pace-progress/css/pace.min.css}"
+	rel="stylesheet">
+<!-- Global site tag (gtag.js) - Google Analytics-->
+<script src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+	// Shared ID
+	gtag('config', 'UA-118965717-3');
+	// Bootstrap ID
+	gtag('config', 'UA-118965717-5');
+</script>
+</head>
+
+<body>
+
+	<header th:fragment="header" class="app-header navbar">
+		<button class="navbar-toggler sidebar-toggler d-lg-none mr-auto"
+			type="button" data-toggle="sidebar-show">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand" href="#"> <img class="navbar-brand-full"
+			src="../../img/brand/logo.svg" width="290" height="45"
+			alt="CoreUI Logo"> <img class="navbar-brand-minimized"
+			src="../../img/brand/sygnet.svg" width="40" height="40"
+			alt="Proflow Logo">
+		</a>
+		<button class="navbar-toggler sidebar-toggler d-md-down-none"
+			type="button" data-toggle="sidebar-lg-show">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<ul class="nav navbar-nav d-md-down-none">
+			<li class="nav-item px-3" sec:authorize="hasRole('USER')"><a
+				class="nav-link" th:href="@{/index}">Dashboard</a></li>
+			<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a
+				class="nav-link" th:href="@{/usuarios/listar-usuarios}">Users</a></li>
+			<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a
+				class="nav-link" th:href="@{/usuarios/listar-usuarios}">Settings</a>
+			</li>
+		</ul>
+		<ul class="nav navbar-nav ml-auto">
+			<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
+					<i class="icon-bell"></i> <span
+					class="badge badge-pill badge-danger">5</span>
+			</a></li>
+			<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
+					<i class="icon-list"></i>
+			</a></li>
+		</ul>
+		<div sec:authorize="isAuthenticated()">
+			<form th:action="@{/logout}" method="post" id="logoutForm">
+				<button class="btn btn-danger mx-2"
+					onclick="document.getElemenById('logoutForm').submit();"
+					type="submit">Sing Out</button>
+			</form>
 		</div>
-		
-		<aside th:fragment="aside" class="aside-menu">
-			<ul class="nav nav-tabs" role="tablist">
-				<li class="nav-item"><a class="nav-link active"
-					data-toggle="tab" href="#timeline" role="tab"> <i
-						class="icon-list"></i>
+	</header>
+
+	<div th:fragment="sidebar" class="sidebar">
+		<nav class="sidebar-nav">
+			<ul class="nav">
+				<li class="nav-title" sec:authorize="hasRole('MANAGER')">MANAGER</li>
+				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+					class="nav-link" href="#"> <i class="nav-icon icon-wallet"></i>
+						Financial Info
 				</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#messages" role="tab"> <i class="icon-speech"></i>
+				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+					class="nav-link" href="#"> <i class="nav-icon icon-speedometer"></i>
+						Production Analysis
 				</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#settings" role="tab"> <i class="icon-settings"></i>
+				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+					class="nav-link" href="#"> <i class="nav-icon icon-pie-chart"></i>General
+						Graphs
 				</a></li>
-			</ul>		
-		</aside>		
-					
-	</body>
-	
-	<footer th:fragment="footer" class="app-footer">
-		<p sec:authorize="isAuthenticated()">
-			Logged User: <span sec:authentication="name"></span><br />
-			Developed by Actum. &copy; Company 2023, Inc. All rights
-			reserved. Terms of use and privacy.<br />
-		</p>
-		<!-- CoreUI and necessary plugins-->
-		<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
-		<script src="../../node_modules/popper.js/dist/umd/popper.min.js"></script>
-		<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="../../node_modules/pace-progress/pace.min.js"></script>
-		<script src="../../node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
-		<script src="../../node_modules/@coreui/coreui/dist/js/coreui.min.js"></script>
-		<!-- Plugins and scripts required by this view-->
-		<script src="../../node_modules/chart.js/dist/Chart.min.js"></script>
-		<script src="../../node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
-		<script src="../../js/main.js"></script>		
-	</footer>
+				<li class="divider" sec:authorize="hasRole('OPERATION_STAFF')"></li>
+				<li class="nav-title" sec:authorize="hasRole('OPERATION_STAFF')">OPERATION
+					STAFF</li>
+				<li class="nav-item nav-dropdown"
+					sec:authorize="hasRole('OPERATION_STAFF')"><a
+					class="nav-link nav-dropdown-toggle" href="#"> <i
+						class="nav-icon icon-fire"></i> Oil Field Production
+				</a>
+					<ul class="nav-dropdown-items">
+						<li class="nav-item"><a class="nav-link" href="login.html"
+							target="_top"> <i class="nav-icon icon-graph"></i> Production
+								Graphs
+						</a></li>
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{../../zona/listar-zonas-detallado}" target="_top">
+								<i class="nav-icon icon-location-pin"></i> Oil Fields
+						</a></li>
+					</ul></li>
+				<li class="divider" sec:authorize="hasRole('MAINTENANCE_STAFF')"></li>
+				<li class="nav-title" sec:authorize="hasRole('MAINTENANCE_STAFF')">MAINTENANCE
+					STAFF</li>
+				<li class="nav-item nav-dropdown"
+					sec:authorize="hasRole('MAINTENANCE_STAFF')"><a
+					class="nav-link nav-dropdown-toggle" href="#"> <i
+						class="nav-icon icon-drop"></i> Oil Well Production
+				</a>
+					<ul class="nav-dropdown-items">
+						<li class="nav-item"><a class="nav-link" href="login.html"
+							target="_top"> <i class="nav-icon icon-graph"></i> Production
+								Graphs
+						</a></li>
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{../../unidad/listar-unidades-detallado}" target="_top">
+								<i class="nav-icon icon-location-pin"></i> Oil Wells
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href="register.html"
+							target="_top"> <i class="nav-icon icon-settings"></i>
+								Settings
+						</a></li>
+					</ul></li>
+				<li class="divider"></li>
+				<li class="nav-title">PRODUCTION STAFF</li>
+				<li class="nav-item nav-dropdown"><a
+					class="nav-link nav-dropdown-toggle" href="#"> <i
+						class="nav-icon icon-bell"></i> Notifications
+				</a>
+					<ul class="nav-dropdown-items">
+						<li class="nav-item"><a class="nav-link" href="login.html"
+							target="_top"> <i class="nav-icon icon-question"></i> Events
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href="register.html"
+							target="_top"> <i class="nav-icon icon-note"></i> Notes
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href="404.html"
+							target="_top"> <i class="nav-icon icon-close"></i> Alarms
+						</a></li>
+					</ul></li>
+			</ul>
+		</nav>
+		<button class="sidebar-minimizer brand-minimizer" type="button"></button>
+	</div>
+
+	<aside th:fragment="aside" class="aside-menu">
+		<ul class="nav nav-tabs" role="tablist">
+			<li class="nav-item"><a class="nav-link active"
+				data-toggle="tab" href="#timeline" role="tab"> <i
+					class="icon-list"></i>
+			</a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab"
+				href="#messages" role="tab"> <i class="icon-speech"></i>
+			</a></li>
+			<li class="nav-item"><a class="nav-link" data-toggle="tab"
+				href="#settings" role="tab"> <i class="icon-settings"></i>
+			</a></li>
+		</ul>
+	</aside>
+
+</body>
+
+<footer th:fragment="footer" class="app-footer">
+	<p sec:authorize="isAuthenticated()" style="margin-top: 7px">
+		Logged User: <span sec:authentication="name"></span><br /> Developed
+		by Actum for <a><img
+			src='https://www.linkpicture.com/q/image-removebg-preview_38.png'
+			type='image' style="max-width: 48px; margin-bottom: -15px" alt="Lift Energy Group"></a> &copy; Company 2023, Inc. All rights reserved.
+		Terms of use and privacy.<br />
+	</p>
+	<!-- CoreUI and necessary plugins-->
+	<script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+	<script src="../../node_modules/popper.js/dist/umd/popper.min.js"></script>
+	<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="../../node_modules/pace-progress/pace.min.js"></script>
+	<script
+		src="../../node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+	<script src="../../node_modules/@coreui/coreui/dist/js/coreui.min.js"></script>
+	<!-- Plugins and scripts required by this view-->
+	<script src="../../node_modules/chart.js/dist/Chart.min.js"></script>
+	<script
+		src="../../node_modules/@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
+	<script src="../../js/main.js"></script>
+</footer>
 </html>

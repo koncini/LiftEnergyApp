@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<base href="./">
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport"
@@ -11,7 +10,7 @@
 		<meta name="author" content="Łukasz Holeczek">
 		<meta name="keyword"
 			content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
-		<title th:text="'Proflow Dynamics Server Error'"></title>
+		<title th:text="'Proflow Dynamics Not Found'"></title>
 		<link rel="apple-touch-icon" sizes="57x57"
 			href="assets/favicon/apple-icon-57x57.png">
 		<link rel="apple-touch-icon" sizes="60x60"
@@ -44,10 +43,10 @@
 			content="assets/favicon/ms-icon-144x144.png">
 		<meta name="theme-color" content="#ffffff">
 		<!-- Vendors styles-->
-		<link rel="stylesheet" href="node_modules/simplebar/dist/simplebar.css">
-		<link rel="stylesheet" href="css/vendors/simplebar.css">
+		<link rel="stylesheet" href="vendors/simplebar/css/simplebar.css">
+		<link rel="stylesheet" href="../../css/vendors/simplebar.css">
 		<!-- Main styles for this application-->
-		<link href="css/style.css" rel="stylesheet">
+		<link href="../../css/style.css" rel="stylesheet">
 		<!-- We use those styles to show code examples, you should remove them in your application.-->
 		<link rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
@@ -57,6 +56,7 @@
 			src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
+		
 			function gtag() {
 				dataLayer.push(arguments);
 			}
@@ -83,10 +83,11 @@
 			</div>
 		</div>
 		<!-- CoreUI and necessary plugins-->
-		<script src="node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js"></script>
-		<script src="node_modules/simplebar/dist/simplebar.min.js"></script>
+		<script src="../../vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+		<script src="../..vendors/simplebar/js/simplebar.min.js"></script>
 		<script>
 			
 		</script>
+	
 	</body>
 </html>

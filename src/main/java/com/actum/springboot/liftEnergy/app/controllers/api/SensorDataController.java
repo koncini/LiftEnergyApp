@@ -1,5 +1,6 @@
 package com.actum.springboot.liftEnergy.app.controllers.api;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +11,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +23,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
+import com.actum.springboot.liftEnergy.app.models.entity.SensorSetting;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("api SensorData")
 @RequestMapping("/api/sensors-data")
@@ -35,7 +46,7 @@ public class SensorDataController {
 	@PostMapping("/upload-data/{sensor_id}")
 	@Secured("permitAll")
 	private ResponseEntity<String> uploadSensorData(@PathVariable(value = "sensor_id") Long sensorId,
-			@RequestBody Map<String, Object> requestBody) {
+			@RequestBody Map<String, Object> requestBody) throws JsonMappingException, JsonProcessingException {
 
 		Sensor sensor = unitService.findEnabledSensorById(sensorId);
 
@@ -56,24 +67,72 @@ public class SensorDataController {
 			e.printStackTrace();
 		}
 
+		detectOutOfRangeVariable(data, sensor);
+
 		log.info("Data parsed");
 		unitService.insertSensorData(sensorId, data, sensorUnit, dinagraphReading, timeStamp);
 		return ResponseEntity.ok("Data uploaded successfully");
 	}
-	
+
 	@GetMapping("/get-data/{sensor_id}")
-	private ResponseEntity<List<SensorData>> getSensorData(@PathVariable(value = "sensor_id") Long sensorId){
+	private ResponseEntity<List<SensorData>> getSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
 		List<SensorData> todayData = unitService.getSensorDataFromCurrentYear(sensorId);
 		String fetchUrl = "http://localhost:8090/api/sensors-data/get-data/" + sensorId;
 		Map<String, Object> responseBody = new HashMap<>();
 		responseBody.put("data", todayData);
 		responseBody.put("fetchUrl", fetchUrl);
-        return ResponseEntity.ok(todayData);
+		return ResponseEntity.ok(todayData);
 	}
-		
+
 	@GetMapping("/get-dinagraph-data/{unit_id}")
-	private ResponseEntity<List<SensorData>> getDinagraphData(@PathVariable(value = "unit_id") Long unitId){
+	private ResponseEntity<List<SensorData>> getDinagraphData(@PathVariable(value = "unit_id") Long unitId) {
 		List<SensorData> todayData = unitService.getSensorDataFromCurrentYear(unitId);
-        return ResponseEntity.ok(todayData);
+		return ResponseEntity.ok(todayData);
+	}
+	
+	private void detectOutOfRangeVariable(Double data, Sensor sensor)
+			throws JsonMappingException, JsonProcessingException {
+
+		String sensorSetting = sensor.getSettings();
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		SensorSetting settings = objectMapper.readValue(sensorSetting, SensorSetting.class);
+		
+		if (data < settings.getMinValue()) {
+			RestTemplate restTemplate = new RestTemplate();
+			URI uri = UriComponentsBuilder.fromUriString("http://localhost:8090/pushover/message")
+			        .queryParam("title", "Variable From Oil Well Under Range")
+			        .queryParam("message", sensor.getType())
+			        .build()
+			        .toUri();
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			
+			HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
+			
+			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			String responseBody = responseEntity.getBody();
+			
+		} else if (data > settings.getMaxValue()) {
+			RestTemplate restTemplate = new RestTemplate();
+			URI uri = UriComponentsBuilder.fromUriString("http://localhost:8090/pushover/message")
+			        .queryParam("title", "Variable From Oil Well Over Range")
+			        .queryParam("message", sensor.getType())
+			        .build()
+			        .toUri();
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			
+			HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
+			
+			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			String responseBody = responseEntity.getBody();
+			
+		} else {
+			System.out.println("value between limit");
+		}
 	}
 }
