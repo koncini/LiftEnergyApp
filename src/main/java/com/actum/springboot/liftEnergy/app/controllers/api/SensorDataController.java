@@ -29,6 +29,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorSetting;
+import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -67,7 +69,7 @@ public class SensorDataController {
 			e.printStackTrace();
 		}
 
-		detectOutOfRangeVariable(data, sensor);
+		detectOutOfRangeVariable(data, sensor, timeStamp);
 
 		log.info("Data parsed");
 		unitService.insertSensorData(sensorId, data, sensorUnit, dinagraphReading, timeStamp);
@@ -90,20 +92,34 @@ public class SensorDataController {
 		return ResponseEntity.ok(todayData);
 	}
 
-	private void detectOutOfRangeVariable(Double data, Sensor sensor)
+	private void detectOutOfRangeVariable(Double data, Sensor sensor, Date timestamp)
 			throws JsonMappingException, JsonProcessingException {
 
 		String sensorSetting = sensor.getSettings();
-
 		ObjectMapper objectMapper = new ObjectMapper();
-
 		SensorSetting settings = objectMapper.readValue(sensorSetting, SensorSetting.class);
+		UnitEvent unitEvent = new UnitEvent();
+		Unit unit = sensor.getUnit();
 
 		if (data < settings.getMinValue()) {
-			String response = sendMessage("Variable From Oil Well Over Range", sensor);
+			String response = sendMessage("Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Over Range", sensor);
+			unitEvent.setUnit(unit);
+			unitEvent.setEventName("Variable Over Range");
+			unitEvent.setEventDetail("Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Over Range");
+			unitEvent.setEventPriority(3);
+			unitEvent.setEventAttended(false);
+			unitEvent.setTimestamp(timestamp);
+			unitService.saveUnitEvent(unitEvent);
 			System.out.println(response + " value over range");
 		} else if (data > settings.getMaxValue()) {
-			String response = sendMessage("Variable From Oil Well Under Range", sensor);
+			String response = sendMessage("Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Under Range", sensor);
+			unitEvent.setUnit(unit);
+			unitEvent.setEventName("Variable Over Range");
+			unitEvent.setEventDetail("Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Under Range");
+			unitEvent.setEventPriority(3);
+			unitEvent.setEventAttended(false);
+			unitEvent.setTimestamp(timestamp);
+			unitService.saveUnitEvent(unitEvent);
 			System.out.println(response + " value under range");
 		} else {
 			System.out.println("value between limit");
