@@ -1,6 +1,5 @@
 package com.actum.springboot.liftEnergy.app.models.service;
 
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -256,6 +255,11 @@ public class UnitServiceImpl implements IUnitService {
 	@Override
 	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId) {
 		return sensorDataDao.findBySensorIdAndTimeStampCurrentYear(sensorId, 2023);
+	}
+
+	@Override
+	public long getCountOfUnattendedEvents() {
+		return unitEventDao.countByEventAttended(false);
 	}
 
 }

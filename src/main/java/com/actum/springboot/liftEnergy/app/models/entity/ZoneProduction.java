@@ -1,11 +1,9 @@
 package com.actum.springboot.liftEnergy.app.models.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,12 +11,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "unit_notes")
-public class UnitNote implements Serializable {
+@Table(name = "zones_production", uniqueConstraints = { @UniqueConstraint(columnNames = { "zone_id" }) })
+public class ZoneProduction implements Serializable {
 
 	/**
 	 * 
@@ -28,20 +25,12 @@ public class UnitNote implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonBackReference
-	private Unit unit;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonBackReference
-	private User user;
+	private Zone zone;
 
-	@Column(name = "time")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date timeStamp;
-
-	private String note;
+	private Long production;
 
 	public Long getId() {
 		return id;
@@ -51,20 +40,20 @@ public class UnitNote implements Serializable {
 		this.id = id;
 	}
 
-	public Date getTimestamp() {
-		return timeStamp;
+	public Zone getZone() {
+		return zone;
 	}
 
-	public void setTimestamp(Date timestamp) {
-		this.timeStamp = timestamp;
+	public void setZone(Zone zone) {
+		this.zone = zone;
 	}
 
-	public String getNote() {
-		return note;
+	public Long getProduction() {
+		return production;
 	}
 
-	public void setNote(String note) {
-		this.note = note;
+	public void setProduction(Long production) {
+		this.production = production;
 	}
 
 }

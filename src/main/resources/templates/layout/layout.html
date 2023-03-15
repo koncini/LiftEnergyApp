@@ -72,12 +72,9 @@
 			</li>
 		</ul>
 		<ul class="nav navbar-nav ml-auto">
-			<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
+			<li class="nav-item d-md-down-none"><a class="nav-link" th:href="@{../../unit-events/list-events}">
 					<i class="icon-bell"></i> <span
 					class="badge badge-pill badge-danger">5</span>
-			</a></li>
-			<li class="nav-item d-md-down-none"><a class="nav-link" href="#">
-					<i class="icon-list"></i>
 			</a></li>
 		</ul>
 		<div sec:authorize="isAuthenticated()">
@@ -152,13 +149,13 @@
 						class="nav-icon icon-bell"></i> Notifications
 				</a>
 					<ul class="nav-dropdown-items">
-						<li class="nav-item"><a class="nav-link" href="login.html"
+						<li class="nav-item"><a class="nav-link" th:href="@{../../unit-events/list-events}"
 							target="_top"> <i class="nav-icon icon-question"></i> Events
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="register.html"
+						<li class="nav-item"><a class="nav-link" th:href="@{../../unit-notes/list-notes}"
 							target="_top"> <i class="nav-icon icon-note"></i> Notes
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="404.html"
+						<li class="nav-item"><a class="nav-link" th:href="@{https://client.pushover.net/}"
 							target="_top"> <i class="nav-icon icon-close"></i> Alarms
 						</a></li>
 					</ul></li>

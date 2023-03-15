@@ -85,5 +85,7 @@ public interface IUnitService {
 	public List<SensorData> getSensorDataFromCurrentMonth(Long sensorId);
 	
 	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId);
+	
+	public long getCountOfUnattendedEvents();
 			
 }
