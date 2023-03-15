@@ -1,6 +1,8 @@
 package com.actum.springboot.liftEnergy.app.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,9 +40,17 @@ public class UnitEventsController {
 	@GetMapping("/list-events")
 	public String listEvents(Model model) {
 		List<UnitEvent> unitEvents = unitService.findAllUnitEvents();
+		Map<Long, Long> units = new HashMap<>();
+		
+		for(UnitEvent unitEvent: unitEvents) {
+			Long unitId = unitEvent.getUnit().getId();
+			units.put(unitEvent.getId(), unitId);
+		}
+		
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", messageString);
 		model.addAttribute("unitEvents", unitEvents);
+		model.addAttribute("unitEventsUnits", units);
 		return "events/listar";
 	}
 

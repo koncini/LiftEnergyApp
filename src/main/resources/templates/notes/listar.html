@@ -22,17 +22,17 @@
 					<thead class="thead-dark">
 						<tr>
 							<th>Id</th>
-							<th>Unit</th>
-							<th>User</th>
+							<th>Oil Well</th>
+							<th>User Origin</th>
 							<th>Note</th>
-							<th>Timestamp</th>
+							<th>Date</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="note: ${unitNotes}">
 							<td th:text="${note.id}"></td>
-							<td th:text="${note.unit}"></td>
-							<td th:text="${note.user}"></td>
+							<td th:text="${unitNotesUnits[note.id]}"></td>
+							<td th:text="${unitNotesUsers[note.id]}"></td>
 							<td th:text="${note.note}"></td>
 							<td th:text="${note.timeStamp}"></td>
 						</tr>

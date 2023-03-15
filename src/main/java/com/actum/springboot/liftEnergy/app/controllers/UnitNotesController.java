@@ -1,6 +1,8 @@
 package com.actum.springboot.liftEnergy.app.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,9 +40,21 @@ public class UnitNotesController {
 	@GetMapping("/list-notes")
 	public String listNotes(Model model) {
 		List<UnitNote> unitNotes = unitService.findAllUnitNotes();
+		Map<Long, String> users = new HashMap<>();
+		Map<Long, Long> units = new HashMap<>();
+		
+		for(UnitNote unitNote: unitNotes) {
+			Long unitId = unitNote.getUnit().getId();
+			String userId = unitNote.getUser().getUsername();
+			users.put(unitNote.getId(), userId);
+			units.put(unitNote.getId(), unitId);
+		}
+		
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", messageString);
 		model.addAttribute("unitNotes", unitNotes);
+		model.addAttribute("unitNotesUsers", users);
+		model.addAttribute("unitNotesUnits", units);
 		return "notes/listar";
 	}
 

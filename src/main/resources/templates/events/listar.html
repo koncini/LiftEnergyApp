@@ -23,17 +23,17 @@
 						<tr>
 							<th>Id</th>
 							<th>Unit</th>
-							<th>Name</th>
+							<th>Event Name</th>
 							<th>Detail</th>
 							<th>Priority</th>
 							<th>Attended</th>
-							<th>Timestamp</th>
+							<th>Date</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="event: ${unitEvents}">
 							<td th:text="${event.id}"></td>
-							<td th:text="${event.unit}"></td>
+							<td th:text="${unitEventsUnits[event.id]}"></td>
 							<td th:text="${event.eventName}"></td>
 							<td th:text="${event.eventDetail}"></td>
 							<td th:text="${event.eventPriority}"></td>
