@@ -145,8 +145,15 @@ public class UnitController {
 		return "sensor/graficar";
 	}
 
-	@GetMapping("{id}/analisis-dinagrafico")
-	public String analisiDinagrafico(@PathVariable Long id, Model model) {
+	@GetMapping("{unitId}/analisis-dinagrafico")
+	public String analisiDinagrafico(@PathVariable(value = "unitId") Long unitId, Model model) {
+
+		Unit unit = unitService.findOneUnit(unitId);
+		if (unit == null) {
+			return "redirect:/listar";	
+		}
+		
+		model.addAttribute("unit", unit);
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
 		model.addAttribute("eventsUnattended", eventsUnattended);
@@ -154,8 +161,15 @@ public class UnitController {
 		return "sensor/dinagraph";
 	}
 
-	@GetMapping("{id}/dinagraphic-analisis")
-	public String analisiDinagrafico2(@PathVariable Long id, Model model) {
+	@GetMapping("{unitId}/dinagraphic-analisis")
+	public String analisiDinagrafico2(@PathVariable(value = "unitId") Long unitId, Model model) {
+		
+		Unit unit = unitService.findOneUnit(unitId);
+		if (unit == null) {
+			return "redirect:/listar";	
+		}
+
+		model.addAttribute("unit", unit);
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
 		model.addAttribute("eventsUnattended", eventsUnattended);

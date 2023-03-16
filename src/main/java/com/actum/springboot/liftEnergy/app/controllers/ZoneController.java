@@ -121,8 +121,8 @@ public class ZoneController {
 		}
 
 		model.addAttribute("zone", zone);
-		model.addAttribute("title", "Create Oil Field ");
-		model.addAttribute("message", "Create Oil Field");
+		model.addAttribute("title", "Edit Oil Field ");
+		model.addAttribute("message", "Edit Oil Field ");
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "zone/form";

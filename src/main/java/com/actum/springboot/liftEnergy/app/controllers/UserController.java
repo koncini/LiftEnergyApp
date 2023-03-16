@@ -57,7 +57,7 @@ public class UserController {
 
 		model.addAttribute("user", user);
 		model.addAttribute("title", "Edit User ");
-		model.addAttribute("message", "Edit User");
+		model.addAttribute("message", "Edit User ");
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "user/form";
@@ -66,7 +66,7 @@ public class UserController {
 	@GetMapping("/form")
 	public String createUser(Model model, RedirectAttributes flash) {
 				
-		model.addAttribute("title", "Create User ");
+		model.addAttribute("title", "Create User");
 		model.addAttribute("message", "Create User");
 		model.addAttribute("eventsUnattended", eventsUnattended);
 		

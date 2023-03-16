@@ -35,14 +35,14 @@
 							<!-- /.col-->
 						</div>
 						<!-- /.row-->
-						<img style="width: 100%; height: 25vw; object-fit: fill;"
+						<img th:if="${unit.id == 1}" style="width: 100%; height: 25vw; object-fit: fill;"
 							src='https://www.linkpicture.com/q/2023-03-14_12h04_03.png'
 							type='image'>
 						<!--					<div class="chart-wrapper" style="height: 300px; margin-top: 40px;">-->
 						<!--						<canvas class="chart" id="dinagraph-chart" height="300"></canvas>-->
 						<!--					</div>-->
 					</div>
-					<div class="card-footer">
+					<div th:if="${unit.id == 1}" class="card-footer">
 						<ul>
 							<li><strong>Oil Well Status:</strong> Running</li>
 							<li><strong>Dinagraph Diagnostic:</strong> Gas Lock</li>

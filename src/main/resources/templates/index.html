@@ -61,7 +61,7 @@
 							<div class="row">
 								<div class="col-sm-5">
 									<h4 class="card-title mb-0">Top Production</h4>
-									<div class="small text-muted">March 14 2023</div>
+									<div class="small text-muted">March 16 2023</div>
 								</div>
 								<!-- /.col-->
 								<div class="col-sm-7 d-none d-md-block">
@@ -86,12 +86,12 @@
 								<!-- /.col-->
 							</div>
 							<!-- /.row-->
-							<div class="chart-wrapper"
+							<div th:if="${not #lists.isEmpty(zones)}" class="chart-wrapper"
 								style="height: 300px; margin-top: 40px;">
 								<canvas class="chart" id="general-production-chart" height="300"></canvas>
 							</div>
 						</div>
-						<div class="card-footer">
+						<div th:if="${not #lists.isEmpty(zones)}" class="card-footer">
 							<div class="row text-center">
 								<div class="col-sm-12 col-md mb-sm-2 mb-0">
 									<div th:text = "${zones[0].name}" class="text-muted"></div>
