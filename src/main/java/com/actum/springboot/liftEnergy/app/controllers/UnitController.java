@@ -11,7 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.entity.MotorData;
 import com.actum.springboot.liftEnergy.app.models.entity.PowerCost;
@@ -31,6 +32,7 @@ import jakarta.annotation.PostConstruct;
 
 @Controller
 @RequestMapping("/unidad")
+@SessionAttributes("unit")
 public class UnitController {
 
 	@Autowired
@@ -47,6 +49,12 @@ public class UnitController {
 
 	@Value("${texto.unitcontroller.watchsensor.message}")
 	private String messageWatchSensorString;
+	
+	@Value("${texto.unitcontroller.form.title}")
+	private String titleFormUnitString;
+
+	@Value("${texto.unitcontroller.form.message}")
+	private String messageFormUnitString;
 
 	private Long eventsUnattended;
 
@@ -87,7 +95,7 @@ public class UnitController {
 		model.addAttribute("unit", unit);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "unit/ver";
+		return "unit/watch";
 	}
 
 	@GetMapping("/listar-unidades-detallado")
@@ -122,7 +130,7 @@ public class UnitController {
 		model.addAttribute("wellData", wellProductionMap);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "unit/listar";
+		return "unit/list";
 	}
 
 	@GetMapping("{id}/analisis")
@@ -153,6 +161,32 @@ public class UnitController {
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "sensor/dinagraph2";
+	}
+
+	@GetMapping("/form/{unitId}")
+	public String editUnit(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
+		
+		Unit unit = unitService.findOneUnit(unitId);
+		if (unit == null) {
+			return "redirect:/list";	
+		}
+		
+		model.addAttribute("unit", unit);
+		model.addAttribute("title", titleFormUnitString);
+		model.addAttribute("message", messageFormUnitString);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+		
+		return "unit/form";
+	}
+	
+	@GetMapping("/form")
+	public String createUnit(Model model, RedirectAttributes flash) {
+				
+		model.addAttribute("title", "Create Oil Well ");
+		model.addAttribute("message", "Create Oil Well");
+		model.addAttribute("eventsUnattended", eventsUnattended);
+		
+		return "unit/new";
 	}
 
 }

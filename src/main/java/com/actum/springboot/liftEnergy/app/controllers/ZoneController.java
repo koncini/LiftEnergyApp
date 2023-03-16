@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
@@ -33,23 +34,23 @@ public class ZoneController {
 
 	@Autowired
 	private IUnitService unitService;
-	
+
 	@Value("${texto.zonecontroller.listunits.unit}")
 	private String unitString;
-	
+
 	@Value("${texto.zonecontroller.listunits.title}")
 	private String titleString;
-	
+
 	@Value("${texto.zonecontroller.listunits.zone}")
 	private String zoneString;
-	
+
 	private Long eventsUnattended;
 
 	@PostConstruct
 	public void init() {
-	    eventsUnattended = unitService.getCountOfUnattendedEvents();
+		eventsUnattended = unitService.getCountOfUnattendedEvents();
 	}
-	
+
 	@GetMapping("/listar-zonas")
 	public @ResponseBody List<ZoneNameAndId> mostrarZonas(Model model) {
 		List<ZoneNameAndId> zoneNames = unitService.findEnabledZones();
@@ -61,9 +62,9 @@ public class ZoneController {
 
 	@GetMapping("/{id}")
 	public String verZona(Model model) {
-		return "zone/ver";
+		return "zone/watch";
 	}
-	
+
 	@GetMapping("/listar-zonas-detallado")
 	public String listarZonas(Model model) {
 		List<Zone> zones = unitService.findAllZones();
@@ -72,33 +73,35 @@ public class ZoneController {
 		model.addAttribute("zones", zones);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return"zone/listar";
+		return "zone/list";
 	}
-	
+
 	@GetMapping("/{id}/listar-unidades")
-	public String listarUnidades(@PathVariable Long id, Model model) throws JsonMappingException, JsonProcessingException {
+	public String listarUnidades(@PathVariable Long id, Model model)
+			throws JsonMappingException, JsonProcessingException {
 		Zone zone = unitService.findOneZone(id);
 		List<Unit> units = zone.getUnits();
 		Map<Long, List<UnitSettings>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
-		
-		for (Unit unit: units) {
+
+		for (Unit unit : units) {
 			Long unitId = unit.getId();
 			String unitSettings = unit.getSettings();
 			ObjectMapper objectMapper = new ObjectMapper();
-			
-			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+
+			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {
+			});
 			unitSettingMap.put(unitId, settings);
-			
+
 			String unitMetrics = unit.getMetrics();
 			ObjectMapper mapper = new ObjectMapper();
 			WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
-			
+
 			WellData wellData = wellDataWrapper.getWellDataByName("well_production");
 			wellProductionMap.put(unitId, wellData.getValue());
 
 		}
-		
+
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", unitString.concat(zoneString).concat(zone.getName()));
 		model.addAttribute("units", units);
@@ -106,7 +109,33 @@ public class ZoneController {
 		model.addAttribute("wellData", wellProductionMap);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "unit/listar";
+		return "unit/list";
+	}
+
+	@GetMapping("/form/{zoneId}")
+	public String editZone(@PathVariable(value = "zoneId") Long zoneId, Model model, RedirectAttributes flash) {
+
+		Zone zone = unitService.findOneZone(zoneId);
+		if (zone == null) {
+			return "redirect:/list";
+		}
+
+		model.addAttribute("zone", zone);
+		model.addAttribute("title", "Create Oil Field ");
+		model.addAttribute("message", "Create Oil Field");
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
+		return "zone/form";
+	}
+
+	@GetMapping("/form")
+	public String createZone(Model model, RedirectAttributes flash) {
+
+		model.addAttribute("title", "Create Oil Field ");
+		model.addAttribute("message", "Create Oil Field");
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
+		return "zone/new";
 	}
 
 }

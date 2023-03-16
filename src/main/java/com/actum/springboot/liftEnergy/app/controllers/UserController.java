@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
@@ -41,6 +43,33 @@ public class UserController {
 		model.addAttribute("message", messageString);
 		model.addAttribute("users", usuarios);
 		model.addAttribute("eventsUnattended", eventsUnattended);
-		return "user/listar";
+		
+		return "user/list";
+	}
+	
+	@GetMapping("/form/{userId}")
+	public String editUser(@PathVariable(value = "userId") Long userId, Model model, RedirectAttributes flash) {
+
+		User user = unitService.findOneUser(userId);
+		if (user == null) {
+			return "redirect:/list";
+		}
+
+		model.addAttribute("user", user);
+		model.addAttribute("title", "Edit User ");
+		model.addAttribute("message", "Edit User");
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
+		return "user/form";
+	}
+	
+	@GetMapping("/form")
+	public String createUser(Model model, RedirectAttributes flash) {
+				
+		model.addAttribute("title", "Create User ");
+		model.addAttribute("message", "Create User");
+		model.addAttribute("eventsUnattended", eventsUnattended);
+		
+		return "user/new";
 	}
 }

@@ -20,6 +20,9 @@
 
 				<h1 th:text="${message}"></h1>
 
+				<a th:href="@{/zona/form}"
+					class="btn btn-success btn-xs" th:text="'Create New Oil Field'"></a>
+
 				<div>
 					<table class="table table-bordered table-striped table-hover my-4">
 						<thead class="thead-dark">
@@ -27,25 +30,25 @@
 								<th>Id</th>
 								<th>Location</th>
 								<th>Productivity</th>
-								<th>Operation Mode</th>
-								<th>Status</th>
 								<th>Enabled</th>
-								<th>Edit Oil Well</th>
-								<th>Delete Oil Well</th>
+								<th>Edit Oil Field</th>
+								<th>Delete Oil Field</th>
+								<th>Oil Wells</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="unit: ${units}"
-								th:style="${wellData.get(unit.id) lt 2200} ? 'background-color: rgb(255, 150, 150);' : ''">
-								<td><a class="btn btn-primary btn-xs"
-									th:href="@{'/unidad/ver/' + ${unit.id}}" th:text="${unit.id}"></a></td>
-								<td th:text="${unit.latitude}+ ' ' +${unit.longitude}"></td>
-								<td th:text="${wellData.get(unit.id)}+' BPD'"></td>
-								<td th:text="'Automatic'"></td>
-								<td th:text="'Idle'"></td>
-								<td th:text="${unit.enabled}"></td>
-								<td><a class="btn btn-info btn-xs" th:text="'Edit'"></a></td>
+							<tr th:each="zone: ${zones}"
+								th:style="${zone.production lt 10000} ? 'background-color: rgb(255, 150, 150);' : ''">
+								<td th:text=${zone.id}></td>
+								<td th:text="${zone.latitude}+ ' ' +${zone.longitude}"></td>
+								<td th:text="${zone.production}+' BPD'"></td>
+								<td th:text="${zone.enabled}"></td>
+								<td><a class="btn btn-info btn-xs"
+									th:href="@{'/zona/form/' + ${zone.id}}" th:text="'Edit'"></a></td>
 								<td><a class="btn btn-danger btn-xs" th:text="'Delete'"></a></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{'/zona/' + ${zone.id} + '/listar-unidades'}"
+									th:text="'List Oil Wells'">></a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -58,4 +61,3 @@
 
 	<footer th:replace="layout/layout :: footer"></footer>
 </body>
-</html>

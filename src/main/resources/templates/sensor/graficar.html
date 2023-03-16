@@ -16,42 +16,56 @@
 		<main class="main">
 			<!-- Breadcrumb-->
 
-			<div class="card">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-sm-5">
-							<h4 class="card-title mb-0">Sensor Chart</h4>
-							<div class="small text-muted">March 2023</div>
+			<div class="container my-2">
+
+				<h1 th:text="${message}"></h1>
+
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-5">
+								<h4 class="card-title mb-0">Sensor Chart</h4>
+								<div class="small text-muted">March 2023</div>
+							</div>
+							<!-- /.col-->
+							<div class="col-sm-7 d-none d-md-block">
+								<button class="btn btn-primary float-right" type="button">
+									<i class="icon-cloud-download"></i>
+								</button>
+								<div class="btn-group btn-group-toggle float-right mr-3"
+									data-toggle="buttons">
+									<label class="btn btn-outline-secondary"> <input
+										id="option1" type="radio" name="options" value="day"
+										autocomplete="off"> Day
+									</label> <label class="btn btn-outline-secondary active"> <input
+										id="option2" type="radio" name="options" value="week"
+										autocomplete="off" checked=""> Week
+									</label> <label class="btn btn-outline-secondary"> <input
+										id="option3" type="radio" name="options" value="month"
+										autocomplete="off"> Month
+									</label> <label class="btn btn-outline-secondary"> <input
+										id="option4" type="radio" name="options" value="year"
+										autocomplete="off"> Year
+									</label>
+								</div>
+							</div>
+							<!-- /.col-->
 						</div>
-						<!-- /.col-->
-						<div class="col-sm-7 d-none d-md-block">
-							<button class="btn btn-primary float-right" type="button">
-								<i class="icon-cloud-download"></i>
-							</button>
-							<div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                                   <label class="btn btn-outline-secondary">
-                                       <input id="option1" type="radio" name="options" value="day" autocomplete="off"> Day
-                                   </label>
-                                   <label class="btn btn-outline-secondary active">
-                                       <input id="option2" type="radio" name="options" value="week" autocomplete="off" checked=""> Week
-                                   </label>
-                                   <label class="btn btn-outline-secondary">
-                                       <input id="option3" type="radio" name="options" value="month" autocomplete="off"> Month
-                                   </label>
-                                   <label class="btn btn-outline-secondary">
-                                       <input id="option4" type="radio" name="options" value="year" autocomplete="off"> Year
-                                   </label>
-                               </div>
+						<!-- /.row-->
+						<div class="chart-wrapper"
+							style="height: 300px; margin-top: 40px;">
+							<canvas class="chart" id="sensors-chart" height="300"></canvas>
 						</div>
-						<!-- /.col-->
 					</div>
-					<!-- /.row-->
-					<div class="chart-wrapper" style="height: 300px; margin-top: 40px;">
-						<canvas class="chart" id="sensors-chart" height="300"></canvas>
+					<div class="card-footer">
+						<ul>
+							<li><strong>Oil Well Status:</strong> Running</li>
+							<li><strong>Dinagraph Diagnostic:</strong> Full Pump</li>
+						</ul>
 					</div>
 				</div>
-			</div>
 
+			</div>
 
 		</main>
 		<aside th:replace="layout/layout :: aside"></aside>

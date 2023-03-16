@@ -15,38 +15,44 @@
 		<div th:replace="layout/layout :: sidebar"></div>
 		<main class="main">
 			<!-- Breadcrumb-->
+			<div class="container my-2">
 
-			<div class="card">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-sm-5">
-							<h4 class="card-title mb-0">Dinagraph Chart From Oil Well</h4>
-							<div class="small text-muted">March 2023</div>
+				<h1 th:text="${message}"></h1>
+
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-5">
+								<h4 class="card-title mb-0">Dinagraph Chart From Oil Well</h4>
+								<div class="small text-muted">March 2023</div>
+							</div>
+							<!-- /.col-->
+							<div class="col-sm-7 d-none d-md-block">
+								<button class="btn btn-primary float-right" type="button">
+									<i class="icon-cloud-download"></i>
+								</button>
+							</div>
+							<!-- /.col-->
 						</div>
-						<!-- /.col-->
-						<div class="col-sm-7 d-none d-md-block">
-							<button class="btn btn-primary float-right" type="button">
-								<i class="icon-cloud-download"></i>
-							</button>
-						</div>
-						<!-- /.col-->
+						<!-- /.row-->
+						<img style="width: 100%; height: 25vw; object-fit: fill;"
+							src='https://www.linkpicture.com/q/2023-03-14_12h04_03.png'
+							type='image'>
+						<!--					<div class="chart-wrapper" style="height: 300px; margin-top: 40px;">-->
+						<!--						<canvas class="chart" id="dinagraph-chart" height="300"></canvas>-->
+						<!--					</div>-->
 					</div>
-					<!-- /.row-->
-					<img src='https://www.linkpicture.com/q/2023-03-14_12h04_03.png' type='image'>
-<!--					<div class="chart-wrapper" style="height: 300px; margin-top: 40px;">-->
-<!--						<canvas class="chart" id="dinagraph-chart" height="300"></canvas>-->
-<!--					</div>-->
-				</div>
-				<div class="card-footer">
-					<ul>
-					  <li><strong>Oil Well Status:</strong> Running</li>
-					  <li><strong>Dinagraph Diagnostic:</strong> Gas Lock</li>
-					  <li><strong>Working Hours:</strong> 100</li>
-					</ul>
-					<a th:href="@{../../unidad/1/dinagraphic-analisis}" style="display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; border-radius:5px; text-decoration:none;">Adjust Pump Unit</a>
+					<div class="card-footer">
+						<ul>
+							<li><strong>Oil Well Status:</strong> Running</li>
+							<li><strong>Dinagraph Diagnostic:</strong> Gas Lock</li>
+							<li><strong>Working Hours:</strong> 100</li>
+						</ul>
+						<a th:href="@{../../unidad/1/dinagraphic-analisis}"
+							class="btn btn-info btn-xs" th:text="'Adjust Pump Unit'"></a>
+					</div>
 				</div>
 			</div>
-
 
 		</main>
 		<aside th:replace="layout/layout :: aside"></aside>

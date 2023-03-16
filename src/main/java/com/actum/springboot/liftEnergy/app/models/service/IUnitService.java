@@ -59,6 +59,8 @@ public interface IUnitService {
 	public List<ZoneNameAndId> findEnabledZones();
 
 	public List<User> findAllUsers();
+	
+	public User findOneUser(Long id);
 
 	public User findUserByName(String name);
 	

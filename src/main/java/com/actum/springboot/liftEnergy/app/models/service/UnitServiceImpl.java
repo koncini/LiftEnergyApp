@@ -262,4 +262,9 @@ public class UnitServiceImpl implements IUnitService {
 		return unitEventDao.countByEventAttended(false);
 	}
 
+	@Override
+	public User findOneUser(Long id) {
+		return userDao.findById(id).orElse(null);
+	}
+
 }
