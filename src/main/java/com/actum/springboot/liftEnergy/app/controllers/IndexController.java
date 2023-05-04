@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.actum.springboot.liftEnergy.app.clients.CommoditiesClient;
 import com.actum.springboot.liftEnergy.app.models.entity.ExchangeRateData;
-import com.actum.springboot.liftEnergy.app.models.entity.ExchangeRateWrapper;
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
@@ -92,18 +91,20 @@ public class IndexController {
 			zones = unitService.findTop5ZonesByProductionAndUserId(currentUser.getId());
 		}
 
-		String commoditiesData = commoditiesClient.getCommoditiesData();
+		String brentoilResponse = commoditiesClient.getCommoditiesData("BRENT", "daily");
+		String wtioilResponse = commoditiesClient.getCommoditiesData("WTI", "daily");
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		ExchangeRateWrapper exchangeRates = objectMapper.readValue(commoditiesData, ExchangeRateWrapper.class);
 
-		ExchangeRateData exchangeRateData = exchangeRates.getData();
+		ExchangeRateData brentoilData = objectMapper.readValue(brentoilResponse, ExchangeRateData.class);
+		ExchangeRateData wtioilData = objectMapper.readValue(wtioilResponse, ExchangeRateData.class);
 		
 		model.addAttribute("zones", zones);
 		model.addAttribute("title", titleString);
 		model.addAttribute("zoneMessage", zoneMessageString);
 		model.addAttribute("echonomicsMessage", financialMessageString);
-		model.addAttribute("exchangeRateData", exchangeRateData.getRates());
+		model.addAttribute("brentoilRateData", brentoilData.getData());
+		model.addAttribute("wtioilRateData", wtioilData.getData());
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "index";

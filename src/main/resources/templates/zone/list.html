@@ -28,6 +28,7 @@
 						<thead class="thead-dark">
 							<tr>
 								<th>Id</th>
+								<th>Name</th>
 								<th>Location</th>
 								<th>Productivity</th>
 								<th>Enabled</th>
@@ -40,6 +41,7 @@
 							<tr th:each="zone: ${zones}"
 								th:style="${zone.production lt 10000} ? 'background-color: rgb(255, 150, 150);' : ''">
 								<td th:text=${zone.id}></td>
+								<td th:text=${zone.name}></td>
 								<td th:text="${zone.latitude}+ ' ' +${zone.longitude}"></td>
 								<td th:text="${zone.production}+' BPD'"></td>
 								<td th:text="${zone.enabled}"></td>

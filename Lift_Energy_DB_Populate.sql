@@ -2,11 +2,24 @@
 CREATE TABLE `db_lift_energy`.`zones` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT,
-  `name` VARCHAR(45) NOT NULL,
+  `production` VARCHAR(45) NOT NULL,
   `latitude` DECIMAL(18,9) NOT NULL,
   `longitude` DECIMAL(18,9) NOT NULL,
   `enabled` BOOLEAN NOT NULL DEFAULT 1,
+  `production` BIGINT NOT NULL,
   PRIMARY KEY (`id`)
+  );
+
+CREATE TABLE `db_lift_energy`.`zones_production` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `zone_id` INT NOT NULL,
+  `production` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_production_zones`
+    FOREIGN KEY (`zone_id`)
+    REFERENCES `db_lift_energy`.`zones` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
   );
 
  CREATE TABLE `db_lift_energy`.`units` (
@@ -45,6 +58,8 @@ INSERT INTO units (zone_id, settings, metrics, latitude, longitude, enabled) VAL
 INSERT INTO units (zone_id, settings, metrics, latitude, longitude, enabled) VALUES (3, '[{"name":"working_hours","value":100},{"name":"work_mode","value":"continuous"},{"name":"dinagraph_enabled","value":"true"},{"name":"well_depth_detection_enabled","value":"false"},{"name":"meassuring_mode","value":"daily"},{"name":"event_warnings","value":"true"}]', '{"well_data":[{"name":"crude_density","unit":"lb/gal","value":50},{"name":"crude_viscosity","unit":"API","value":30},{"name":"HS2_level","unit":"ppm","value":5},{"name":"sand_content","unit":"ppm","value":10},{"name":"well_temperature","unit":"°F","value":56},{"name":"water_proportion","unit":"%","value":8},{"name":"well_depth","unit":"ft","value":1000},{"name":"well_pressure","unit":"psi","value":20},{"name":"well_production","unit":"BPD","value":4}],"unit_data":[{"name":"company","value":"Lift Energy"},{"name":"stroke_length","unit":"in","value":100.5},{"name":"artificial_lift_type","value":"conventional"},{"name":"rotation","value":"cw"},{"name":"counter_balance_effect","unit":"Klb","value":9.39},{"name":"counter_balance_moment","unit":"Kin-lb","value":188.434}],"motor_data":[{"name":"motor_type","value":"electric"},{"name":"motor_rating","unit":"HP","value":25},{"name":"full_load_amps","unit":"A","value":65},{"name":"rated_rpm","unit":"rpm","value":1800},{"name":"voltage","unit":"V","value":440},{"name":"frequency","unit":"Hz","value":60},{"name":"phase","value":3}],"power_cost":[{"name":"consumption","unit":"peso/kwh","value":750},{"name":"demand","unit":"kw","value":6000}]}', '4.311573551410244', '-72.09491823968902', 0);
 INSERT INTO units (zone_id, settings, metrics, latitude, longitude, enabled) VALUES (4, '[{"name":"working_hours","value":100},{"name":"work_mode","value":"continuous"},{"name":"dinagraph_enabled","value":"true"},{"name":"well_depth_detection_enabled","value":"false"},{"name":"meassuring_mode","value":"daily"},{"name":"event_warnings","value":"true"}]', '{"well_data":[{"name":"crude_density","unit":"lb/gal","value":50},{"name":"crude_viscosity","unit":"API","value":30},{"name":"HS2_level","unit":"ppm","value":5},{"name":"sand_content","unit":"ppm","value":10},{"name":"well_temperature","unit":"°F","value":56},{"name":"water_proportion","unit":"%","value":8},{"name":"well_depth","unit":"ft","value":1000},{"name":"well_pressure","unit":"psi","value":20},{"name":"well_production","unit":"BPD","value":4}],"unit_data":[{"name":"company","value":"Lift Energy"},{"name":"stroke_length","unit":"in","value":100.5},{"name":"artificial_lift_type","value":"conventional"},{"name":"rotation","value":"cw"},{"name":"counter_balance_effect","unit":"Klb","value":9.39},{"name":"counter_balance_moment","unit":"Kin-lb","value":188.434}],"motor_data":[{"name":"motor_type","value":"electric"},{"name":"motor_rating","unit":"HP","value":25},{"name":"full_load_amps","unit":"A","value":65},{"name":"rated_rpm","unit":"rpm","value":1800},{"name":"voltage","unit":"V","value":440},{"name":"frequency","unit":"Hz","value":60},{"name":"phase","value":3}],"power_cost":[{"name":"consumption","unit":"peso/kwh","value":750},{"name":"demand","unit":"kw","value":6000}]}', '4.311573551410244', '-72.09491823968902', 1);
 
+UPDATE units SET metrics = JSON_SET(metrics, '$.well_data[8].value', FLOOR(RAND()*(10000-2000+1)+2000));
+
 /*Sensor and SensorData*/
 CREATE TABLE `db_lift_energy`.`sensors` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -75,14 +90,18 @@ CREATE TABLE `db_lift_energy`.`sensors_data` (
     ON UPDATE CASCADE
 );
 
-INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(1, "Motor_Torque", '', 1);
-INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(3, "Motor_Torque", '', 1);
-INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(5, "Gas_Detection", '', 0);
-INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(7, "Gas_Detection", '', 1);
-INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(1, "Rod_Torque", '', 1);
-INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(3, "Rod_Torque", '', 1);
-INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(1, "Rod_Acceleration", '', 1);
-INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(3, "Rod_Acceleration", '', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(1, "Motor_Torque", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(3, "Motor_Torque", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(5, "Gas_Detection", '{"min_value": 5 , "max_value": 4}', 0);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(12, "Gas_Detection", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(12, "Rod_Torque", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(12, "Motor_Torque", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(12, "Rod_Aceleration", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(12, "Rod_Position", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(12, "Well_Pressure", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(12, "Well_Temperature", '{"min_value": 5 , "max_value": 4}', 1);
+INSERT INTO sensors (unit_id, type, settings, enabled) VALUES(12, "Motor_Vibration", '{"min_value": 5 , "max_value": 4}', 1);
+
 
 INSERT INTO sensors_data (sensor_id, data, unit, dinagraph_reading, time) VALUES(9, 0, 'in', 1, '2023-02-22 15:40:10');
 INSERT INTO sensors_data (sensor_id, data, unit, dinagraph_reading, time) VALUES(9, 0.18, 'in', 1, '2023-02-22 15:40:10');
@@ -269,7 +288,7 @@ CREATE TABLE `db_lift_energy`.`unit_notes` (
 CREATE TABLE `db_lift_energy`.`unit_events` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `unit_id` INT NOT NULL,
-  `event_name` VARCHAR(10) NOT NULL,
+  `event_name` VARCHAR(20) NOT NULL,
   `event_detail` VARCHAR(280) NOT NULL,
   `event_priority` TINYINT(10) NOT NULL,
   `event_attended` BOOLEAN NOT NULL,
@@ -281,6 +300,11 @@ CREATE TABLE `db_lift_energy`.`unit_events` (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+INSERT INTO unit_notes (unit_id, user_id, note, time) VALUES (1, 1, 'First Running Test For Oil Well', '2023-03-15 15:40:10');
+INSERT INTO unit_notes (unit_id, user_id, note, time) VALUES (1, 2, 'Pump Unit Need Maintenance', '2023-03-15 15:40:10');
+
+INSERT INTO unit_events (unit_id, event_name, event_detail, event_priority, event_attended, time) VALUES (1, 'Variable Over Range', 'Variable Rod_Torque From Oil Well 1 Under Range', 3, 0, '2023-03-15 15:40:10');
 
 /*Nodes*/
 CREATE TABLE `db_lift_energy`.`nodes` (

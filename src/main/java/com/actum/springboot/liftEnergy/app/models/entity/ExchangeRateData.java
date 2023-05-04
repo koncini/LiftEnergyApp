@@ -1,54 +1,46 @@
 package com.actum.springboot.liftEnergy.app.models.entity;
 
-import java.util.Map;
+import java.util.List;
 
 public class ExchangeRateData {
 
-	private boolean success;
-	private long timestamp;
-	private String date;
-	private String base;
-	private Map<String, Double> rates;
+	private String name;
+	private String interval;
 	private String unit;
+	private List<Data> data;
 
-	public boolean isSuccess() {
-		return success;
+	public static class Data {
+		private String date;
+		private String value;
+		public String getDate() {
+			return date;
+		}
+		public void setDate(String date) {
+			this.date = date;
+		}
+		public String getValue() {
+			return value;
+		}
+		public void setValue(String value) {
+			this.value = value;
+		}
+		
 	}
 
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public String getName() {
+		return name;
 	}
 
-	public long getTimestamp() {
-		return timestamp;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
+	public String getInterval() {
+		return interval;
 	}
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public String getBase() {
-		return base;
-	}
-
-	public void setBase(String base) {
-		this.base = base;
-	}
-
-	public Map<String, Double> getRates() {
-		return rates;
-	}
-
-	public void setRates(Map<String, Double> rates) {
-		this.rates = rates;
+	public void setInterval(String interval) {
+		this.interval = interval;
 	}
 
 	public String getUnit() {
@@ -57,6 +49,14 @@ public class ExchangeRateData {
 
 	public void setUnit(String unit) {
 		this.unit = unit;
+	}
+
+	public List<Data> getData() {
+		return data;
+	}
+
+	public void setData(List<Data> data) {
+		this.data = data;
 	}
 
 }
