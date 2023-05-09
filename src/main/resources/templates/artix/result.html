@@ -18,8 +18,36 @@
 
 			<div class="container my-2">
 				<h1 th:text="${message}"></h1>
-
-
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-5">
+								<h4 class="card-title mb-0">Dinagraph Sample Chart</h4>
+							</div>
+							<!-- /.col-->
+							<div class="col-sm-7 d-none d-md-block">
+								<button class="btn btn-primary float-right" type="button">
+									<i class="icon-cloud-download"></i>
+								</button>
+							</div>
+							<!-- /.col-->
+						</div>
+						<img th:if="${#strings.length(sample.image)}" th:src="@{'/uploads/' + ${sample.image}}"
+							th:alt="${sample.name}">
+						<!-- /.row-->
+						<div class="col-sm-5">
+							<h4 class="card-title mb-0">Dinagraph Sample AI Converted</h4>
+						</div>
+						<div class="chart-wrapper"
+							style="height: 300px; margin-top: 40px;">
+							<canvas class="chart" id="dinagraph_sample_chart" height="300"></canvas>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item" th:text="${sample.name}"></li>
+							<li class="list-group-item" th:text="${sample.description}"></li>
+						</ul>
+					</div>
+				</div>
 			</div>
 
 		</main>
