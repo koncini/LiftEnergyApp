@@ -7,16 +7,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.actum.springboot.liftEnergy.app.models.dao.IDinagraphSampleDao;
 import com.actum.springboot.liftEnergy.app.models.dao.ISensorDao;
 import com.actum.springboot.liftEnergy.app.models.dao.ISensorDataDao;
+import com.actum.springboot.liftEnergy.app.models.dao.ISettingDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitEventDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitNoteDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUserDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
+import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
+import com.actum.springboot.liftEnergy.app.models.entity.Setting;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
@@ -48,6 +52,12 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Autowired
 	private IUnitEventDao unitEventDao;
+	
+	@Autowired
+	private ISettingDao settingDao;
+	
+	@Autowired
+	private IDinagraphSampleDao dinagraphSampleDao;
 
 	@Override
 	@Transactional
@@ -170,61 +180,73 @@ public class UnitServiceImpl implements IUnitService {
 	}
 
 	@Override
+	@Transactional
 	public List<Zone> findZonesbyUserId(Long id) {
 		return (List<Zone>) zoneDao.findAllByUserId(id);
 	}
 
 	@Override
+	@Transactional
 	public User findUserByName(String name) {
 		return userDao.findByUsername(name);
 	}
 
 	@Override
+	@Transactional
 	public void saveUnitNote(UnitNote note) {
 		unitNoteDao.save(note);
 	}
 
 	@Override
+	@Transactional
 	public List<UnitNote> findAllUnitNotes() {
 		return (List<UnitNote>) unitNoteDao.findAll();
 	}
 
 	@Override
+	@Transactional
 	public void deleteUnitNote(Long id) {
 		unitNoteDao.deleteById(id);
 	}
 
 	@Override
+	@Transactional
 	public UnitNote findOneUnitNote(Long id) {
 		return unitNoteDao.findById(id).orElse(null);
 	}
 
 	@Override
+	@Transactional
 	public void saveUnitEvent(UnitEvent event) {
 		unitEventDao.save(event);
 	}
 
 	@Override
+	@Transactional
 	public List<UnitEvent> findAllUnitEvents() {
 		return (List<UnitEvent>) unitEventDao.findAll();
 	}
 
 	@Override
+	@Transactional
 	public void deleteUnitEvent(Long id) {
 		unitEventDao.deleteById(id);
 	}
 
 	@Override
+	@Transactional
 	public UnitEvent findOneUnitEvent(Long id) {
 		return unitEventDao.findById(id).orElse(null);
 	}
 
 	@Override
+	@Transactional
 	public List<UnitNote> getNotesByUnit(Long id) {
 		return unitNoteDao.findAllNotesByUnitId(id);
 	}
 
 	@Override
+	@Transactional
 	public List<SensorData> getSensorDataFromToday(Long sensorId) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -237,34 +259,88 @@ public class UnitServiceImpl implements IUnitService {
 	}
 
 	@Override
+	@Transactional
 	public List<Zone> findTop5ZonesByProduction() {
 		return zoneDao.findTop5ByOrderByProductionDesc();
 	}
 
 	@Override
+	@Transactional
 	public List<Zone> findTop5ZonesByProductionAndUserId(Long id) {
 		return zoneDao.findTop5ByUserIdOrderByProductionDesc(id);
 	}
 
 	@Override
+	@Transactional
 	public List<SensorData> getSensorDataFromCurrentMonth(Long sensorId) {
 		Date now = new Date();
 		return sensorDataDao.findBySensorIdAndTimeStampCurrentMonth(sensorId, now);
 	}
 
 	@Override
+	@Transactional
 	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId) {
 		return sensorDataDao.findBySensorIdAndTimeStampCurrentYear(sensorId, 2023);
 	}
 
 	@Override
+	@Transactional
 	public long getCountOfUnattendedEvents() {
 		return unitEventDao.countByEventAttended(false);
 	}
 
 	@Override
+	@Transactional
 	public User findOneUser(Long id) {
 		return userDao.findById(id).orElse(null);
+	}
+	
+	@Override
+	@Transactional
+	public void saveSetting(Setting setting) {
+		settingDao.save(setting);
+	}
+
+	@Override
+	@Transactional
+	public List<Setting> findAllSettings() {
+		return (List<Setting>) settingDao.findAll();
+	}
+
+	@Override
+	@Transactional
+	public void deleteSetting(Long id) {
+		settingDao.deleteById(id);
+	}
+	
+	@Override
+	@Transactional
+	public Setting findOneSetting(Long id) {
+		return settingDao.findById(id).orElse(null);
+	}
+	
+	@Override
+	@Transactional
+	public void saveDinagraphSample(DinagraphSample dinagraphSample) {
+		dinagraphSampleDao.save(dinagraphSample);
+	}
+
+	@Override
+	@Transactional
+	public List<DinagraphSample> findAllDinagraphSamples() {
+		return (List<DinagraphSample>) dinagraphSampleDao.findAll();
+	}
+
+	@Override
+	@Transactional
+	public void deleteDinagraphSample(Long id) {
+		dinagraphSampleDao.deleteById(id);
+	}
+	
+	@Override
+	@Transactional
+	public DinagraphSample findOneDinagraphSample(Long id) {
+		return dinagraphSampleDao.findById(id).orElse(null);
 	}
 
 }

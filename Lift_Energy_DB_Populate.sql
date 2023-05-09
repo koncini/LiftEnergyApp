@@ -336,7 +336,7 @@ CREATE TABLE `db_lift_energy`.`users` (
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE
 );
 
-  CREATE TABLE `db_lift_energy`.`authorities` (
+CREATE TABLE `db_lift_energy`.`authorities` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `authority` VARCHAR(45) NOT NULL,
@@ -346,7 +346,8 @@ CREATE TABLE `db_lift_energy`.`users` (
     FOREIGN KEY (`user_id`)
     REFERENCES `db_lift_energy`.`users` (`id`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE);
+    ON UPDATE CASCADE
+);
 
 /*Users and authorities*/
 INSERT INTO users (username, name, last_name, email, password, enabled, last_login) VALUES ('admin', 'Sebastian', 'Rincon', 'sebastian.rincon@actum.com.co', '$2a$10$uoxBSo1vDV5UvB8VTPItu.8jLzJwMVfAnllZbl4yjpYWcpmXV1T1S', 1, '2023-02-22 15:40:10');
@@ -366,3 +367,22 @@ INSERT INTO authorities (user_id, authority) VALUES (3, 'ROLE_MANAGER');
 INSERT INTO authorities (user_id, authority) VALUES (4, 'ROLE_USER');
 INSERT INTO authorities (user_id, authority) VALUES (4, 'ROLE_STAFF');
 INSERT INTO authorities (user_id, authority) VALUES (2, 'ROLE_USER');
+
+/*Settings and Dinagraph*/
+CREATE TABLE `db_lift_energy`.`settings` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` INT NOT NULL,  
+  `value` VARCHAR(5000) NOT NULL,
+  `enabled` BOOLEAN NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `db_lift_energy`.`dinagraph_samples` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(15),  
+  `data` VARCHAR(5000) NOT NULL,
+  `image` VARCHAR(64),
+  PRIMARY KEY (`id`)
+);
+  
+  

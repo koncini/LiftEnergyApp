@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
+import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
+import com.actum.springboot.liftEnergy.app.models.entity.Setting;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
@@ -89,5 +91,21 @@ public interface IUnitService {
 	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId);
 	
 	public long getCountOfUnattendedEvents();
+
+	public void saveSetting(Setting setting);
+
+	public List<Setting> findAllSettings();
+
+	public void deleteSetting(Long id);
+
+	public Setting findOneSetting(Long id);
+
+	public List<DinagraphSample> findAllDinagraphSamples();
+
+	public void saveDinagraphSample(DinagraphSample dinagraphSample);
+
+	public void deleteDinagraphSample(Long id);
+
+	public DinagraphSample findOneDinagraphSample(Long id);
 			
 }
