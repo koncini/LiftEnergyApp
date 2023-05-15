@@ -3,7 +3,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<head th:replace="layout/layout :: head"></head>
+	<head th:replace="layout/layout :: head"></head>
+	<script>
+		var chartSelection = "dinagraphSample";
+	    var sampleId = "[[${sample.id}]]";
+	</script>
 </head>
 
 <body

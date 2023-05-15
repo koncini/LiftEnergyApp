@@ -78,12 +78,12 @@ public class SensorDataController {
 
 	@GetMapping("/get-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
-		List<SensorData> todayData = unitService.getSensorDataFromCurrentYear(sensorId);
+		List<SensorData> sennsorData = unitService.getSensorDataFromCurrentYear(sensorId);
 		String fetchUrl = "http://localhost:8090/api/sensors-data/get-data/" + sensorId;
 		Map<String, Object> responseBody = new HashMap<>();
-		responseBody.put("data", todayData);
+		responseBody.put("data", sennsorData);
 		responseBody.put("fetchUrl", fetchUrl);
-		return ResponseEntity.ok(todayData);
+		return ResponseEntity.ok(sennsorData);
 	}
 
 	@GetMapping("/get-dinagraph-data/{unit_id}")

@@ -3,7 +3,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<head th:replace="layout/layout :: head"></head>
+	<head th:replace="layout/layout :: head"></head>
+	<script>
+		var chartSelection = "main";
+	</script>
 </head>
 
 <body
@@ -52,7 +55,7 @@
 										th:text="${wtioilRateData[0].getValue()} + ' dollars per barrel'"
 										class="text-value"></div>
 								</div>
-								<div class="chart-wrapper mt-3" style="height: 70px;">
+								<div class="chart-wrapper mt-3 mx-3" style="height: 70px;">
 									<canvas class="chart" id="card-chart3" height="70"></canvas>
 								</div>
 							</div>

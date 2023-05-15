@@ -38,6 +38,18 @@ CREATE TABLE `db_lift_energy`.`zones_production` (
     ON UPDATE CASCADE
 );
 
+CREATE TABLE `db_lift_energy`.`units_production` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `unit_id` INT NOT NULL,
+  `production` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_production_units`
+    FOREIGN KEY (`unit_id`)
+    REFERENCES `db_lift_energy`.`units` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+  );
+
 INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('puerto_lopez', 1, '4.101343084890358', '-72.96195644931187', 1);
 INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('puerto_gaitan', 3, '4.311573551410244', '-72.09491823968902', 1);
 INSERT INTO zones (name, user_id, latitude, longitude, enabled) VALUES ('puerto_gaitan_2', 3, '4.311573551410244', '-72.09491823968902', 1);

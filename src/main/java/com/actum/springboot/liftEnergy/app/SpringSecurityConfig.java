@@ -35,6 +35,7 @@ public class SpringSecurityConfig {
 			.requestMatchers(HttpMethod.POST, "/pushover/message**").permitAll()
 			.requestMatchers("/units/**").hasAnyRole("USER")
 			.requestMatchers("/zone/**").hasAnyRole("ADMIN")
+			.requestMatchers("/artix/**").hasAnyRole("ADMIN")
 			.anyRequest().authenticated().and()
 			.formLogin().successHandler(successHandler).loginPage("/login").permitAll().and()
 			.csrf().disable()

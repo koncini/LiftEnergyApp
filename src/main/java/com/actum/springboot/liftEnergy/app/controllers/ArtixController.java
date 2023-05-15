@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,7 +46,7 @@ public class ArtixController {
 	public String artixResult(@PathVariable(value="id") Long id, Map<String, Object> model) {
 		DinagraphSample dinagraphSample = unitService.findOneDinagraphSample(id);
 		if(dinagraphSample==null) {
-			return "redirect:form";
+			return "redirect:../form";
 		}
 		
 		model.put("sample", dinagraphSample);
@@ -71,8 +70,7 @@ public class ArtixController {
 	public String save(@Valid DinagraphSample dinagraphSample, Model model, @RequestParam("file") MultipartFile sample) {
 		
 		if(!sample.isEmpty()) {
-			Path resourceDirectory = Paths.get("src//main//resources//static//uploads");
-			String rootPath = resourceDirectory.toFile().getAbsolutePath();
+			String rootPath = "C://temp//uploads";
 			String sampleName = sample.getOriginalFilename();
 			try {
 				byte[] bytes = sample.getBytes();

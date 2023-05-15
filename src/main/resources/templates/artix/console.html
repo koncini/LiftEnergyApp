@@ -70,6 +70,7 @@
 							<th>Id</th>
 							<th>Dinagraph Sample</th>
 							<th>Details</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -78,6 +79,7 @@
 							<td th:text="${sample.name}"></td>
 							<td><a class="btn btn-info btn-xs"
 								th:href="@{'/artix/result/' + ${sample.id}}" th:text="'Details'"></a></td>
+							<td><a class="btn btn-danger btn-xs" th:text="'Delete'"></a></td>
 						</tr>
 					</tbody>
 				</table>
