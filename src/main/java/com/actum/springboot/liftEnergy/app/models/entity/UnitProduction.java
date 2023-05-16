@@ -13,19 +13,19 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "zones_production")
-public class ZoneProduction implements Serializable {
+@Table(name = "units_production")
+public class UnitProduction implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Zone zone;
+	private Unit unit;
 
 	private Long production;
 	
@@ -41,12 +41,12 @@ public class ZoneProduction implements Serializable {
 		this.id = id;
 	}
 
-	public Zone getZone() {
-		return zone;
+	public Unit getUnit() {
+		return unit;
 	}
 
-	public void setZone(Zone zone) {
-		this.zone = zone;
+	public void setUnit(Unit unit) {
+		this.unit = unit;
 	}
 
 	public Long getProduction() {
@@ -64,5 +64,5 @@ public class ZoneProduction implements Serializable {
 	public void setTimeStamp(Date timeStamp) {
 		this.timeStamp = timeStamp;
 	}
-	
+		
 }

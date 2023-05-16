@@ -1,5 +1,6 @@
 package com.actum.springboot.liftEnergy.app.models.service;
 
+import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +15,11 @@ import com.actum.springboot.liftEnergy.app.models.dao.ISettingDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitEventDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitNoteDao;
+import com.actum.springboot.liftEnergy.app.models.dao.IUnitProductionDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUserDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
+import com.actum.springboot.liftEnergy.app.models.dao.IZoneProductionDao;
 import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
@@ -24,8 +27,10 @@ import com.actum.springboot.liftEnergy.app.models.entity.Setting;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitProduction;
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
+import com.actum.springboot.liftEnergy.app.models.entity.ZoneProduction;
 
 import jakarta.transaction.Transactional;
 
@@ -58,6 +63,12 @@ public class UnitServiceImpl implements IUnitService {
 	
 	@Autowired
 	private IDinagraphSampleDao dinagraphSampleDao;
+	
+	@Autowired
+	private IZoneProductionDao zoneProductionDao;
+	
+	@Autowired
+	private IUnitProductionDao unitProductionDao;
 
 	@Override
 	@Transactional
@@ -255,7 +266,7 @@ public class UnitServiceImpl implements IUnitService {
 		calendar.set(Calendar.MILLISECOND, 0);
 		Date startOfDay = calendar.getTime();
 		Date now = new Date();
-		return sensorDataDao.findBySensorIdAndTimestampBetween(sensorId, startOfDay, now);
+		return sensorDataDao.findBySensorIdAndTimestampCurrentDay(sensorId, startOfDay, now);
 	}
 
 	@Override
@@ -280,7 +291,8 @@ public class UnitServiceImpl implements IUnitService {
 	@Override
 	@Transactional
 	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId) {
-		return sensorDataDao.findBySensorIdAndTimeStampCurrentYear(sensorId, 2023);
+		int year = Year.now().getValue();
+		return sensorDataDao.findBySensorIdAndTimeStampCurrentYear(sensorId, year);
 	}
 
 	@Override
@@ -341,6 +353,110 @@ public class UnitServiceImpl implements IUnitService {
 	@Transactional
 	public DinagraphSample findOneDinagraphSample(Long id) {
 		return dinagraphSampleDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public List<ZoneProduction> findAllZoneProduction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public void saveZoneProduction(ZoneProduction zoneProduction) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteZoneProduction(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	@Transactional
+	public ZoneProduction findOneZoneProduction(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public List<UnitProduction> findAllUnitProduction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public void saveUnitProduction(UnitProduction unitProduction) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteUnitProduction(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	@Transactional
+	public UnitProduction findOneUnitProduction(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		Date startOfDay = calendar.getTime();
+		Date now = new Date();
+		return zoneProductionDao.findByZoneIdAndTimestampCurrentDay(zoneId, startOfDay, now);
+	}
+
+	@Override
+	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId) {
+		Date now = new Date();
+		return zoneProductionDao.findByZoneIdAndTimeStampCurrentMonth(zoneId, now);
+	}
+
+	@Override
+	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId) {
+		int year = Year.now().getValue();
+		return zoneProductionDao.findByZoneIdAndTimeStampCurrentYear(zoneId, year);
+	}
+
+	@Override
+	public List<UnitProduction> getUnitProductionFromToday(Long unitId) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		Date startOfDay = calendar.getTime();
+		Date now = new Date();
+		return unitProductionDao.findByUnitIdAndTimestampCurrentDay(unitId, startOfDay, now);
+	}
+
+	@Override
+	public List<UnitProduction> getUnitProductionFromCurrentMonth(Long unitId) {
+		Date now = new Date();
+		return unitProductionDao.findByUnitIdAndTimeStampCurrentMonth(unitId, now);
+	}
+
+	@Override
+	public List<UnitProduction> getUnitProductionFromCurrentYear(Long unitId) {
+		int year = Year.now().getValue();
+		return unitProductionDao.findByUnitIdAndTimeStampCurrentYear(unitId, year);
 	}
 
 }

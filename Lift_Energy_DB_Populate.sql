@@ -14,6 +14,7 @@ CREATE TABLE `db_lift_energy`.`zones_production` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `zone_id` INT NOT NULL,
   `production` BIGINT NOT NULL,
+  `time` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_production_zones`
     FOREIGN KEY (`zone_id`)
@@ -42,6 +43,7 @@ CREATE TABLE `db_lift_energy`.`units_production` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `unit_id` INT NOT NULL,
   `production` BIGINT NOT NULL,
+  `time` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_production_units`
     FOREIGN KEY (`unit_id`)

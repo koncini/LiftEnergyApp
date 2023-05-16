@@ -11,8 +11,10 @@ import com.actum.springboot.liftEnergy.app.models.entity.Setting;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitProduction;
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
+import com.actum.springboot.liftEnergy.app.models.entity.ZoneProduction;
 
 public interface IUnitService {
 
@@ -107,5 +109,32 @@ public interface IUnitService {
 	public void deleteDinagraphSample(Long id);
 
 	public DinagraphSample findOneDinagraphSample(Long id);
+	
+	public List<ZoneProduction> findAllZoneProduction();
+	
+	public void saveZoneProduction (ZoneProduction zoneProduction);
+	
+	public void deleteZoneProduction (Long id);
+	
+	public ZoneProduction findOneZoneProduction(Long id);
+		
+	public List<UnitProduction> findAllUnitProduction();
+	
+	public void saveUnitProduction (UnitProduction unitProduction);
 			
+	public void deleteUnitProduction (Long id);
+
+	public UnitProduction findOneUnitProduction(Long id);
+	
+	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId);
+	
+	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId);
+	
+	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId);
+
+	public List<UnitProduction> getUnitProductionFromToday(Long unitId);
+	
+	public List<UnitProduction> getUnitProductionFromCurrentMonth(Long unitId);
+	
+	public List<UnitProduction> getUnitProductionFromCurrentYear(Long unitId);
 }
