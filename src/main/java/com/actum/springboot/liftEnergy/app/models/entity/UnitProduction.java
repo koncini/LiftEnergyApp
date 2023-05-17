@@ -25,7 +25,8 @@ public class UnitProduction implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Unit unit;
+	@Column(name = "unit_id")
+	private Long unitId;
 
 	private Long production;
 	
@@ -41,12 +42,12 @@ public class UnitProduction implements Serializable{
 		this.id = id;
 	}
 
-	public Unit getUnit() {
-		return unit;
+	public Long getUnitId() {
+		return unitId;
 	}
 
-	public void setUnit(Unit unit) {
-		this.unit = unit;
+	public void setUnitId(Long unitId) {
+		this.unitId = unitId;
 	}
 
 	public Long getProduction() {

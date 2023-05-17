@@ -40,6 +40,8 @@ public interface IUnitService {
 
 	public Unit findOneUnit(Long id);
 
+	public Unit findEnabledUnitById(Long id);
+
 	public void saveSensor(Sensor sensor);
 
 	public List<Sensor> findAllSensors();
@@ -126,6 +128,8 @@ public interface IUnitService {
 
 	public UnitProduction findOneUnitProduction(Long id);
 	
+	public void insertUnitProduction(Long unitId, Double production, Date timeStamp);
+
 	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId);
 	
 	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId);

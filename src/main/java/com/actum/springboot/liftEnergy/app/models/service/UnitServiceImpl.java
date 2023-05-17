@@ -358,105 +358,99 @@ public class UnitServiceImpl implements IUnitService {
 	@Override
 	@Transactional
 	public List<ZoneProduction> findAllZoneProduction() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<ZoneProduction>) zoneProductionDao.findAll();
 	}
 
 	@Override
 	@Transactional
 	public void saveZoneProduction(ZoneProduction zoneProduction) {
-		// TODO Auto-generated method stub
-		
+		zoneProductionDao.save(zoneProduction);
 	}
 
 	@Override
 	@Transactional
 	public void deleteZoneProduction(Long id) {
-		// TODO Auto-generated method stub
-		
+		zoneProductionDao.deleteById(id);		
 	}
 
 	@Override
 	@Transactional
 	public ZoneProduction findOneZoneProduction(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return zoneProductionDao.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
 	public List<UnitProduction> findAllUnitProduction() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<UnitProduction>) unitProductionDao.findAll();
 	}
 
 	@Override
 	@Transactional
 	public void saveUnitProduction(UnitProduction unitProduction) {
-		// TODO Auto-generated method stub
-		
+		unitProductionDao.save(unitProduction);
 	}
 
 	@Override
 	@Transactional
 	public void deleteUnitProduction(Long id) {
-		// TODO Auto-generated method stub
-		
+		unitProductionDao.deleteById(id);		
 	}
 
 	@Override
 	@Transactional
 	public UnitProduction findOneUnitProduction(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return unitProductionDao.findById(id).orElse(null);
 	}
 
 	@Override
+	@Transactional
 	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		Date startOfDay = calendar.getTime();
-		Date now = new Date();
-		return zoneProductionDao.findByZoneIdAndTimestampCurrentDay(zoneId, startOfDay, now);
+		return zoneProductionDao.findByZoneIdAndCurrentDate(zoneId);
 	}
 
 	@Override
+	@Transactional
 	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId) {
-		Date now = new Date();
-		return zoneProductionDao.findByZoneIdAndTimeStampCurrentMonth(zoneId, now);
+		return zoneProductionDao.findByZoneIdAndCurrentMonth(zoneId);
 	}
 
 	@Override
+	@Transactional
 	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId) {
 		int year = Year.now().getValue();
-		return zoneProductionDao.findByZoneIdAndTimeStampCurrentYear(zoneId, year);
+		return zoneProductionDao.findByZoneIdAndYear(zoneId, year);
 	}
 
 	@Override
+	@Transactional
 	public List<UnitProduction> getUnitProductionFromToday(Long unitId) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		Date startOfDay = calendar.getTime();
-		Date now = new Date();
-		return unitProductionDao.findByUnitIdAndTimestampCurrentDay(unitId, startOfDay, now);
+		return unitProductionDao.findByUnitIdAndCurrentDate(unitId);
 	}
 
 	@Override
+	@Transactional
 	public List<UnitProduction> getUnitProductionFromCurrentMonth(Long unitId) {
-		Date now = new Date();
-		return unitProductionDao.findByUnitIdAndTimeStampCurrentMonth(unitId, now);
+		return unitProductionDao.findByUnitIdAndCurrentMonth(unitId);
 	}
 
 	@Override
+	@Transactional
 	public List<UnitProduction> getUnitProductionFromCurrentYear(Long unitId) {
 		int year = Year.now().getValue();
-		return unitProductionDao.findByUnitIdAndTimeStampCurrentYear(unitId, year);
+		return unitProductionDao.findByUnitIdAndYear(unitId, year);
+	}
+
+	@Override
+	@Transactional
+	public Unit findEnabledUnitById(Long id) {
+		return unitDao.findByIdAndEnabledTrue(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public void insertUnitProduction(Long unitId, Double production, Date timeStamp) {
+		unitProductionDao.insertUnitProduction(unitId, production, timeStamp);		
 	}
 
 }

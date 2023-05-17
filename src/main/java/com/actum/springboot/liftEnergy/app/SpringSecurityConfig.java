@@ -31,6 +31,7 @@ public class SpringSecurityConfig {
 		http
 			.authorizeHttpRequests().requestMatchers("/", "/css/**", "/js/**", "/images/**", "/error/**").permitAll()
 			.requestMatchers(HttpMethod.POST, "/api/sensors-data/upload-data/**").permitAll()
+			.requestMatchers(HttpMethod.POST, "/api/unit-production/upload-data/**").permitAll()
 			.requestMatchers(HttpMethod.GET, "/api/sensors-data/get-dinagraph-data/**").permitAll()
 			.requestMatchers(HttpMethod.POST, "/pushover/message**").permitAll()
 			.requestMatchers("/units/**").hasAnyRole("USER")

@@ -25,7 +25,8 @@ public class ZoneProduction implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Zone zone;
+	@Column(name = "zone_id")
+	private Long zoneId;
 
 	private Long production;
 	
@@ -41,12 +42,12 @@ public class ZoneProduction implements Serializable {
 		this.id = id;
 	}
 
-	public Zone getZone() {
-		return zone;
+	public Long getZoneId() {
+		return zoneId;
 	}
 
-	public void setZone(Zone zone) {
-		this.zone = zone;
+	public void setZoneId(Long zoneId) {
+		this.zoneId = zoneId;
 	}
 
 	public Long getProduction() {
