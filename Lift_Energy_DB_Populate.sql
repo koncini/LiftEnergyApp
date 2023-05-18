@@ -6,7 +6,8 @@ CREATE TABLE `db_lift_energy`.`zones` (
   `latitude` DECIMAL(18,9) NOT NULL,
   `longitude` DECIMAL(18,9) NOT NULL,
   `enabled` BOOLEAN NOT NULL DEFAULT 1,
-  `production` BIGINT NOT NULL,
+  `user_id` INT,
+  `production` BIGINT,
   PRIMARY KEY (`id`)
   );
 

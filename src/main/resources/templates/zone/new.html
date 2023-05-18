@@ -3,19 +3,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="~{layout/layout :: head}"></head>
 </head>
 
 <body
 	class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 
-	<header th:replace="layout/layout :: header"></header>
+	<header th:replace="~{layout/layout :: header}"></header>
 
 	<div class="app-body">
-		<div th:replace="layout/layout :: sidebar"></div>
+		<div th:replace="~{layout/layout :: sidebar}"></div>
 		<main class="main">
 			<!-- Breadcrumb-->
-
 			<div class="container my-2">
 
 				<div class="card">
@@ -23,15 +22,52 @@
 						<h1 th:text="${message}"></h1>
 					</div>
 					<div class="card-body">
-					
+
+						<form th:action="@{form}" th:object="${user}" method="post">
+
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Name </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Latitude </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Longitude </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Name </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+							<br></br>
+							<div class="form-group row">
+								<div class="col-sm-6">
+									<input type="submit" value="Create Zone"
+										class="btn btn-secondary" />
+								</div>
+							</div>
+						</form>
+
 					</div>
 				</div>
 
 			</div>
-
 		</main>
-		<aside th:replace="layout/layout :: aside"></aside>
+		<aside th:replace="~{layout/layout :: aside}"></aside>
 	</div>
 
-	<footer th:replace="layout/layout :: footer"></footer>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
 </body>

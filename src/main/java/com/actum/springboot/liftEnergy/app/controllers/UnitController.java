@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/unidad")
@@ -135,9 +137,10 @@ public class UnitController {
 
 	@GetMapping("{id}/analisis")
 	public String analizarUnidad(@PathVariable Long id, Model model) {
-		List<Sensor> availableSensors = unitService.findEnabledSensors();
+		
+		Sensor sensor = unitService.findEnabledSensorById(id);
 
-		model.addAttribute("sensors", availableSensors);
+		model.addAttribute("sensor", sensor);
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
 		model.addAttribute("eventsUnattended", eventsUnattended);
@@ -159,22 +162,6 @@ public class UnitController {
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "sensor/dinagraph";
-	}
-
-	@GetMapping("{unitId}/dinagraphic-analisis")
-	public String analisiDinagrafico2(@PathVariable(value = "unitId") Long unitId, Model model) {
-		
-		Unit unit = unitService.findOneUnit(unitId);
-		if (unit == null) {
-			return "redirect:/listar";	
-		}
-
-		model.addAttribute("unit", unit);
-		model.addAttribute("title", titleWatchSensorString);
-		model.addAttribute("message", messageWatchSensorString);
-		model.addAttribute("eventsUnattended", eventsUnattended);
-
-		return "sensor/dinagraph2";
 	}
 
 	@GetMapping("/form/{unitId}")
@@ -201,6 +188,16 @@ public class UnitController {
 		model.addAttribute("eventsUnattended", eventsUnattended);
 		
 		return "unit/new";
+	}
+	
+	@PostMapping("/form")
+	public String saveUnit(@Valid Unit unit, Model model, RedirectAttributes flash) {
+				
+		model.addAttribute("title", "Create Oil Well ");
+		model.addAttribute("message", "Create Oil Well");
+		model.addAttribute("eventsUnattended", eventsUnattended);
+		
+		return "redirect:form";
 	}
 	
 	@GetMapping("/delete/{unitId}")

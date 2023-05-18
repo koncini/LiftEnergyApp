@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/zona")
@@ -113,29 +115,33 @@ public class ZoneController {
 	}
 
 	@GetMapping("/form/{zoneId}")
-	public String editZone(@PathVariable(value = "zoneId") Long zoneId, Model model, RedirectAttributes flash) {
+	public String editZone(@PathVariable(value = "zoneId") Long zoneId, Map<String, Object> model) {
 
 		Zone zone = unitService.findOneZone(zoneId);
 		if (zone == null) {
 			return "redirect:/list";
 		}
 
-		model.addAttribute("zone", zone);
-		model.addAttribute("title", "Edit Oil Field ");
-		model.addAttribute("message", "Edit Oil Field ");
-		model.addAttribute("eventsUnattended", eventsUnattended);
-
 		return "zone/form";
 	}
 
 	@GetMapping("/form")
-	public String createZone(Model model, RedirectAttributes flash) {
+	public String createZone(Map<String, Object> model) {
+		Zone zone = new Zone();
+		model.put("zone", zone);
+		model.put("title", "Create new Zone");
+		model.put("message", "New Zone");
+		return "zone/new";
+	}
+	
+	@PostMapping("/form")
+	public String saveZone(@Valid Zone zone, Model model, RedirectAttributes flash) {
 
 		model.addAttribute("title", "Create Oil Field ");
 		model.addAttribute("message", "Create Oil Field");
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "zone/new";
+		return "redirect:form";
 	}
 	
 	@GetMapping("/delete/{zoneId}")

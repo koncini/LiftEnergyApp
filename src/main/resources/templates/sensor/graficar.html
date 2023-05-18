@@ -3,7 +3,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<head th:replace="layout/layout :: head"></head>
+	<head th:replace="~{layout/layout :: head}"></head>
 	<script>
 		var chartSelection = "sensorData";
 	    var sampleId = "[[${sensor.id}]]";
@@ -13,16 +13,16 @@
 <body
 	class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 
-	<header th:replace="layout/layout :: header"></header>
+	<header th:replace="~{layout/layout :: header}"></header>
 
 	<div class="app-body">
-		<div th:replace="layout/layout :: sidebar"></div>
+		<div th:replace="~{layout/layout :: sidebar}"></div>
 		<main class="main">
 			<!-- Breadcrumb-->
 
 			<div class="container my-2">
 
-				<h1 th:text="${message}"></h1>
+				<h1 th:text="${message} +  ${sensor.id}  + ' Readings'"></h1>
 
 				<div class="card">
 					<div class="card-body">
@@ -38,12 +38,12 @@
 								</button>
 								<div class="btn-group btn-group-toggle float-right mr-3"
 									data-toggle="buttons">
-									<label class="btn btn-outline-secondary"> <input
+									<label class="btn btn-outline-secondary active"> <input
 										id="option1" type="radio" name="options" value="day"
-										autocomplete="off"> Day
-									</label> <label class="btn btn-outline-secondary active"> <input
+										autocomplete="off" checked=""> Day
+									</label> <label class="btn btn-outline-secondary"> <input
 										id="option2" type="radio" name="options" value="week"
-										autocomplete="off" checked=""> Week
+										autocomplete="off"> Week
 									</label> <label class="btn btn-outline-secondary"> <input
 										id="option3" type="radio" name="options" value="month"
 										autocomplete="off"> Month
@@ -64,7 +64,7 @@
 					<div class="card-footer">
 						<ul>
 							<li><strong>Oil Well Status:</strong> Running</li>
-							<li><strong>Dinagraph Diagnostic:</strong> Full Pump</li>
+							<li><strong>Sensor Status:</strong> Enabled</li>
 						</ul>
 					</div>
 				</div>
@@ -72,8 +72,8 @@
 			</div>
 
 		</main>
-		<aside th:replace="layout/layout :: aside"></aside>
+		<aside th:replace="~{layout/layout :: aside}"></aside>
 	</div>
 
-	<footer th:replace="layout/layout :: footer"></footer>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
 </body>

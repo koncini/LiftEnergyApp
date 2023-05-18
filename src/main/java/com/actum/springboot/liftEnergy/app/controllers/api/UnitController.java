@@ -2,6 +2,8 @@ package com.actum.springboot.liftEnergy.app.controllers.api;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 @RestController("api UnitController")
 @RequestMapping("/api/unit")
 public class UnitController {
+	
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private IUnitService unitService;
@@ -55,6 +59,7 @@ public class UnitController {
 	@Secured("permitAll")
 	private ResponseEntity<String> getUnitSetup(@PathVariable(value = "unitId") Long unitId) {
 	    String json = "{\"start\": true, \"stop\": false, \"set_point\": 1800}";
+	    log.info("Request Processed");
 	    return new ResponseEntity<>(json, HttpStatus.OK);
 	}
 	
