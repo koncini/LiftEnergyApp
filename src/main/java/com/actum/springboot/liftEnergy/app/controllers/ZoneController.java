@@ -137,5 +137,13 @@ public class ZoneController {
 
 		return "zone/new";
 	}
+	
+	@GetMapping("/delete/{zoneId}")
+	public String deleteZone(@PathVariable(value = "zoneId") Long zoneId, Model model, RedirectAttributes flash) {
+		if(zoneId > 0) {
+			unitService.deleteZone(zoneId);
+		}
+		return "redirect:zone/listar-zonas-detallado";
+	}
 
 }

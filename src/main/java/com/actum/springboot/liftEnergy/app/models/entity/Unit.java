@@ -31,7 +31,7 @@ public class Unit implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonBackReference
 	private Zone zone;
 
@@ -40,17 +40,17 @@ public class Unit implements Serializable {
 	@JsonManagedReference
 	private List<Sensor> sensors;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "unit_id")
 	@JsonManagedReference
 	private List<UnitNote> notes;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "unit_id")
 	@JsonManagedReference
 	private List<UnitEvent> events;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "unit_id")
 	@JsonManagedReference
 	private List<Node> nodes;

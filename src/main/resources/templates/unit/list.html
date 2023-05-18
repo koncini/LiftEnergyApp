@@ -3,16 +3,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="~{layout/layout :: head}"></head>
 </head>
 
 <body
 	class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 
-	<header th:replace="layout/layout :: header"></header>
+	<header th:replace="~{layout/layout :: header}"></header>
 
 	<div class="app-body">
-		<div th:replace="layout/layout :: sidebar"></div>
+		<div th:replace="~{layout/layout :: sidebar}"></div>
 		<main class="main">
 			<!-- Breadcrumb-->
 
@@ -50,7 +50,8 @@
 								<td th:text="${unit.enabled}"></td>
 								<td><a class="btn btn-info btn-xs"
 									th:href="@{'/unidad/form/' + ${unit.id}}" th:text="'Edit'"></a></td>
-								<td><a class="btn btn-danger btn-xs" th:text="'Delete'"></a></td>
+								<td><a class="btn btn-danger btn-xs" 
+									th:href="@{'/unidad/delete/' + ${unit.id}}" th:text="'Delete'"></a></td>
 								<td><a class="btn btn-primary btn-xs"
 									th:href="@{'/unidad/ver/' + ${unit.id}}" th:text="'Oil Well Detailed'"></a></td>
 							</tr>
@@ -60,9 +61,9 @@
 			</div>
 
 		</main>
-		<aside th:replace="layout/layout :: aside"></aside>
+		<aside th:replace="~{layout/layout :: aside}"></aside>
 	</div>
 
-	<footer th:replace="layout/layout :: footer"></footer>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
 </body>
 </html>

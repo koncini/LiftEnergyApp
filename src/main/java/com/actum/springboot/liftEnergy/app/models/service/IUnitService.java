@@ -71,6 +71,8 @@ public interface IUnitService {
 	public User findUserByName(String name);
 	
 	public void saveUnitNote(UnitNote note);
+	
+	public void deleteUser(Long id);
 
 	public List<UnitNote> findAllUnitNotes();
 

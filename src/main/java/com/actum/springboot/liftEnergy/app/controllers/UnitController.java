@@ -202,5 +202,13 @@ public class UnitController {
 		
 		return "unit/new";
 	}
+	
+	@GetMapping("/delete/{unitId}")
+	public String deleteUnit(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
+		if(unitId > 0) {
+			unitService.deleteUnit(unitId);
+		}
+		return "redirect:../listar-unidades-detallado";
+	}
 
 }

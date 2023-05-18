@@ -3,6 +3,8 @@ package com.actum.springboot.liftEnergy.app.controllers.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,10 +45,17 @@ public class UnitController {
 		unitService.saveUnit(null);
 	}
 	
-	@GetMapping("/get-dinagraph-data/{unit_id}")
+	@GetMapping("/get-dinagraph-data/{unitId}")
 	@Secured("permitAll")
-	private List<SensorData> getDinagraphData(@PathVariable(value = "unit_id") Long unitId) {
+	private List<SensorData> getDinagraphData(@PathVariable(value = "unitId") Long unitId) {
 		return unitService.findDinagraphData();
+	}
+	
+	@GetMapping("/get-unit-setup/{unitId}")
+	@Secured("permitAll")
+	private ResponseEntity<String> getUnitSetup(@PathVariable(value = "unitId") Long unitId) {
+	    String json = "{\"start\": true, \"stop\": false, \"set_point\": 1800}";
+	    return new ResponseEntity<>(json, HttpStatus.OK);
 	}
 	
 }

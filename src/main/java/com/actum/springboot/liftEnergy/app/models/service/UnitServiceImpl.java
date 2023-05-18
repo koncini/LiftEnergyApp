@@ -453,4 +453,10 @@ public class UnitServiceImpl implements IUnitService {
 		unitProductionDao.insertUnitProduction(unitId, production, timeStamp);		
 	}
 
+	@Override
+	@Transactional
+	public void deleteUser(Long id) {
+		userDao.deleteById(id);
+	}
+
 }

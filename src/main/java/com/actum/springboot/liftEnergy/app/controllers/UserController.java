@@ -43,10 +43,10 @@ public class UserController {
 		model.addAttribute("message", messageString);
 		model.addAttribute("users", usuarios);
 		model.addAttribute("eventsUnattended", eventsUnattended);
-		
+
 		return "user/list";
 	}
-	
+
 	@GetMapping("/form/{userId}")
 	public String editUser(@PathVariable(value = "userId") Long userId, Model model, RedirectAttributes flash) {
 
@@ -62,14 +62,22 @@ public class UserController {
 
 		return "user/form";
 	}
-	
+
 	@GetMapping("/form")
 	public String createUser(Model model, RedirectAttributes flash) {
-				
+
 		model.addAttribute("title", "Create User");
 		model.addAttribute("message", "Create User");
 		model.addAttribute("eventsUnattended", eventsUnattended);
-		
+
 		return "user/new";
+	}
+
+	@GetMapping("/delete/{userId}")
+	public String deleteUser(@PathVariable(value = "userId") Long userId, Model model, RedirectAttributes flash) {
+		if(userId > 0) {
+			unitService.deleteUser(userId);
+		}
+		return "redirect:zone/listar-usuarios";
 	}
 }
