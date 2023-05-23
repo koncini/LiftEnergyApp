@@ -135,35 +135,6 @@ public class UnitController {
 		return "unit/list";
 	}
 
-	@GetMapping("{id}/analisis")
-	public String analizarUnidad(@PathVariable Long id, Model model) {
-		
-		Sensor sensor = unitService.findEnabledSensorById(id);
-
-		model.addAttribute("sensor", sensor);
-		model.addAttribute("title", titleWatchSensorString);
-		model.addAttribute("message", messageWatchSensorString);
-		model.addAttribute("eventsUnattended", eventsUnattended);
-
-		return "sensor/graficar";
-	}
-
-	@GetMapping("{unitId}/analisis-dinagrafico")
-	public String analisiDinagrafico(@PathVariable(value = "unitId") Long unitId, Model model) {
-
-		Unit unit = unitService.findOneUnit(unitId);
-		if (unit == null) {
-			return "redirect:/listar";	
-		}
-		
-		model.addAttribute("unit", unit);
-		model.addAttribute("title", titleWatchSensorString);
-		model.addAttribute("message", messageWatchSensorString);
-		model.addAttribute("eventsUnattended", eventsUnattended);
-
-		return "sensor/dinagraph";
-	}
-
 	@GetMapping("/form/{unitId}")
 	public String editUnit(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
 		

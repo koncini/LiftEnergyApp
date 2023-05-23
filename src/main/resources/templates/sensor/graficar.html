@@ -22,7 +22,7 @@
 
 			<div class="container my-2">
 
-				<h1 th:text="${message} +  ${sensor.id}  + ' Readings'"></h1>
+				<h1 th:text="${message} +  ${unit.id}  + ' Sensor ' + ${sensor.id} + ' Readings'"></h1>
 
 				<div class="card">
 					<div class="card-body">
@@ -63,8 +63,9 @@
 					</div>
 					<div class="card-footer">
 						<ul>
-							<li><strong>Oil Well Status:</strong> Running</li>
-							<li><strong>Sensor Status:</strong> Enabled</li>
+							<li><strong>Oil Well Status: </strong><span th:text="'Running'"></span></li>
+							<li><strong>Sensor Type: </strong><span th:text="${sensor.type}"></span></li>
+							<li><strong>Sensor Status: </strong><span th:text="${sensor.enabled}"></span></li>
 						</ul>
 					</div>
 				</div>

@@ -3,7 +3,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="~{layout/layout :: head}"></head>
 <script>
 	var chartSelection = "unitProduction";
 	var unitId = "[[${unit.id}]]";
@@ -13,15 +13,18 @@
 <body
 	class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 
-	<header th:replace="layout/layout :: header"></header>
+	<header th:replace="~{layout/layout :: header}"></header>
 
 	<div class="app-body">
-		<div th:replace="layout/layout :: sidebar"></div>
+		<div th:replace="~{layout/layout :: sidebar}"></div>
 		<main class="main">
 			<!-- Breadcrumb-->
 
 			<div class="container my-2">
 				<h1 th:text="${message}"></h1>
+
+				<a th:href="@{'/sensor/' + ${unit.id} + '/analisis-dinagrafico'}"
+					class="btn btn-success btn-xs" th:text="'Add New Note'"></a> <br></br>
 
 				<div class="card">
 					<div class="card-header">
@@ -30,7 +33,6 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-5">
-								<h4 class="card-title mb-0">Sensor Chart</h4>
 								<div class="small text-muted">March 2023</div>
 							</div>
 							<!-- /.col-->
@@ -65,100 +67,109 @@
 					</div>
 				</div>
 
-				<div style="display: flex; gap: 10px;">
-					<div class="card">
-						<div class="card-header">
-							<h3 th:text="'Pump Unit Settings'"></h3>
-						</div>
-						<div class="card-body">
-							<ul style="margin-left: -30px;" th:each="setting: ${settings}">
-								<li style="margin-bottom: -10px;"><strong
-									th:text="${setting.name}"></strong>: <span
-									th:text="${setting.value}"></span></li>
-							</ul>
-						</div>
+				<div class="card">
+					<div class="card-header">
+						<h3 th:text="'Oil Well Settings'"></h3>
 					</div>
+					<div class="card-body">
+						<a th:href="@{'/sensor/' + ${unit.id} + '/analisis-dinagrafico'}"
+							class="btn btn-success btn-xs" th:text="'Edit Settings'"></a> <br></br>
+						<div style="display: flex; gap: 10px;">
+							<div class="card">
+								<div class="card-header">
+									<h4 th:text="'Pump Unit Settings'"></h4>
+								</div>
+								<div class="card-body">
+									<ul style="margin-left: -30px;" th:each="setting: ${settings}">
+										<li style="margin-bottom: -10px;"><strong
+											th:text="${setting.name}"></strong>: <span
+											th:text="${setting.value}"></span></li>
+									</ul>
+								</div>
+							</div>
 
-					<div class="card">
-						<div class="card-header">
-							<h3 class="card-title" th:text="'Oil well Details'"></h3>
-						</div>
-						<div class="card-body">
-							<ul style="margin-left: -30px;" th:each="wellDatum: ${wellData}">
-								<li style="margin-bottom: -10px;"><strong
-									th:text="${wellDatum.name}"></strong>: <span
-									th:text="${wellDatum.value} + ' ' + ${wellDatum.unit}"></span></li>
-							</ul>
-						</div>
-					</div>
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title" th:text="'Oil well Details'"></h4>
+								</div>
+								<div class="card-body">
+									<ul style="margin-left: -30px;"
+										th:each="wellDatum: ${wellData}">
+										<li style="margin-bottom: -10px;"><strong
+											th:text="${wellDatum.name}"></strong>: <span
+											th:text="${wellDatum.value} + ' ' + ${wellDatum.unit}"></span></li>
+									</ul>
+								</div>
+							</div>
 
-					<div class="card">
-						<div class="card-header">
-							<h3 class="card-title" th:text="'Pump Unit Details'"></h3>
-						</div>
-						<div class="card-body">
-							<ul style="margin-left: -30px;" th:each="unitDatum: ${unitData}">
-								<li style="margin-bottom: -10px;"><strong
-									th:text="${unitDatum.name}"></strong>: <span
-									th:text="${unitDatum.value}"></span></li>
-							</ul>
-						</div>
-					</div>
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title" th:text="'Pump Unit Details'"></h4>
+								</div>
+								<div class="card-body">
+									<ul style="margin-left: -30px;"
+										th:each="unitDatum: ${unitData}">
+										<li style="margin-bottom: -10px;"><strong
+											th:text="${unitDatum.name}"></strong>: <span
+											th:text="${unitDatum.value}"></span></li>
+									</ul>
+								</div>
+							</div>
 
-					<div class="card">
-						<div class="card-header">
-							<h3 class="card-title" th:text="'Power Details'"></h3>
-						</div>
-						<div class="card-body">
-							<ul style="margin-left: -30px;" th:each="power: ${powerCost}">
-								<li style="margin-bottom: -10px;"><strong
-									th:text="${power.name}"></strong>: <span
-									th:text="${power.value} + ' ' + ${power.unit}"></span></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-
-				<div class="container">
-					<div class="card my-2">
-						<div class="card-header">
-							<h3 th:text="'Sensors'"></h3>
-						</div>
-						<div class="card-body">
-							<a th:href="@{'/unidad/' + ${unit.id} + '/analisis-dinagrafico'}"
-								class="btn btn-info btn-xs" th:text="'Get Dinagraph Analisis'"></a>
-							<table
-								class="table table-bordered table-striped table-hover my-4">
-								<thead class="thead-dark">
-									<tr>
-										<th>Id</th>
-										<th>Sensor Type</th>
-										<th>Status</th>
-										<th>Enabled</th>
-										<th>Actions</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="sensor: ${unit.sensors}">
-										<td th:text="${sensor.id}"></td>
-										<td th:text="${sensor.type}"></td>
-										<td th:text="'Enabled'"></td>
-										<td th:text="${sensor.enabled}"></td>
-										<td><a class="btn btn-primary btn-xs"
-											th:href="@{'/unidad/' + ${unit.id} + '/analisis'}"
-											th:text="'See Graphic'"></a></td>
-									</tr>
-								</tbody>
-							</table>
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title" th:text="'Power Details'"></h4>
+								</div>
+								<div class="card-body">
+									<ul style="margin-left: -30px;" th:each="power: ${powerCost}">
+										<li style="margin-bottom: -10px;"><strong
+											th:text="${power.name}"></strong>: <span
+											th:text="${power.value} + ' ' + ${power.unit}"></span></li>
+									</ul>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 
+				<div class="card">
+					<div class="card-header">
+						<h3 th:text="'Sensors'"></h3>
+					</div>
+					<div class="card-body">
+						<a th:href="@{'/sensor/' + ${unit.id} + '/analisis-dinagrafico'}"
+							class="btn btn-info btn-xs" th:text="'Get Dinagraph Analisis'"></a>
+						<a th:href="@{'/sensor/' + ${unit.id} + '/analisis-dinagrafico'}"
+							class="btn btn-success btn-xs" th:text="'Add New Sensor'"></a>
+						<table class="table table-bordered table-striped table-hover my-4">
+							<thead class="thead-dark">
+								<tr>
+									<th>Id</th>
+									<th>Sensor Type</th>
+									<th>Status</th>
+									<th>Enabled</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="sensor: ${unit.sensors}">
+									<td th:text="${sensor.id}"></td>
+									<td th:text="${sensor.type}"></td>
+									<td th:text="'Enabled'"></td>
+									<td th:text="${sensor.enabled}"></td>
+									<td><a class="btn btn-primary btn-xs"
+										th:href="@{'/sensor/' + ${unit.id} + '/analisis/' + ${sensor.id}}"
+										th:text="'See Graphic'"></a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 
 		</main>
-		<aside th:replace="layout/layout :: aside"></aside>
+		<aside th:replace="~{layout/layout :: aside}"></aside>
 	</div>
 
-	<footer th:replace="layout/layout :: footer"></footer>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
 </body>

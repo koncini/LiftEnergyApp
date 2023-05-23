@@ -355,7 +355,7 @@ switch (chartSelection) {
 				// Convert the JSON data to a format that can be used by ChartJS.
 				var dinagraphSampleData = {
 					datasets: [{
-						label: 'Artix AI Readings',
+						label: 'Oil well Dinagraph Readings',
 						backgroundColor: hexToRgba(getStyle('--info'), 10),
 						borderColor: getStyle('--info'),
 						pointHoverBackgroundColor: '#fff',
@@ -490,7 +490,7 @@ switch (chartSelection) {
 		break;
 	case "unitProduction":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
-		fetch('http://localhost:8090/api/sensors-data/get-data/'.concat(unitId))
+		fetch('http://localhost:8090/api/unit-production/get-production-data/'.concat(unitId))
 			.then(response => response.json())
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
@@ -511,7 +511,7 @@ switch (chartSelection) {
 
 				jsonData.forEach(function(item) {
 					unitProductionChartData.labels.push(moment(item.timeStamp).format('ddd'));
-					unitProductionChartData.datasets[0].data.push(item.data);
+					unitProductionChartData.datasets[0].data.push(item.production);
 				});
 				
 				const rawData = unitProductionChartData.datasets[0].data
