@@ -29,7 +29,7 @@
 						<div class="row">
 							<div class="col-sm-5">
 								<h4 class="card-title mb-0">Sensor Chart</h4>
-								<div class="small text-muted">March 2023</div>
+								<div class="small text-muted">May 2023</div>
 							</div>
 							<!-- /.col-->
 							<div class="col-sm-7 d-none d-md-block">
@@ -64,8 +64,8 @@
 					<div class="card-footer">
 						<ul>
 							<li><strong>Oil Well Status: </strong><span th:text="'Running'"></span></li>
-							<li><strong>Sensor Type: </strong><span th:text="${sensor.type}"></span></li>
-							<li><strong>Sensor Status: </strong><span th:text="${sensor.enabled}"></span></li>
+							<li><strong>Sensor Type: </strong><span th:text="${#strings.replace(sensor.type, '_', ' ')}"></span></li>
+							<li><strong>Sensor Status: </strong><span th:text="${sensor.enabled} ? 'Enabled' : 'Disabled'"></span></li>
 						</ul>
 					</div>
 				</div>

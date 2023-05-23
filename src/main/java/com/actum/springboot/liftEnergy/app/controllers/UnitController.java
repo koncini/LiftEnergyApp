@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.entity.MotorData;
 import com.actum.springboot.liftEnergy.app.models.entity.PowerCost;
-import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitData;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitSettings;

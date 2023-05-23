@@ -25,5 +25,5 @@ public class UnitSettings {
 	public void setValue(Object value) {
 		this.value = value;
 	}
-	
+		
 }
