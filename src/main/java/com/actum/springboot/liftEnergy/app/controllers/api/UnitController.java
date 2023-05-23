@@ -58,7 +58,7 @@ public class UnitController {
 	@GetMapping("/get-unit-setup/{unitId}")
 	@Secured("permitAll")
 	private ResponseEntity<String> getUnitSetup(@PathVariable(value = "unitId") Long unitId) {
-	    String json = "{\"start\": true, \"stop\": false, \"set_point\": 1800}";
+	    String json = "{\"reset\": false, \"start\": false, \"stop\": true, \"set_point\": 1800}";
 	    log.info("Request Processed");
 	    return new ResponseEntity<>(json, HttpStatus.OK);
 	}

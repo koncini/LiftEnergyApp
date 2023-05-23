@@ -19,6 +19,10 @@
 		<main class="main">
 			<!-- Breadcrumb-->
 			<div class="container-fluid my-4">
+				<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
+				<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+				<div class="alert alert-warning" th:if="${warning != null}" th:text="${warning}"></div>
+				<div class="alert alert-info" th:if="${info != null}" th:text="${info}"></div>
 				<div class="animated fadeIn">
 					<div class="row" sec:authorize="hasRole('MANAGER')">
 						<div class="col-sm-6 col-lg-3">

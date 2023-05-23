@@ -115,7 +115,7 @@ public class ZoneController {
 	}
 
 	@GetMapping("/form/{zoneId}")
-	public String editZone(@PathVariable(value = "zoneId") Long zoneId, Map<String, Object> model) {
+	public String editZone(@PathVariable(value = "zoneId") Long zoneId, Map<String, Object> model, RedirectAttributes flash) {
 
 		Zone zone = unitService.findOneZone(zoneId);
 		if (zone == null) {
@@ -126,11 +126,12 @@ public class ZoneController {
 	}
 
 	@GetMapping("/form")
-	public String createZone(Map<String, Object> model) {
+	public String createZone(Map<String, Object> model, RedirectAttributes flash) {
 		Zone zone = new Zone();
 		model.put("zone", zone);
-		model.put("title", "Create new Zone");
+		model.put("title", "Create new Oil Field");
 		model.put("message", "New Zone");
+		flash.addFlashAttribute("success", "New Oil Field Created");
 		return "zone/new";
 	}
 	

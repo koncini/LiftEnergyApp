@@ -6,7 +6,7 @@
 	<head th:replace="~{layout/layout :: head}"></head>
 	<script>
 		var chartSelection = "sensorData";
-	    var sampleId = "[[${sensor.id}]]";
+	    var sensorId = "[[${sensor.id}]]";
 	</script>
 </head>	
 
@@ -38,12 +38,12 @@
 								</button>
 								<div class="btn-group btn-group-toggle float-right mr-3"
 									data-toggle="buttons">
-									<label class="btn btn-outline-secondary active"> <input
+									<label class="btn btn-outline-secondary"> <input
 										id="option1" type="radio" name="options" value="day"
-										autocomplete="off" checked=""> Day
-									</label> <label class="btn btn-outline-secondary"> <input
+										autocomplete="off"> Day
+									</label> <label class="btn btn-outline-secondary active"> <input
 										id="option2" type="radio" name="options" value="week"
-										autocomplete="off"> Week
+										autocomplete="off" checked=""> Week
 									</label> <label class="btn btn-outline-secondary"> <input
 										id="option3" type="radio" name="options" value="month"
 										autocomplete="off"> Month

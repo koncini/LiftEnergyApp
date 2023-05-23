@@ -17,10 +17,10 @@ Chart.defaults.global.tooltips.mode = 'index';
 Chart.defaults.global.tooltips.position = 'nearest';
 Chart.defaults.global.tooltips.custom = CustomTooltips; // eslint-disable-next-line no-unused-vars
 
-switch (chartSelection){
+switch (chartSelection) {
 	case "main":
 		const data = [];
-		
+
 		for (let i = 0; i < 24; i++) {
 			const value = Math.floor(Math.random() * (90000 - 10000 + 1) + 10000);
 			const timestamp = new Date();
@@ -61,7 +61,7 @@ switch (chartSelection){
 				fill: false
 			}]
 		};
-		
+
 		const chartOptions = {
 			responsive: true,
 			title: {
@@ -69,13 +69,13 @@ switch (chartSelection){
 				text: 'Chart Title'
 			}
 		};
-		
+
 		const mainChart = new Chart($('#general-production-chart'), {
 			type: 'line',
 			data: chartData,
 			options: chartOptions
 		});
-		
+
 		var cardChart1 = new Chart($('#card-chart1'), {
 			type: 'line',
 			data: {
@@ -125,7 +125,7 @@ switch (chartSelection){
 				}
 			}
 		}); // eslint-disable-next-line no-unused-vars
-		
+
 		var cardChart2 = new Chart($('#card-chart2'), {
 			type: 'line',
 			data: {
@@ -175,7 +175,7 @@ switch (chartSelection){
 				}
 			}
 		}); // eslint-disable-next-line no-unused-vars
-		
+
 		var cardChart3 = new Chart($('#card-chart3'), {
 			type: 'line',
 			data: {
@@ -225,7 +225,7 @@ switch (chartSelection){
 				}
 			}
 		}); // eslint-disable-next-line no-unused-vars
-		
+
 		var cardChart4 = new Chart($('#card-chart4'), {
 			type: 'bar',
 			data: {
@@ -272,7 +272,7 @@ switch (chartSelection){
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
 				var fetchUrl = jsonData.fetchUrl;
-		
+
 				// Convert the JSON data to a format that can be used by ChartJS.
 				var sensorChartData = {
 					labels: [],
@@ -285,12 +285,17 @@ switch (chartSelection){
 						data: []
 					}]
 				};
-		
+
 				jsonData.forEach(function(item) {
 					sensorChartData.labels.push(moment(item.timeStamp).format('ddd'));
 					sensorChartData.datasets[0].data.push(item.data);
 				});
-		
+				
+				const rawData = sensorChartData.datasets[0].data
+				const chartSize = findMaxAndMin(rawData);
+				const maxValue = chartSize.max + 1;
+				const minValue = chartSize.min - 1;
+				
 				// Create the ChartJS instance using the converted data and the fetch URL.
 				var sensorsChart = new Chart($('#sensors-chart'), {
 					type: 'line',
@@ -310,8 +315,8 @@ switch (chartSelection){
 								ticks: {
 									beginAtZero: true,
 									maxTicksLimit: 5,
-									stepSize: Math.ceil(20 / 5),
-									max: 20
+									stepSize: Math.ceil(maxValue / 5),
+									max: maxValue
 								}
 							}]
 						},
@@ -325,7 +330,7 @@ switch (chartSelection){
 						}
 					}
 				});
-			});		
+			});
 		break;
 	case "dinagraphReading":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
@@ -334,7 +339,7 @@ switch (chartSelection){
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
 				var rawData = JSON.parse(jsonData.data);
-				
+
 				const parsedData = rawData.map(obj => {
 					const newObj = {};
 					for (let key in obj) {
@@ -342,11 +347,11 @@ switch (chartSelection){
 					}
 					return newObj;
 				});
-				
+
 				const chartSize = getMinMaxY(parsedData);
 				const maxValue = chartSize.max + 1;
 				const minValue = chartSize.min - 1;
-		
+
 				// Convert the JSON data to a format that can be used by ChartJS.
 				var dinagraphSampleData = {
 					datasets: [{
@@ -360,7 +365,7 @@ switch (chartSelection){
 						data: parsedData
 					}]
 				};
-		
+
 				// Create the ChartJS instance using the converted data and the fetch URL.
 				var dinagraphSampleChart = new Chart($('#dinagraph_sample_chart'), {
 					type: 'scatter',
@@ -403,7 +408,7 @@ switch (chartSelection){
 						}
 					}
 				});
-			});		
+			});
 		break;
 	case "dinagraphSample":
 		// Fetch the dinagraph sample from the API and store it in a variable called jsonData.
@@ -412,7 +417,7 @@ switch (chartSelection){
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
 				var rawData = JSON.parse(jsonData.data);
-								
+
 				const parsedData = rawData.map(obj => {
 					const newObj = {};
 					for (let key in obj) {
@@ -420,11 +425,11 @@ switch (chartSelection){
 					}
 					return newObj;
 				});
-		
+
 				const chartSize = getMinMaxY(parsedData);
 				const maxValue = chartSize.max + 1;
 				const minValue = chartSize.min - 1;
-				
+
 				// Convert the JSON data to a format that can be used by ChartJS.
 				var dinagraphSampleData = {
 					datasets: [{
@@ -438,9 +443,9 @@ switch (chartSelection){
 						data: parsedData
 					}]
 				};
-													
+
 				// Create the ChartJS instance using the converted data and the fetch URL.
-			 	 var dinagraphSampleChart = new Chart($('#dinagraph_sample_chart'), {
+				var dinagraphSampleChart = new Chart($('#dinagraph_sample_chart'), {
 					type: 'scatter',
 					data: dinagraphSampleData,
 					options: {
@@ -481,28 +486,110 @@ switch (chartSelection){
 						}
 					}
 				});
-			});		
+			});
+		break;
+	case "unitProduction":
+		// Fetch the sensor data from the API and store it in a variable called jsonData.
+		fetch('http://localhost:8090/api/sensors-data/get-data/'.concat(unitId))
+			.then(response => response.json())
+			.then(jsonData => {
+				// Get the fetch URL from the JSON response
+				var fetchUrl = jsonData.fetchUrl;
+
+				// Convert the JSON data to a format that can be used by ChartJS.
+				var unitProductionChartData = {
+					labels: [],
+					datasets: [{
+						label: 'Unit Production (BPD)',
+						backgroundColor: hexToRgba(getStyle('--info'), 10),
+						borderColor: getStyle('--info'),
+						pointHoverBackgroundColor: '#fff',
+						borderWidth: 2,
+						data: []
+					}]
+				};
+
+				jsonData.forEach(function(item) {
+					unitProductionChartData.labels.push(moment(item.timeStamp).format('ddd'));
+					unitProductionChartData.datasets[0].data.push(item.data);
+				});
+				
+				const rawData = unitProductionChartData.datasets[0].data
+				const chartSize = findMaxAndMin(rawData);
+				const maxValue = chartSize.max + 1;
+				const minValue = chartSize.min - 1;
+
+				// Create the ChartJS instance using the converted data and the fetch URL.
+				var sensorsChart = new Chart($('#unit-production-chart'), {
+					type: 'line',
+					data: unitProductionChartData,
+					options: {
+						maintainAspectRatio: false,
+						legend: {
+							display: false
+						},
+						scales: {
+							xAxes: [{
+								gridLines: {
+									drawOnChartArea: false
+								}
+							}],
+							yAxes: [{
+								ticks: {
+									beginAtZero: true,
+									maxTicksLimit: 5,
+									stepSize: Math.ceil(maxValue / 5),
+									max: maxValue
+								}
+							}]
+						},
+						elements: {
+							point: {
+								radius: 0,
+								hitRadius: 10,
+								hoverRadius: 4,
+								hoverBorderWidth: 3
+							}
+						}
+					}
+				});
+			});
 		break;
 	default:
 		console.log("no charts in this view");
 }
 
+//function only for dinagraph samples dataset
 function getMinMaxY(array) {
-  let minY = Infinity;
-  let maxY = -Infinity;
+	let minY = Infinity;
+	let maxY = -Infinity;
 
-  for (let i = 0; i < array.length; i++) {
-    const punto = array[i];
-    const y = punto.y;
+	for (let i = 0; i < array.length; i++) {
+		const punto = array[i];
+		const y = punto.y;
 
-    if (y < minY) {
-      minY = y;
-    }
+		if (y < minY) {
+			minY = y;
+		}
 
-    if (y > maxY) {
-      maxY = y;
-    }
+		if (y > maxY) {
+			maxY = y;
+		}
+	}
+
+	return { min: minY, max: maxY };
+}
+
+function findMaxAndMin(array) {
+  let numbers = array.filter((value) => !isNaN(value));
+  
+  if (numbers.length === 0) {
+    console.log("No valid numbers found in the array.");
+    return;
   }
-
-  return { min: minY, max: maxY };
+  
+  const max = Math.max(...numbers);
+  const min = Math.min(...numbers);
+  
+  return { min: min, max: max };
 }
