@@ -73,12 +73,14 @@ public class IndexController {
 
 		if (authentication != null) {
 			logger.info(userString + authentication.getName() + successString);
+		} else {
+			return "redirect:/login";
 		}
 
 		if (hasRole("ROLE_ADMIN")) {
-			logger.info(userString + authentication.getName() + accessString);
+			logger.info(userString + authentication.getName() + ' ' + accessString);
 		} else {
-			logger.info(userString + authentication.getName() + noAccessString);
+			logger.info(userString + authentication.getName() + ' ' + noAccessString);
 		}
 
 		List<Zone> zones = null;

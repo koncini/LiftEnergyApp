@@ -28,20 +28,16 @@ public class SpringSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.authorizeHttpRequests().requestMatchers("/", "/css/**", "/js/**", "/images/**", "/error/**").permitAll()
-			.requestMatchers(HttpMethod.POST, "/api/sensors-data/upload-data/**").permitAll()
-			.requestMatchers(HttpMethod.POST, "/api/unit-production/upload-data/**").permitAll()
-			.requestMatchers(HttpMethod.GET, "/api/sensors-data/get-dinagraph-data/**").permitAll()
-			.requestMatchers(HttpMethod.GET, "/api/unit/get-unit-setup/**").permitAll()
-			.requestMatchers(HttpMethod.POST, "/pushover/message**").permitAll()
-			.requestMatchers("/units/**").hasAnyRole("USER")
-			.requestMatchers("/zone/**").hasAnyRole("ADMIN")
-			.requestMatchers("/artix/**").hasAnyRole("ADMIN")
-			.anyRequest().authenticated().and()
-			.formLogin().successHandler(successHandler).loginPage("/login").permitAll().and()
-			.csrf().disable()
-			.logout().permitAll();
+		http.authorizeHttpRequests()
+				.requestMatchers("/**", "/css/**", "/js/**", "/node_modules/**", "/images/**", "/error/**")
+				.permitAll().requestMatchers(HttpMethod.POST, "/api/sensors-data/upload-data/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/unit-production/upload-data/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/sensors-data/get-dinagraph-data/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/unit/get-unit-setup/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/pushover/message**").permitAll().requestMatchers("/units/**")
+				.hasAnyRole("USER").requestMatchers("/zone/**").hasAnyRole("ADMIN").requestMatchers("/artix/**")
+				.hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin().successHandler(successHandler)
+				.loginPage("/login").permitAll().and().csrf().disable().logout().permitAll();
 		return http.build();
 	}
 

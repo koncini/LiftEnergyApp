@@ -166,7 +166,7 @@
 								<th>Location</th>
 								<th>Productivity</th>
 								<th>Status</th>
-								<th>Enabled</th>
+								<th sec:authorize="hasRole('ADMIN')">Enabled</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
@@ -177,7 +177,7 @@
 								<td th:text="${zone.latitude}+ ' ' +${zone.longitude}"></td>
 								<td th:text="${zone.production}+' BPD'"></td>
 								<td th:text="'Productive'"></td>
-								<td th:text=${zone.enabled}></td>
+								<td sec:authorize="hasRole('ADMIN')" th:text=${zone.enabled}></td>
 								<td><a class="btn btn-primary btn-xs"
 									th:href="@{'/zona/' + ${zone.id} + '/listar-unidades'}"
 									th:text="'List Oil Wells'">></a></td>

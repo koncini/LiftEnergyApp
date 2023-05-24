@@ -1,12 +1,19 @@
-/*zones and units*/
+/*zones fields and units*/
 CREATE TABLE `db_lift_energy`.`zones` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT,
-  `production` VARCHAR(45) NOT NULL,
   `latitude` DECIMAL(18,9) NOT NULL,
   `longitude` DECIMAL(18,9) NOT NULL,
   `enabled` BOOLEAN NOT NULL DEFAULT 1,
   `user_id` INT,
+  `production` BIGINT,
+  PRIMARY KEY (`id`)
+  );
+  
+ CREATE TABLE `db_lift_energy`.`fields` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `latitude` DECIMAL(18,9) NOT NULL,
+  `longitude` DECIMAL(18,9) NOT NULL,
+  `enabled` BOOLEAN NOT NULL DEFAULT 1,
   `production` BIGINT,
   PRIMARY KEY (`id`)
   );

@@ -105,6 +105,7 @@ public class UnitController {
 
 		Map<Long, List<UnitSettings>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
+		Map<Long, String> unitRelatedZone = new HashMap<>();
 
 		for (Unit unit : units) {
 			Long unitId = unit.getId();
@@ -121,12 +122,15 @@ public class UnitController {
 
 			WellData wellData = wellDataWrapper.getWellDataByName("well_production");
 			wellProductionMap.put(unitId, wellData.getValue());
+			
+			unitRelatedZone.put(unitId, unitService.getZoneNameByUnitId(unitId));
 
 		}
 
 		model.addAttribute("title", "Oil Wells");
 		model.addAttribute("message", "All Oil Wells");
 		model.addAttribute("units", units);
+		model.addAttribute("unitRelatedZone", unitRelatedZone);
 		model.addAttribute("unitSettings", unitSettingMap);
 		model.addAttribute("wellData", wellProductionMap);
 		model.addAttribute("eventsUnattended", eventsUnattended);

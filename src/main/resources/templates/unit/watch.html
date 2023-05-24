@@ -147,7 +147,7 @@
 									<th>Id</th>
 									<th>Sensor Type</th>
 									<th>Status</th>
-									<th>Delete Sensor</th>
+									<th sec:authorize="hasRole('ADMIN')">Delete Sensor</th>
 									<th>Edit Sensor</th>
 									<th>Data</th>
 								</tr>
@@ -157,8 +157,11 @@
 									<td th:text="${sensor.id}"></td>
 									<td th:text="${#strings.replace(sensor.type, '_', ' ')}"></td>
 									<td th:text="${sensor.enabled} ? 'Enabled' : 'Disabled'"></td>
-									<td><a class="btn btn-danger btn-xs"
+									<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger btn-xs"
 										th:href="@{'/sensor/delete/' + ${sensor.id}}" th:text="'Delete'"></a></td>
+									<td><a class="btn btn-primary btn-xs"
+										th:href="@{'/sensor/' + ${unit.id} + '/form/' + ${sensor.id}}"
+										th:text="'Edit Sensor'"></a></td>
 									<td><a class="btn btn-primary btn-xs"
 										th:href="@{'/sensor/' + ${unit.id} + '/analisis/' + ${sensor.id}}"
 										th:text="'See Graphic'"></a></td>

@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.actum.springboot.liftEnergy.app.models.dao.IDinagraphSampleDao;
@@ -459,6 +457,12 @@ public class UnitServiceImpl implements IUnitService {
 	@Transactional
 	public void deleteUser(Long id) {
 		userDao.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public String getZoneNameByUnitId(Long unitId) {
+		return unitDao.findZoneNameByUnitId(unitId);
 	}
 
 }

@@ -3,9 +3,6 @@ package com.actum.springboot.liftEnergy.app.models.service;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
@@ -34,6 +31,8 @@ public interface IUnitService {
 	public List<Zone> findTop5ZonesByProduction();
 	
 	public List<Zone> findTop5ZonesByProductionAndUserId(Long id);
+	
+	public String getZoneNameByUnitId(Long unitId);
 
 	public void saveUnit(Unit unit);
 

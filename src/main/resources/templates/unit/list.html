@@ -29,13 +29,14 @@
 						<thead class="thead-dark">
 							<tr>
 								<th>Id</th>
+								<th>Oil Field</th>
 								<th>Location</th>
 								<th>Productivity</th>
 								<th>Operation Mode</th>
 								<th>Status</th>
 								<th>Enabled</th>
 								<th>Edit Oil Well</th>
-								<th>Delete Oil Well</th>
+								<th sec:authorize="hasRole('ADMIN')">Delete Oil Well</th>
 								<th>Oil Well Details</th>
 							</tr>
 						</thead>
@@ -43,6 +44,7 @@
 							<tr th:each="unit: ${units}"
 								th:style="${wellData.get(unit.id) lt 2200} ? 'background-color: rgb(255, 150, 150);' : ''">
 								<td th:text="${unit.id}"></td>
+								<td th:text="${#strings.replace(unitRelatedZone.get(unit.id), '_', ' ')}"></td>
 								<td th:text="${unit.latitude}+ ' ' +${unit.longitude}"></td>
 								<td th:text="${wellData.get(unit.id)}+' BPD'"></td>
 								<td th:text="'Automatic'"></td>
@@ -50,7 +52,7 @@
 								<td th:text="${unit.enabled}"></td>
 								<td><a class="btn btn-info btn-xs"
 									th:href="@{'/unidad/form/' + ${unit.id}}" th:text="'Edit'"></a></td>
-								<td><a class="btn btn-danger btn-xs" 
+								<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger btn-xs" 
 									th:href="@{'/unidad/delete/' + ${unit.id}}" th:text="'Delete'"></a></td>
 								<td><a class="btn btn-primary btn-xs"
 									th:href="@{'/unidad/ver/' + ${unit.id}}" th:text="'Oil Well Detailed'"></a></td>
