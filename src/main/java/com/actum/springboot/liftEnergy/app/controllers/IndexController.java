@@ -112,10 +112,6 @@ public class IndexController {
 		return "index";
 	}
 	
-	private String graphScale() {
-		return "index";
-	}
-
 	private boolean hasRole(String role) {
 		SecurityContext context = SecurityContextHolder.getContext();
 

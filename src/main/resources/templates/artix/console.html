@@ -3,20 +3,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="~{layout/layout :: head}"></head>
 </head>
 
 <body
 	class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 
-	<header th:replace="layout/layout :: header"></header>
+	<header th:replace="~{layout/layout :: header}"></header>
 
 	<div class="app-body">
-		<div th:replace="layout/layout :: sidebar"></div>
+		<div th:replace="~{layout/layout :: sidebar}"></div>
 		<main class="main">
 			<!-- Breadcrumb-->
 
 			<div class="container my-2">
+				<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
+				<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+				<div class="alert alert-warning" th:if="${warning != null}" th:text="${warning}"></div>
+				<div class="alert alert-info" th:if="${info != null}" th:text="${info}"></div>				
 				<h1 th:text="${message}"></h1>
 
 				<div class="card">
@@ -87,8 +91,8 @@
 			</div>
 
 		</main>
-		<aside th:replace="layout/layout :: aside"></aside>
+		<aside th:replace="~{layout/layout :: aside}"></aside>
 	</div>
 
-	<footer th:replace="layout/layout :: footer"></footer>
+	<footer th:replace="~{layout/layout :: footer}"></footer>
 </body>

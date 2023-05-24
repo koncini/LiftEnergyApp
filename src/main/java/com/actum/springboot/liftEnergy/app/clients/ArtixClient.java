@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,6 +26,13 @@ public class ArtixClient {
 				.queryParam("name", name)
 				.encode(StandardCharsets.UTF_8);
 		String url = builder.toUriString();
-		return this.restTemplate.getForObject(url, String.class);
+		try {
+			String response = this.restTemplate.getForObject(url, String.class);
+			return response;
+		} catch (HttpServerErrorException e) {
+			return e.getStatusCode().toString();
+		} catch (Exception e) {
+			return e.getMessage();
+		}
 	}
 }

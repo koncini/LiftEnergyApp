@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,71 +28,77 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/artix")
 public class ArtixController {
-	
+
 	@Autowired
 	private IUnitService unitService;
-	
+
 	@Autowired
 	private ArtixClient artixClient;
-		
+
 	private Long eventsUnattended;
-	
+
 	@PostConstruct
 	public void init() {
 		eventsUnattended = unitService.getCountOfUnattendedEvents();
 	}
-	
+
 	@GetMapping("/result/{id}")
-	public String artixResult(@PathVariable(value="id") Long id, Map<String, Object> model) {
+	public String artixResult(@PathVariable(value = "id") Long id, Map<String, Object> model) {
 		DinagraphSample dinagraphSample = unitService.findOneDinagraphSample(id);
-		if(dinagraphSample==null) {
+		if (dinagraphSample == null) {
 			return "redirect:../form";
 		}
-		
+
 		model.put("sample", dinagraphSample);
 		model.put("message", "Artix Result");
 		model.put("title", "Artix Result");
 		return "artix/result";
 	}
-	
+
 	@GetMapping("/form")
-	public String artixConosle(Map<String, Object> model) {
+	public String artixConsole(Map<String, Object> model) {
 		List<DinagraphSample> samples = unitService.findAllDinagraphSamples();
 		DinagraphSample dinagraphSample = new DinagraphSample();
 		model.put("sample", dinagraphSample);
 		model.put("title", "Artix Console");
 		model.put("message", "Artix Console");
 		model.put("samples", samples);
+		model.put("eventsUnattended", eventsUnattended);
 		return "artix/console";
 	}
-		
+
 	@PostMapping("/form")
-	public String save(@Valid DinagraphSample dinagraphSample, Model model, @RequestParam("file") MultipartFile sample) {
-		
-		if(!sample.isEmpty()) {
+	public String save(@Valid DinagraphSample dinagraphSample, Model model, @RequestParam("file") MultipartFile sample,
+			RedirectAttributes flash) {
+
+		if (!sample.isEmpty()) {
 			String rootPath = "C://temp//uploads";
 			String sampleName = sample.getOriginalFilename();
+			String artixResponse = artixClient.getArtixConversion(sampleName);
+			if (artixResponse.contains("500 INTERNAL_SERVER_ERROR")) {
+				flash.addFlashAttribute("error", "Artix Conversion Failure");
+				return "redirect:form";
+			}
+			dinagraphSample.setData(artixResponse);
 			try {
 				byte[] bytes = sample.getBytes();
 				Path complePath = Paths.get(rootPath + "//" + sampleName);
 				Files.write(complePath, bytes);
-				
 				dinagraphSample.setImage(sample.getOriginalFilename());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				flash.addFlashAttribute("error", "File Upload Failure");
+				return "redirect:form";
 			}
-			String artixResponse = artixClient.getArtixConversion(sampleName);
-			dinagraphSample.setData(artixResponse);
 		}
-		
 		unitService.saveDinagraphSample(dinagraphSample);
+		flash.addFlashAttribute("success", "Sample Upload Succesfully");
 		return "redirect:form";
 	}
-	
+
 	@GetMapping("/delete/{sampleId}")
-	public String deleteSample(@PathVariable(name = "sampleId")Long sampleId, RedirectAttributes flash) {
+	public String deleteSample(@PathVariable(name = "sampleId") Long sampleId, RedirectAttributes flash) {
 		unitService.deleteDinagraphSample(sampleId);
+		flash.addFlashAttribute("warning", "Sample Deleted Succesfully");
 		return "redirect:../form";
 	}
 
