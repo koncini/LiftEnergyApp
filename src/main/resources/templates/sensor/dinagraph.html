@@ -27,8 +27,8 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-5">
-								<h4 class="card-title mb-0">Dinagraph Chart From Oil Well</h4>
-								<div class="small text-muted">March 2023</div>
+								<h4 th:text="'Dinagraph Chart From Oil Well ' + ${unit.id}"class="card-title mb-0"></h4>
+								<div class="small text-muted"><span th:text="${date}"></span></div>
 							</div>
 							<!-- /.col-->
 							<div class="col-sm-7 d-none d-md-block">
@@ -45,13 +45,13 @@
 							<canvas class="chart" id="dinagraph-chart" height="300"></canvas>
 						</div>
 					</div>
-					<div th:if="${unit.id == 1}" class="card-footer">
+					<div class="card-footer">
 						<ul>
-							<li><strong>Oil Well Status:</strong> Running</li>
-							<li><strong>Dinagraph Diagnostic:</strong> Gas Lock</li>
-							<li><strong>Working Hours:</strong> 100</li>
+							<li><strong>Oil Well Status: </strong><span th:text="'Running'"></span></li>
+							<li><strong>Dinagraph Diagnostic: </strong><span th:text="'Full Pump'"></span></li>
+							<li><strong>Working Hours: </strong><span th:text="'100'"></span></li>
 						</ul>
-						<a th:href="@{../../unidad/1/dinagraphic-analisis}"
+						<a th:href="@{../../unidad/1/analisis-dinagrafico}"
 							class="btn btn-info btn-xs" th:text="'Adjust Pump Unit'"></a>
 					</div>
 				</div>

@@ -46,9 +46,9 @@
 							style="height: 300px; margin-top: 40px;">
 							<canvas class="chart" id="dinagraph_sample_chart" height="300"></canvas>
 						</div>
-						<ul class="list-group">
-							<li class="list-group-item" th:text="${sample.name}"></li>
-							<li class="list-group-item" th:text="${sample.description}"></li>
+						<ul>
+							<li><strong>Name: </strong><span th:text="${sample.name}"></span></li>
+							<li><strong>Description: </strong><span th:text="${sample.description}"></span></li>
 						</ul>
 					</div>
 				</div>

@@ -6,9 +6,15 @@
 	<head th:replace="~{layout/layout :: head}"></head>
 	<script>
 		var chartSelection = "sensorData";
-	    var sensorId = "[[${sensor.id}]]";
+		var sensorId = "[[${sensor.id}]]";
+		var productionChartRange = "";
+		
+		function resizeChart(input) {
+			var selectedValue = $(input).val();
+			console.log("Selected value: " + selectedValue);
+		}
 	</script>
-</head>	
+</head>
 
 <body
 	class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
@@ -22,14 +28,15 @@
 
 			<div class="container my-2">
 
-				<h1 th:text="${message} +  ${unit.id}  + ' Sensor ' + ${sensor.id} + ' Readings'"></h1>
+				<h1
+					th:text="${message} +  ${unit.id}  + ' Sensor ' + ${sensor.id} + ' Readings'"></h1>
 
 				<div class="card">
 					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-5">
 								<h4 class="card-title mb-0">Sensor Chart</h4>
-								<div class="small text-muted">May 2023</div>
+								<div class="small text-muted"><span th:text="${date}"></span></div>
 							</div>
 							<!-- /.col-->
 							<div class="col-sm-7 d-none d-md-block">
@@ -40,16 +47,16 @@
 									data-toggle="buttons">
 									<label class="btn btn-outline-secondary"> <input
 										id="option1" type="radio" name="options" value="day"
-										autocomplete="off"> Day
+										autocomplete="off" onClick="resizeChart(this)"> Day
 									</label> <label class="btn btn-outline-secondary active"> <input
 										id="option2" type="radio" name="options" value="week"
-										autocomplete="off" checked=""> Week
+										autocomplete="off" checked="" onClick="resizeChart(this)"> Week
 									</label> <label class="btn btn-outline-secondary"> <input
 										id="option3" type="radio" name="options" value="month"
-										autocomplete="off"> Month
+										autocomplete="off" onClick="resizeChart(this)"> Month
 									</label> <label class="btn btn-outline-secondary"> <input
 										id="option4" type="radio" name="options" value="year"
-										autocomplete="off"> Year
+										autocomplete="off" onClick="resizeChart(this)"> Year
 									</label>
 								</div>
 							</div>
@@ -63,9 +70,12 @@
 					</div>
 					<div class="card-footer">
 						<ul>
-							<li><strong>Oil Well Status: </strong><span th:text="'Running'"></span></li>
-							<li><strong>Sensor Type: </strong><span th:text="${#strings.replace(sensor.type, '_', ' ')}"></span></li>
-							<li><strong>Sensor Status: </strong><span th:text="${sensor.enabled} ? 'Enabled' : 'Disabled'"></span></li>
+							<li><strong>Oil Well Status: </strong><span
+								th:text="'Running'"></span></li>
+							<li><strong>Sensor Type: </strong><span
+								th:text="${#strings.replace(sensor.type, '_', ' ')}"></span></li>
+							<li><strong>Sensor Status: </strong><span
+								th:text="${sensor.enabled} ? 'Enabled' : 'Disabled'"></span></li>
 						</ul>
 					</div>
 				</div>

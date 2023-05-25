@@ -94,6 +94,8 @@ public interface IUnitService {
 	
 	public List<SensorData> getSensorDataFromToday(Long sensorId);
 	
+	public List<SensorData> getSensorDataFromCurrentWeek(Long sensorId);
+	
 	public List<SensorData> getSensorDataFromCurrentMonth(Long sensorId);
 	
 	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId);

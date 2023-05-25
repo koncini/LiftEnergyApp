@@ -60,9 +60,27 @@ public class UnitProductionController {
 		return ResponseEntity.ok("Data uploaded successfully");
 	}
 	
-	@GetMapping("/get-production-data/{unit_id}")
-	private ResponseEntity<List<UnitProduction>> getProductionData(@PathVariable(value = "unit_id")Long unitId){
+	@GetMapping("/get-today-production-data/{unit_id}")
+	private ResponseEntity<List<UnitProduction>> getTodayProductionData(@PathVariable(value = "unit_id")Long unitId){
 		List<UnitProduction> production = unitService.getUnitProductionFromToday(unitId);
+		return ResponseEntity.ok(production);
+	}
+	
+	@GetMapping("/get-month-production-data/{unit_id}")
+	private ResponseEntity<List<UnitProduction>> getMonthProductionData(@PathVariable(value = "unit_id")Long unitId){
+		List<UnitProduction> production = unitService.getUnitProductionFromCurrentMonth(unitId);
+		return ResponseEntity.ok(production);
+	}
+	
+	@GetMapping("/get-week-production-data/{unit_id}")
+	private ResponseEntity<List<UnitProduction>> getWeekProductionData(@PathVariable(value = "unit_id")Long unitId){
+		List<UnitProduction> production = unitService.getUnitProductionFromCurrentMonth(unitId);
+		return ResponseEntity.ok(production);
+	}
+	
+	@GetMapping("/get-year-production-data/{unit_id}")
+	private ResponseEntity<List<UnitProduction>> getYearProductionData(@PathVariable(value = "unit_id")Long unitId){
+		List<UnitProduction> production = unitService.getUnitProductionFromCurrentYear(unitId);
 		return ResponseEntity.ok(production);
 	}
 

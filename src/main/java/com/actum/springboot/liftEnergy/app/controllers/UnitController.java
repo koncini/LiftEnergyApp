@@ -1,5 +1,7 @@
 package com.actum.springboot.liftEnergy.app.controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,9 +87,14 @@ public class UnitController {
 		List<UnitData> unitData = wellDataWrapper.getUnitData();
 		List<MotorData> motorData = wellDataWrapper.getMotorData();
 		List<PowerCost> powerCost = wellDataWrapper.getPowerCost();
+		
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
+		String formattedDate = currentDate.format(formatter);
 
 		model.addAttribute("title", titleWatchString);
 		model.addAttribute("message", messageWatchString.concat(unit.getId().toString()));
+		model.addAttribute("date", formattedDate);
 		model.addAttribute("settings", settings);
 		model.addAttribute("wellData", wellData);
 		model.addAttribute("unitData", unitData);

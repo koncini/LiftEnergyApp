@@ -1,5 +1,8 @@
 package com.actum.springboot.liftEnergy.app.controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,13 +38,19 @@ public class SensorController {
 	}
 	
 	@GetMapping("{unitId}/analisis/{sensorId}")
-	public String analizarUnidad(@PathVariable(value = "unitId" ) Long unitId, @PathVariable(value = "sensorId" ) Long sensorId, Model model) {
-		
+	public String analizarUnidad(@PathVariable(value = "unitId") Long unitId,
+			@PathVariable(value = "sensorId") Long sensorId, Model model) {
+
 		Sensor sensor = unitService.findEnabledSensorById(sensorId);
 		Unit unit = unitService.findOneUnit(unitId);
 
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
+		String formattedDate = currentDate.format(formatter);
+
 		model.addAttribute("sensor", sensor);
 		model.addAttribute("unit", unit);
+		model.addAttribute("date", formattedDate);
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
 		model.addAttribute("eventsUnattended", eventsUnattended);
@@ -57,7 +66,12 @@ public class SensorController {
 			return "redirect:/listar";	
 		}
 		
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
+		String formattedDate = currentDate.format(formatter);
+		
 		model.addAttribute("unit", unit);
+		model.addAttribute("date", formattedDate);
 		model.addAttribute("title", titleWatchSensorString);
 		model.addAttribute("message", messageWatchSensorString);
 		model.addAttribute("eventsUnattended", eventsUnattended);

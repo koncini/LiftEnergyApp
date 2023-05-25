@@ -16,7 +16,7 @@ Chart.defaults.global.tooltips.enabled = false;
 Chart.defaults.global.tooltips.mode = 'index';
 Chart.defaults.global.tooltips.position = 'nearest';
 Chart.defaults.global.tooltips.custom = CustomTooltips; // eslint-disable-next-line no-unused-vars
-
+		
 switch (chartSelection) {
 	case "main":
 		const data = [];
@@ -226,48 +226,24 @@ switch (chartSelection) {
 			}
 		}); // eslint-disable-next-line no-unused-vars
 
-		var cardChart4 = new Chart($('#card-chart4'), {
-			type: 'bar',
-			data: {
-				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April'],
-				datasets: [{
-					label: 'My First dataset',
-					backgroundColor: 'rgba(255,255,255,.2)',
-					borderColor: 'rgba(255,255,255,.55)',
-					data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82]
-				}]
-			},
-			options: {
-				maintainAspectRatio: false,
-				legend: {
-					display: false
-				},
-				scales: {
-					xAxes: [{
-						display: false,
-						barPercentage: 0.6
-					}],
-					yAxes: [{
-						display: false
-					}]
-				},
-				elements: {
-					line: {
-						tension: 0.00001,
-						borderWidth: 1
-					},
-					point: {
-						radius: 4,
-						hitRadius: 10,
-						hoverRadius: 4
-					}
-				}
-			}
-		});
 		break;
 	case "sensorData":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
-		fetch('http://localhost:8090/api/sensors-data/get-data/'.concat(sensorId))
+		var fetchUrl = 'http://localhost:8090/api/sensors-data/get-today-data/';
+		switch (productionChartRange) {
+			case "year":
+				fetchUrl = 'http://localhost:8090/api/sensors-data/get-year-data/';
+				break;
+			case "month":
+				fetchUrl = 'http://localhost:8090/api/sensors-data/get-month-data/';
+				break;
+			case "week":
+				fetchUrl = 'http://localhost:8090/api/sensors-data/get-week-data/';
+				break;
+			default:
+				fetchUrl = fetchUrl;
+		}
+		fetch(fetchUrl.concat(sensorId))
 			.then(response => response.json())
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
@@ -490,7 +466,21 @@ switch (chartSelection) {
 		break;
 	case "unitProduction":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
-		fetch('http://localhost:8090/api/unit-production/get-production-data/'.concat(unitId))
+		var fetchUrl = 'http://localhost:8090/api/unit-production/get-today-production-data/';
+		switch (productionChartRange) {
+			case "year":
+				fetchUrl = 'http://localhost:8090/api/unit-production/get-year-production-data/';
+				break;
+			case "month":
+				fetchUrl = 'http://localhost:8090/api/unit-production/get-month-production-data/';
+				break;
+			case "week":
+				fetchUrl = 'http://localhost:8090/api/unit-production/get-week-production-data/';
+				break;
+			default:
+				fetchUrl = fetchUrl;
+		}
+		fetch(fetchUrl.concat(unitId))
 			.then(response => response.json())
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response

@@ -465,4 +465,9 @@ public class UnitServiceImpl implements IUnitService {
 		return unitDao.findZoneNameByUnitId(unitId);
 	}
 
+	@Override
+	public List<SensorData> getSensorDataFromCurrentWeek(Long sensorId) {
+		return null;
+	}
+
 }

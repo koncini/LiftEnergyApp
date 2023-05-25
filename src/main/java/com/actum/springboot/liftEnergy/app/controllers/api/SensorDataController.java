@@ -4,7 +4,6 @@ import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,13 +75,27 @@ public class SensorDataController {
 		return ResponseEntity.ok("Data uploaded successfully");
 	}
 
-	@GetMapping("/get-data/{sensor_id}")
-	private ResponseEntity<List<SensorData>> getSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
+	@GetMapping("/get-today-data/{sensor_id}")
+	private ResponseEntity<List<SensorData>> getTodaySensorData(@PathVariable(value = "sensor_id") Long sensorId) {
+		List<SensorData> sensorData = unitService.getSensorDataFromToday(sensorId);
+		return ResponseEntity.ok(sensorData);
+	}
+	
+	@GetMapping("/get-week-data/{sensor_id}")
+	private ResponseEntity<List<SensorData>> getWeekSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
 		List<SensorData> sensorData = unitService.getSensorDataFromCurrentYear(sensorId);
-		String fetchUrl = "http://localhost:8090/api/sensors-data/get-data/" + sensorId;
-		Map<String, Object> responseBody = new HashMap<>();
-		responseBody.put("data", sensorData);
-		responseBody.put("fetchUrl", fetchUrl);
+		return ResponseEntity.ok(sensorData);
+	}
+	
+	@GetMapping("/get-month-data/{sensor_id}")
+	private ResponseEntity<List<SensorData>> getMonthSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
+		List<SensorData> sensorData = unitService.getSensorDataFromCurrentMonth(sensorId);
+		return ResponseEntity.ok(sensorData);
+	}
+	
+	@GetMapping("/get-year-data/{sensor_id}")
+	private ResponseEntity<List<SensorData>> getYearSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
+		List<SensorData> sensorData = unitService.getSensorDataFromCurrentYear(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
 

@@ -30,4 +30,12 @@ public interface ISensorDataDao extends CrudRepository<SensorData, Long> {
 	
 	@Query("SELECT sd FROM SensorData sd WHERE sd.sensor.id = :sensorId AND YEAR(sd.timeStamp) = :year")
     public List<SensorData> findBySensorIdAndTimeStampCurrentYear(@Param("sensorId") Long sensorId, @Param("year") int year);
+	
+	@Query("SELECT sd FROM SensorData sd JOIN sd.sensor s WHERE s.id = :sensorId AND sd.timeStamp BETWEEN :startOfWeek AND :now")
+	public List<SensorData> findBySensorIdAndTimestampCurrentWeek(
+	    @Param("sensorId") Long sensorId,
+	    @Param("startOfWeek") Date startOfWeek,
+	    @Param("now") Date now
+	);
+
 }

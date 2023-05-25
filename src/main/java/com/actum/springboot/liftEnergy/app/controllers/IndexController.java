@@ -1,5 +1,7 @@
 package com.actum.springboot.liftEnergy.app.controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 
@@ -101,9 +103,14 @@ public class IndexController {
 		ExchangeRateData brentoilData = objectMapper.readValue(brentoilResponse, ExchangeRateData.class);
 		ExchangeRateData wtioilData = objectMapper.readValue(wtioilResponse, ExchangeRateData.class);
 		
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
+		String formattedDate = currentDate.format(formatter);
+		
 		model.addAttribute("zones", zones);
 		model.addAttribute("title", titleString);
 		model.addAttribute("zoneMessage", zoneMessageString);
+		model.addAttribute("date", formattedDate);
 		model.addAttribute("echonomicsMessage", financialMessageString);
 		model.addAttribute("brentoilRateData", brentoilData.getData());
 		model.addAttribute("wtioilRateData", wtioilData.getData());
