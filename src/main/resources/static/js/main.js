@@ -310,7 +310,7 @@ switch (chartSelection) {
 		break;
 	case "dinagraphReading":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
-		fetch('http://localhost:8090/api/sensors-data/get-dinagraph-data/'.concat(unitId))
+		fetch('http://localhost:8090/api/samples/get-data/1')
 			.then(response => response.json())
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
@@ -329,7 +329,7 @@ switch (chartSelection) {
 				const minValue = chartSize.min - 1;
 
 				// Convert the JSON data to a format that can be used by ChartJS.
-				var dinagraphSampleData = {
+				var dinagraphReadingData = {
 					datasets: [{
 						label: 'Oil well Dinagraph Readings',
 						backgroundColor: hexToRgba(getStyle('--info'), 10),
@@ -343,9 +343,9 @@ switch (chartSelection) {
 				};
 
 				// Create the ChartJS instance using the converted data and the fetch URL.
-				var dinagraphSampleChart = new Chart($('#dinagraph_sample_chart'), {
+				var dinagraphReadingChart = new Chart($('#dinagraph_chart'), {
 					type: 'scatter',
-					data: dinagraphSampleData,
+					data: dinagraphReadingData,
 					options: {
 						maintainAspectRatio: false,
 						legend: {

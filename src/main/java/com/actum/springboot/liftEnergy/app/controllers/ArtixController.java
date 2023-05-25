@@ -52,6 +52,7 @@ public class ArtixController {
 		model.put("sample", dinagraphSample);
 		model.put("message", "Artix Result");
 		model.put("title", "Artix Result");
+		model.put("eventsUnattended", eventsUnattended);
 		return "artix/result";
 	}
 
