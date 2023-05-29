@@ -74,7 +74,7 @@ public class IndexController {
 			throws JsonMappingException, JsonProcessingException {
 
 		if (authentication != null) {
-			logger.info(userString + authentication.getName() + successString);
+			logger.info(userString + authentication.getName() + ' ' +successString);
 		} else {
 			return "redirect:/login";
 		}

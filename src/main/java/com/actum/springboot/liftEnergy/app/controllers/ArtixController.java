@@ -42,9 +42,9 @@ public class ArtixController {
 		eventsUnattended = unitService.getCountOfUnattendedEvents();
 	}
 
-	@GetMapping("/result/{id}")
-	public String artixResult(@PathVariable(value = "id") Long id, Map<String, Object> model) {
-		DinagraphSample dinagraphSample = unitService.findOneDinagraphSample(id);
+	@GetMapping("/result/{sampleId}")
+	public String artixResult(@PathVariable(value = "sampleId") Long sampleId, Map<String, Object> model) {
+		DinagraphSample dinagraphSample = unitService.findOneDinagraphSample(sampleId);
 		if (dinagraphSample == null) {
 			return "redirect:../form";
 		}

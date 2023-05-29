@@ -107,4 +107,15 @@ public class SensorController {
 		return "sensor/dinagraph";
 	}
 	
+	@GetMapping("/new-sensor/{id}")
+	public String addNewSensor(@PathVariable Long id, Model model) {
+		Unit unit = unitService.findOneUnit(id);
+		model.addAttribute("title", "New Sensor");
+		model.addAttribute("message", "Add New Sensor");
+		model.addAttribute("unit", unit);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
+		return "notes/form";
+	}
+	
 }

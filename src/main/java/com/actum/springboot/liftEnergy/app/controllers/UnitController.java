@@ -161,6 +161,17 @@ public class UnitController {
 		return "unit/form";
 	}
 	
+	@GetMapping("/edit-settings/{unitId}")
+	public String editUnitSettings(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
+		Unit unit = unitService.findOneUnit(unitId);
+		model.addAttribute("unit", unit);
+		model.addAttribute("title", titleFormUnitString);
+		model.addAttribute("message", messageFormUnitString);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+		
+		return "unit/config";
+	}
+	
 	@GetMapping("/form")
 	public String createUnit(Model model, RedirectAttributes flash) {
 				

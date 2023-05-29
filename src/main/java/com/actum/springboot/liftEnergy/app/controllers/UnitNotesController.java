@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 
@@ -69,6 +70,17 @@ public class UnitNotesController {
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "notes/listar";
+	}
+	
+	@GetMapping("/new-note/{id}")
+	public String addNewNote(@PathVariable Long id, Model model) {
+		Unit unit = unitService.findOneUnit(id);
+		model.addAttribute("title", titleString);
+		model.addAttribute("message", messageString);
+		model.addAttribute("unit", unit);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
+		return "notes/form";
 	}
 
 }

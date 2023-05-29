@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
@@ -45,7 +46,7 @@ public class UnitEventsController {
 		model.addAttribute("unitEvents", unitEventsFiltered);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "events/listar";
+		return "events/list";
 	}
 
 	@GetMapping("/list-events")
@@ -64,7 +65,16 @@ public class UnitEventsController {
 		model.addAttribute("unitEventsUnits", units);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "events/listar";
+		return "events/list";
+	}
+	
+	@GetMapping("/attend/{eventId}")
+	public String attendEvent(@PathVariable(value = "eventId") Long eventId, Model model, RedirectAttributes flash) {
+		UnitEvent unitEvent = unitService.findOneUnitEvent(eventId);
+		unitEvent.setEventAttended(true);
+		unitService.saveUnitEvent(unitEvent);
+		flash.addFlashAttribute("success", "Event noted as attended");
+		return "redirect:../list-events";
 	}
 
 }
