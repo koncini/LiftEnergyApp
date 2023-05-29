@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.clients.PushoverClient;
 import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
@@ -22,6 +25,7 @@ import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/sensor")
@@ -107,15 +111,50 @@ public class SensorController {
 		return "sensor/dinagraph";
 	}
 	
-	@GetMapping("/new-sensor/{id}")
-	public String addNewSensor(@PathVariable Long id, Model model) {
-		Unit unit = unitService.findOneUnit(id);
-		model.addAttribute("title", "New Sensor");
-		model.addAttribute("message", "Add New Sensor");
-		model.addAttribute("unit", unit);
+	@GetMapping("/form/{sensorId}")
+	public String editSensor(@PathVariable(value = "sensorId") Long sensorId, Map<String, Object> model, RedirectAttributes flash) {
+		
+		Sensor sensor = unitService.findOneSensor(sensorId);
+		if (sensor == null) {
+			return "redirect:/list";
+		}
+		model.put("sensor", sensor);
+		model.put("title", "Edit Sensor");
+		model.put("message", "Edit Sensor");
+		model.put("eventsUnattended", eventsUnattended);
+		flash.addFlashAttribute("success", "New Oil Field Created");
+
+		return "sensor/form";
+	}
+	
+	@GetMapping("/form")
+	public String createSensor(Map<String, Object> model, RedirectAttributes flash) {
+		Sensor sensor = new Sensor();
+		model.put("sensor", sensor);
+		model.put("title", "Create New Sensor");
+		model.put("message", "Create New Sensor");
+		model.put("eventsUnattended", eventsUnattended);
+		flash.addFlashAttribute("success", "New Oil Field Created");
+
+		return "sensor/new";
+	}
+	
+	@PostMapping("/form")
+	public String saveSensor(@Valid Sensor sensor, Model model, RedirectAttributes flash) {
+
+		model.addAttribute("title", "Create Sensor");
+		model.addAttribute("message", "Create Sensor");
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "notes/form";
+		return "redirect:form";
+	}
+	
+	@GetMapping("/delete/{sensorId}")
+	public String deleteSensor(@PathVariable(value = "sensorId") Long sensorId, Model model, RedirectAttributes flash) {
+		if(sensorId > 0) {
+			unitService.deleteSensor(sensorId);
+		}
+		return "redirect:../watch";
 	}
 	
 }

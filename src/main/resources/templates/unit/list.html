@@ -20,7 +20,7 @@
 
 				<h1 th:text="${message}"></h1>
 
-				<a th:href="@{/unidad/form}"
+				<a sec:authorize="hasRole('ADMIN')" th:href="@{/unidad/form}"
 					class="btn btn-success btn-xs"
 					th:text="'Create New Oil Well'"></a>
 

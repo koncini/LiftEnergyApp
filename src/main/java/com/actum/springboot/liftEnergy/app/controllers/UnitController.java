@@ -144,22 +144,6 @@ public class UnitController {
 
 		return "unit/list";
 	}
-
-	@GetMapping("/form/{unitId}")
-	public String editUnit(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
-		
-		Unit unit = unitService.findOneUnit(unitId);
-		if (unit == null) {
-			return "redirect:/list";	
-		}
-		
-		model.addAttribute("unit", unit);
-		model.addAttribute("title", titleFormUnitString);
-		model.addAttribute("message", messageFormUnitString);
-		model.addAttribute("eventsUnattended", eventsUnattended);
-		
-		return "unit/form";
-	}
 	
 	@GetMapping("/edit-settings/{unitId}")
 	public String editUnitSettings(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
@@ -172,12 +156,30 @@ public class UnitController {
 		return "unit/config";
 	}
 	
+	@GetMapping("/form/{unitId}")
+	public String editUnit(@PathVariable(value = "unitId") Long unitId, Map<String, Object> model, RedirectAttributes flash) {
+		
+		Unit unit = unitService.findOneUnit(unitId);
+		if (unit == null) {
+			return "redirect:/list";	
+		}
+		model.put("unit", unit);
+		model.put("title", titleFormUnitString);
+		model.put("message", messageFormUnitString);
+		model.put("eventsUnattended", eventsUnattended);
+		flash.addFlashAttribute("success", "Oil Well Edited");
+		
+		return "unit/form";
+	}
+	
 	@GetMapping("/form")
-	public String createUnit(Model model, RedirectAttributes flash) {
-				
-		model.addAttribute("title", "Create Oil Well ");
-		model.addAttribute("message", "Create Oil Well");
-		model.addAttribute("eventsUnattended", eventsUnattended);
+	public String createUnit(Map<String, Object> model, RedirectAttributes flash) {
+		Unit unit = new Unit();		
+		model.put("unit", unit);
+		model.put("title", "Create New Oil Well ");
+		model.put("message", "Create New Oil Well");
+		model.put("eventsUnattended", eventsUnattended);
+		flash.addFlashAttribute("success", "New Oil Well Created");
 		
 		return "unit/new";
 	}

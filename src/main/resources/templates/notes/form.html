@@ -17,8 +17,34 @@
 			<!-- Breadcrumb-->
 
 			<div class="container my-2">
-				<h1 th:text="${message}"></h1>
 
+				<div class="card">
+					<div class="card-header">
+						<h1 th:text="${message}"></h1>
+					</div>
+					<div class="card-body">
+					
+						<form th:action="@{unitNote}" th:object="${user}" method="post">
+
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Note for Oil Field </label>
+								<div class="cols-sm-6">
+									<textarea type="text"
+										class="form-control" cols="40" rows="5"></textarea>
+								</div>
+							</div>
+
+							<br></br>
+							<div class="form-group row">
+								<div class="col-sm-6">
+									<input type="submit" value="Save"
+										class="btn btn-secondary" />
+								</div>
+							</div>
+						</form>					
+					
+					</div>
+				</div>
 
 			</div>
 

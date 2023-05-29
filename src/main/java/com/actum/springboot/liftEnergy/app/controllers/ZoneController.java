@@ -125,6 +125,11 @@ public class ZoneController {
 		if (zone == null) {
 			return "redirect:/list";
 		}
+		model.put("zone", zone);
+		model.put("title", "Edit Oil Field");
+		model.put("message", "Edit Oil Field");
+		model.put("eventsUnattended", eventsUnattended);
+		flash.addFlashAttribute("success", "Oil Field Edited");
 
 		return "zone/form";
 	}
@@ -133,12 +138,14 @@ public class ZoneController {
 	public String createZone(Map<String, Object> model, RedirectAttributes flash) {
 		Zone zone = new Zone();
 		model.put("zone", zone);
-		model.put("title", "Create new Oil Field");
-		model.put("message", "New Zone");
+		model.put("title", "New Oil Field");
+		model.put("message", "Create New Oil Field");
+		model.put("eventsUnattended", eventsUnattended);
 		flash.addFlashAttribute("success", "New Oil Field Created");
+
 		return "zone/new";
 	}
-	
+		
 	@PostMapping("/form")
 	public String saveZone(@Valid Zone zone, Model model, RedirectAttributes flash) {
 
@@ -154,7 +161,7 @@ public class ZoneController {
 		if(zoneId > 0) {
 			unitService.deleteZone(zoneId);
 		}
-		return "redirect:zone/listar-zonas-detallado";
+		return "redirect:../listar-zonas-detallado";
 	}
 
 }
