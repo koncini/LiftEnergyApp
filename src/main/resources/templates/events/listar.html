@@ -31,7 +31,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="event: ${unitEvents}">
+						<tr th:each="event: ${unitEvents}"
+							th:style="${event.eventPriority == 1} ? 'background-color: rgb(255, 150, 150);' : ''">
 							<td th:text="${event.id}"></td>
 							<td th:text="${unitEventsUnits[event.id]}"></td>
 							<td th:text="${event.eventName}"></td>

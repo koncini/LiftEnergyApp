@@ -18,14 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.UnitSettings;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController("api UnitController")
 @RequestMapping("/api/unit")
 public class UnitController {
 	
 	private final Logger log = LoggerFactory.getLogger(getClass());
-
+	
+	public String defaultSpeed = "1800";
+	
 	@Autowired
 	private IUnitService unitService;
 
@@ -57,8 +64,12 @@ public class UnitController {
 	
 	@GetMapping("/get-unit-setup/{unitId}")
 	@Secured("permitAll")
-	private ResponseEntity<String> getUnitSetup(@PathVariable(value = "unitId") Long unitId) {
-	    String json = "{\"reset\": false, \"start\": false, \"stop\": true, \"set_point\": 1000}";
+	private ResponseEntity<String> getUnitSetup(@PathVariable(value = "unitId") Long unitId) throws JsonMappingException, JsonProcessingException {
+		Unit unit = unitService.findOneUnit(unitId);
+		ObjectMapper objectMapper = new ObjectMapper();
+		String unitSettings = unit.getSettings();
+		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+	    String json = "{\"reset\": false, \"start\": false, \"stop\": false, \"set_point\": " + defaultSpeed + "}";
 	    log.info("Request Processed");
 	    return new ResponseEntity<>(json, HttpStatus.OK);
 	}

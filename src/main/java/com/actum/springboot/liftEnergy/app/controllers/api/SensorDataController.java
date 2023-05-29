@@ -1,6 +1,5 @@
 package com.actum.springboot.liftEnergy.app.controllers.api;
 
-import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,10 +9,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
+import com.actum.springboot.liftEnergy.app.clients.PushoverClient;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorSetting;
@@ -44,6 +38,9 @@ public class SensorDataController {
 	@Autowired
 	private IUnitService unitService;
 
+	@Autowired
+	private PushoverClient pushoverClient;
+
 	@PostMapping("/upload-data/{sensor_id}")
 	@Secured("permitAll")
 	private ResponseEntity<String> uploadSensorData(@PathVariable(value = "sensor_id") Long sensorId,
@@ -61,6 +58,7 @@ public class SensorDataController {
 		String sensorUnit = (String) requestBody.get("unit");
 		Boolean dinagraphReading = (Boolean) requestBody.get("dinagraphReading");
 		String strDate = (String) requestBody.get("timeStamp");
+		//TODO: Cambiar a LocalDateTime
 		Date timeStamp = null;
 		try {
 			timeStamp = dateFormat.parse(strDate);
@@ -80,19 +78,19 @@ public class SensorDataController {
 		List<SensorData> sensorData = unitService.getSensorDataFromToday(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
-	
+
 	@GetMapping("/get-week-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getWeekSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
 		List<SensorData> sensorData = unitService.getSensorDataFromCurrentYear(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
-	
+
 	@GetMapping("/get-month-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getMonthSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
 		List<SensorData> sensorData = unitService.getSensorDataFromCurrentMonth(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
-	
+
 	@GetMapping("/get-year-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getYearSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
 		List<SensorData> sensorData = unitService.getSensorDataFromCurrentYear(sensorId);
@@ -115,20 +113,24 @@ public class SensorDataController {
 		Unit unit = sensor.getUnit();
 
 		if (data < settings.getMinValue()) {
-			String response = sendMessage("Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Over Range", sensor);
+			String response = pushoverClient.sendSensorOverRangeMessage(
+					"Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Over Range", sensor);
 			unitEvent.setUnit(unit);
 			unitEvent.setEventName("Variable Over Range");
-			unitEvent.setEventDetail("Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Over Range");
+			unitEvent.setEventDetail(
+					"Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Over Range");
 			unitEvent.setEventPriority(3);
 			unitEvent.setEventAttended(false);
 			unitEvent.setTimestamp(timestamp);
 			unitService.saveUnitEvent(unitEvent);
 			System.out.println(response + " value over range");
 		} else if (data > settings.getMaxValue()) {
-			String response = sendMessage("Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Under Range", sensor);
+			String response = pushoverClient.sendSensorOverRangeMessage(
+					"Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Under Range", sensor);
 			unitEvent.setUnit(unit);
 			unitEvent.setEventName("Variable Over Range");
-			unitEvent.setEventDetail("Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Under Range");
+			unitEvent.setEventDetail(
+					"Variable " + sensor.getType() + " From Oil Well " + unit.getId() + " Is Under Range");
 			unitEvent.setEventPriority(3);
 			unitEvent.setEventAttended(false);
 			unitEvent.setTimestamp(timestamp);
@@ -139,19 +141,4 @@ public class SensorDataController {
 		}
 	}
 
-	private String sendMessage(String message, Sensor sensor) {
-		RestTemplate restTemplate = new RestTemplate();
-		URI uri = UriComponentsBuilder.fromUriString("http://localhost:8090/pushover/message")
-				.queryParam("title", message).queryParam("message", sensor.getType()).build().toUri();
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
-
-		ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, requestEntity,
-				String.class);
-		String responseBody = responseEntity.getBody();
-		return responseBody;
-	}
 }

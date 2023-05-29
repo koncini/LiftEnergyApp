@@ -34,7 +34,7 @@
 	    height: 60px;
 	    animation: spin 1s linear infinite;
 	    position: absolute;
-	    top: 50%;
+	    top: 73%;
 	    left: 50%;
 	    transform: translate(-50%, -50%);
 	  }
@@ -51,6 +51,7 @@
 	<script>
 		var chartSelection = "dinagraphReading";
 		var unitId = "[[${unit.id}]]";
+		var sampleId = "[[${unit.id}]]";
 	</script>
 </head>
 
@@ -65,7 +66,7 @@
 			<!-- Breadcrumb-->
 			<div class="container my-2">
 
-				<h1 th:text="${message}"></h1>
+				<h1 th:text="${message} + '  Analysis'"></h1>
 				
 				<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
 				<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
@@ -97,8 +98,8 @@
 					<div class="card-footer">
 						<ul>
 							<li><strong>Oil Well Status: </strong><span th:text="'Running'"></span></li>
-							<li><strong>Dinagraph Diagnostic: </strong><span th:text="'Full Pump'"></span></li>
-							<li><strong>Pump Unit Status: </strong><span th:text="'OK'"></span></li>
+							<li><strong>Dinagraph Diagnostic: </strong><span th:text="${sample.name}"></span></li>
+							<li><strong>Pump Unit Status: </strong><span th:text="${sample.name == 'Bomba llena' ? 'ok' : 'failure'}"></span></li>
 							<li><strong>Working Hours: </strong><span th:text="'100'"></span></li>
 						</ul>
 						<button type="button" class="btn btn-primary"
@@ -118,6 +119,7 @@
 		<div class="modal-content">
 			<h2>Performing Pump Unit Adjust</h2>
 			<p>Please wait until response.</p>
+			<br></br>
 			<div class="loader"></div>
 		</div>
 	</div>

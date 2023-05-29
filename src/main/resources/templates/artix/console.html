@@ -17,10 +17,14 @@
 			<!-- Breadcrumb-->
 
 			<div class="container my-2">
-				<div class="alert alert-success" th:if="${success != null}" th:text="${success}"></div>
-				<div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
-				<div class="alert alert-warning" th:if="${warning != null}" th:text="${warning}"></div>
-				<div class="alert alert-info" th:if="${info != null}" th:text="${info}"></div>				
+				<div class="alert alert-success" th:if="${success != null}"
+					th:text="${success}"></div>
+				<div class="alert alert-danger" th:if="${error != null}"
+					th:text="${error}"></div>
+				<div class="alert alert-warning" th:if="${warning != null}"
+					th:text="${warning}"></div>
+				<div class="alert alert-info" th:if="${info != null}"
+					th:text="${info}"></div>
 				<h1 th:text="${message}"></h1>
 
 				<div class="card">
@@ -40,9 +44,9 @@
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Description</label>
 								<div class="col-sm-6">
-									<input type="text" th:field="*{description}"
-										class="form-control"
-										th:errorclass="'form-control alert-danger'" autocomplete="off" />
+									<textarea type="text" th:field="*{description}"
+										class="form-control" cols="40" rows="5"
+										th:errorclass="'form-control alert-danger'" autocomplete="off"></textarea>
 									<small class="form-text text-danger"
 										th:if="${#fields.hasErrors('description')}"
 										th:errors="*{description}"></small>

@@ -310,7 +310,7 @@ switch (chartSelection) {
 		break;
 	case "dinagraphReading":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
-		fetch('http://localhost:8090/api/samples/get-data/1')
+		fetch('http://localhost:8090/api/samples/get-data/'.concat(sampleId))
 			.then(response => response.json())
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
