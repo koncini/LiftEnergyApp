@@ -126,12 +126,33 @@
 
 	<script>
 		function showModal() {
+			
+			const url = 'http://localhost:8090/api/unit/set-motor-speed/1';
+
 			var modal = document.getElementById("pumpAdjustModal");
 			modal.style.display = "block";
 
 			var timerDuration = 5;
 
 			setTimeout(redirect, timerDuration * 5000);
+			
+			fetch(url, {
+			  method: 'POST',
+			  headers: {
+			    'Content-Type': 'application/json'
+			  },
+			})
+			  .then(response => {
+			    if (!response.ok) {
+			      throw new Error(`HTTP error! Status: ${response.status}`);
+			    }
+			    // Handle the response
+			    console.log('POST request sent successfully!');
+			  })
+			  .catch(error => {
+			    // Handle errors
+			    console.error('Error:', error);
+			  });
 		}
 
 		function redirect() {

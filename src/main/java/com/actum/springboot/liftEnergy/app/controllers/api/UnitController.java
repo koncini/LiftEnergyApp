@@ -56,11 +56,31 @@ public class UnitController {
 		unitService.saveUnit(null);
 	}
 	
+	@PostMapping("/set-motor-speed/{unitId}")
+	@Secured("permitAll")
+	private ResponseEntity<String> setMotorSpeed(@PathVariable(value = "unitId") Long unitId) throws JsonMappingException, JsonProcessingException{
+		Unit unit = unitService.findOneUnit(unitId);
+		ObjectMapper objectMapper = new ObjectMapper();
+		String unitSettings = unit.getSettings();
+		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+		//TODO: Encontrar la manera de no acceder por indice a un elemento de la lista revisar si requiere seguridad
+		UnitSettings motorSpeed =settings.get(8);
+		motorSpeed.setValue(800);
+		settings.set(8, motorSpeed);
+		String newSettingResponse = objectMapper.writeValueAsString(settings);
+		unit.setSettings(newSettingResponse);
+		unitService.saveUnit(unit);
+		String json = "{\"success\": true}";
+		log.info("New Motor Speed Setted");
+	    return new ResponseEntity<>(json, HttpStatus.OK);
+	}
+	
+	
 	@GetMapping("/get-dinagraph-data/{unitId}")
 	@Secured("permitAll")
 	private List<SensorData> getDinagraphData(@PathVariable(value = "unitId") Long unitId) {
 		return unitService.findDinagraphData();
-	}
+	}	
 	
 	@GetMapping("/get-unit-setup/{unitId}")
 	@Secured("permitAll")
@@ -69,7 +89,15 @@ public class UnitController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String unitSettings = unit.getSettings();
 		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
-	    String json = "{\"reset\": false, \"start\": false, \"stop\": false, \"set_point\": " + defaultSpeed + "}";
+		//TODO: Encontrar la manera de no acceder por indice a un elemento de la lista
+		UnitSettings motorSpeed = settings.get(8);
+		String unitStatus = (String) settings.get(6).getValue();
+		String json = "{\"reset\": true, \"start\": false, \"stop\": false, \"set_point\": " + motorSpeed.getValue().toString() + "}";
+		if (unitStatus.equals("running")) {			
+			 json = "{\"reset\": false, \"start\": true, \"stop\": false, \"set_point\": " + motorSpeed.getValue().toString() + "}";
+		} else {
+			 json = "{\"reset\": false, \"start\": false, \"stop\": true, \"set_point\": " + motorSpeed.getValue().toString() + "}";
+		}
 	    log.info("Request Processed");
 	    return new ResponseEntity<>(json, HttpStatus.OK);
 	}

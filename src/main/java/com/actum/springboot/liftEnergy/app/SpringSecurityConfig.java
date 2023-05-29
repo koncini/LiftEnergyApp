@@ -35,8 +35,9 @@ public class SpringSecurityConfig {
 				.requestMatchers(HttpMethod.POST, "/api/unit-production/upload-data/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/sensors-data/get-dinagraph-data/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/unit/get-unit-setup/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/unit/set-motor-speed/**").permitAll()
 				.requestMatchers(HttpMethod.POST, "/pushover/message**").permitAll().requestMatchers("/unidad/**")
-				.hasAnyRole("USER").requestMatchers("/zona/**").hasAnyRole("ADMIN").requestMatchers("/artix/**")
+				.hasAnyRole("USER").requestMatchers("/zona/**").hasAnyRole("ADMIN", "MANAGER").requestMatchers("/artix/**")
 				.hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin().successHandler(successHandler)
 				.loginPage("/login").permitAll().and().csrf().disable().logout().permitAll();
 		return http.build();
