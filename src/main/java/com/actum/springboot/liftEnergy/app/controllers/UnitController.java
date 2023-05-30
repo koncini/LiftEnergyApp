@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.actum.springboot.liftEnergy.app.models.entity.MotorData;
-import com.actum.springboot.liftEnergy.app.models.entity.PowerCost;
+import com.actum.springboot.liftEnergy.app.models.MotorData;
+import com.actum.springboot.liftEnergy.app.models.PowerCost;
+import com.actum.springboot.liftEnergy.app.models.UnitData;
+import com.actum.springboot.liftEnergy.app.models.UnitSettings;
+import com.actum.springboot.liftEnergy.app.models.WellData;
+import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
-import com.actum.springboot.liftEnergy.app.models.entity.UnitData;
-import com.actum.springboot.liftEnergy.app.models.entity.UnitSettings;
-import com.actum.springboot.liftEnergy.app.models.entity.WellData;
-import com.actum.springboot.liftEnergy.app.models.entity.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -144,18 +144,7 @@ public class UnitController {
 
 		return "unit/list";
 	}
-	
-	@GetMapping("/edit-settings/{unitId}")
-	public String editUnitSettings(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
-		Unit unit = unitService.findOneUnit(unitId);
-		model.addAttribute("unit", unit);
-		model.addAttribute("title", titleFormUnitString);
-		model.addAttribute("message", messageFormUnitString);
-		model.addAttribute("eventsUnattended", eventsUnattended);
 		
-		return "unit/config";
-	}
-	
 	@GetMapping("/form/{unitId}")
 	public String editUnit(@PathVariable(value = "unitId") Long unitId, Map<String, Object> model, RedirectAttributes flash) {
 		
@@ -192,6 +181,17 @@ public class UnitController {
 		model.addAttribute("eventsUnattended", eventsUnattended);
 		
 		return "redirect:form";
+	}
+	
+	@GetMapping("/edit-settings/{unitId}")
+	public String editUnitSettings(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
+		Unit unit = unitService.findOneUnit(unitId);
+		model.addAttribute("unit", unit);
+		model.addAttribute("title", titleFormUnitString);
+		model.addAttribute("message", messageFormUnitString);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+		
+		return "unit/config";
 	}
 	
 	@GetMapping("/delete/{unitId}")

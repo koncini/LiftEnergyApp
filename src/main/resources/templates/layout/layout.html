@@ -110,17 +110,21 @@
 				<li class="nav-item nav-dropdown"
 					sec:authorize="hasRole('OPERATION_STAFF')"><a
 					class="nav-link nav-dropdown-toggle" href="#"> <i
-						class="nav-icon icon-fire"></i> Oil Fields
+						class="nav-icon icon-fire"></i> Oil Field Production
 				</a>
 					<ul class="nav-dropdown-items">
-						<li class="nav-item"><a class="nav-link" href="#"
-							target="_top"> <i class="nav-icon icon-graph"></i> Production
-								Graphs
-						</a></li>
+<!--						<li class="nav-item"><a class="nav-link" href="#"-->
+<!--							target="_top"> <i class="nav-icon icon-graph"></i> Production-->
+<!--								Graphs-->
+<!--						</a></li>-->
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{../../../zona/listar-zonas-detallado}" target="_top">
 								<i class="nav-icon icon-location-pin"></i> Oil Fields
 						</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"
+							target="_top"> <i class="nav-icon icon-settings"></i>
+								Settings
+						</a></li>						
 					</ul></li>
 				<li class="divider" sec:authorize="hasRole('MAINTENANCE_STAFF')"></li>
 				<li class="nav-title" sec:authorize="hasRole('MAINTENANCE_STAFF')">MAINTENANCE
@@ -131,10 +135,10 @@
 						class="nav-icon icon-drop"></i> Oil Well Production
 				</a>
 					<ul class="nav-dropdown-items">
-						<li class="nav-item"><a class="nav-link" href="#"
-							target="_top"> <i class="nav-icon icon-graph"></i> Production
-								Graphs
-						</a></li>
+<!--						<li class="nav-item"><a class="nav-link" href="#"-->
+<!--							target="_top"> <i class="nav-icon icon-graph"></i> Production-->
+<!--								Graphs-->
+<!--						</a></li>-->
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{../../../unidad/listar-unidades-detallado}" target="_top">
 								<i class="nav-icon icon-location-pin"></i> Oil Wells

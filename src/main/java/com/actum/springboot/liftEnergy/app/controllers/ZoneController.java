@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.actum.springboot.liftEnergy.app.models.UnitSettings;
+import com.actum.springboot.liftEnergy.app.models.WellData;
+import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
-import com.actum.springboot.liftEnergy.app.models.entity.UnitSettings;
-import com.actum.springboot.liftEnergy.app.models.entity.WellData;
-import com.actum.springboot.liftEnergy.app.models.entity.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -92,8 +92,7 @@ public class ZoneController {
 			String unitSettings = unit.getSettings();
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {
-			});
+			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
 			unitSettingMap.put(unitId, settings);
 
 			String unitMetrics = unit.getMetrics();

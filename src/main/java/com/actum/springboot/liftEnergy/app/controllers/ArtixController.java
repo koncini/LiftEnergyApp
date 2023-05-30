@@ -69,7 +69,7 @@ public class ArtixController {
 	}
 
 	@PostMapping("/form")
-	public String save(@Valid DinagraphSample dinagraphSample, Model model, @RequestParam("file") MultipartFile sample,
+	public String saveSample(@Valid DinagraphSample dinagraphSample, Model model, @RequestParam("file") MultipartFile sample,
 			RedirectAttributes flash) {
 
 		if (!sample.isEmpty()) {

@@ -1,4 +1,4 @@
-package com.actum.springboot.liftEnergy.app.models.entity;
+package com.actum.springboot.liftEnergy.app.models;
 
 public class MotorData {
 

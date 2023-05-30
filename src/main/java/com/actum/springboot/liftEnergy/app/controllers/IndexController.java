@@ -19,7 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.actum.springboot.liftEnergy.app.clients.CommoditiesClient;
-import com.actum.springboot.liftEnergy.app.models.entity.ExchangeRateData;
+import com.actum.springboot.liftEnergy.app.models.ExchangeRateData;
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;

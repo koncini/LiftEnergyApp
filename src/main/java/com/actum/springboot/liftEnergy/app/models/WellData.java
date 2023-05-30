@@ -1,10 +1,10 @@
-package com.actum.springboot.liftEnergy.app.models.entity;
+package com.actum.springboot.liftEnergy.app.models;
 
-public class UnitData {
+public class WellData {
 
 	private String name;
 	private String unit;
-	private Object value;
+	private Number value;
 
 	public String getName() {
 		return name;
@@ -22,11 +22,11 @@ public class UnitData {
 		this.unit = unit;
 	}
 
-	public Object getValue() {
+	public Number getValue() {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(Number value) {
 		this.value = value;
 	}
 
