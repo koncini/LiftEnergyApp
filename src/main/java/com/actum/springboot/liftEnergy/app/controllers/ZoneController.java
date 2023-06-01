@@ -147,7 +147,7 @@ public class ZoneController {
 		
 	@PostMapping("/form")
 	public String saveZone(@Valid Zone zone, Model model, RedirectAttributes flash) {
-
+		unitService.saveZone(zone);
 		model.addAttribute("title", "Create Oil Field ");
 		model.addAttribute("message", "Create Oil Field");
 		model.addAttribute("eventsUnattended", eventsUnattended);
@@ -160,7 +160,7 @@ public class ZoneController {
 		if(zoneId > 0) {
 			unitService.deleteZone(zoneId);
 		}
-		return "redirect:../listar-zonas-detallado";
+		return "redirect:zone/detailed-list";
 	}
 
 }

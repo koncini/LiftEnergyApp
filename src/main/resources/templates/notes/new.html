@@ -20,16 +20,16 @@
 
 				<div class="card">
 					<div class="card-header">
-						<h1 th:text="${message} + ' ' + ${messageDetail}"></h1>
+						<h1 th:text="${message}"></h1>
 					</div>
 					<div class="card-body">
 					
-						<form th:action="@{/unit-notes/form}" th:object="${note}" method="post">
+						<form th:action="@{unitNote}" th:object="${user}" method="post">
 
 							<div class="form-group-row">
-								<label class="col-sm-2 col-form-label">Note Description</label>
+								<label class="col-sm-2 col-form-label"> Note for Oil Field </label>
 								<div class="cols-sm-6">
-									<textarea type="text" th:field="*{note}"
+									<textarea type="text"
 										class="form-control" cols="40" rows="5"></textarea>
 								</div>
 							</div>

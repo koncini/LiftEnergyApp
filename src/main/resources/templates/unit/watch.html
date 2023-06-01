@@ -24,7 +24,7 @@
 			<div class="container my-2">
 				<h1 th:text="${message}"></h1>
 
-				<a th:href="@{'/unit-notes/new-note/' + ${unit.id}}"
+				<a th:href="@{'/unit-notes/form'}"
 					class="btn btn-success btn-xs" th:text="'Add New Note'"></a> <br></br>
 
 				<div class="card">
@@ -73,7 +73,7 @@
 						<h3 th:text="'Oil Well Settings'"></h3>
 					</div>
 					<div class="card-body">
-						<a th:href="@{'/unidad/edit-settings/' + ${unit.id}}"
+						<a th:href="@{'/unit/edit-settings/' + ${unit.id}}"
 							class="btn btn-success btn-xs" th:text="'Edit Settings'"></a> <br></br>
 						<div style="display: flex; gap: 10px;">
 							<div class="card">

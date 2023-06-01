@@ -10,13 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
 import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/unit-notes")
@@ -30,6 +32,15 @@ public class UnitNotesController {
 
 	@Value("${texto.unitnotecontroller.list.title}")
 	private String titleString;
+	
+	@Value("${texto.unitnotecontroller.create.message}")
+	private String createMessageString;
+	
+	@Value("${texto.unitnotecontroller.edit.message}")
+	private String editMessageString;
+	
+	@Value("${texto.unitnotecontroller.detail.message}")
+	private String detailMessageString;
 
 	private Long eventsUnattended;
 
@@ -46,7 +57,7 @@ public class UnitNotesController {
 		model.addAttribute("unitNotes", unitNotesFiltered);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "notes/listar";
+		return "notes/list";
 	}
 
 	@GetMapping("/list-notes")
@@ -69,18 +80,55 @@ public class UnitNotesController {
 		model.addAttribute("unitNotesUnits", units);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "notes/listar";
+		return "notes/list";
 	}
 	
-	@GetMapping("/new-note/{id}")
-	public String addNewNote(@PathVariable Long id, Model model) {
-		Unit unit = unitService.findOneUnit(id);
-		model.addAttribute("title", titleString);
-		model.addAttribute("message", messageString);
-		model.addAttribute("unit", unit);
-		model.addAttribute("eventsUnattended", eventsUnattended);
+	@GetMapping("/form/{noteId}")
+	public String editUnitNote(@PathVariable(value = "noteId") Long noteId, Map<String, Object> model, RedirectAttributes flash) {
+		UnitNote unitNote = unitService.findOneUnitNote(noteId);
+		if (unitNote == null) {
+			return "redirect:../list";
+		}
+		model.put("note", unitNote);
+		model.put("title", titleString);
+		model.put("message", editMessageString);
+		model.put("messageDetail", detailMessageString);
+		model.put("eventsUnattended", eventsUnattended);
+		flash.addFlashAttribute("success", "Note Edited");
+		
+		return "notes/form";
+	}
+	
+	@GetMapping("/form")
+	public String createUnitNote(Map<String, Object> model, RedirectAttributes flash) {
+		UnitNote unitNote = new UnitNote();
+		model.put("unit", unitNote);
+		model.put("title", titleString);
+		model.put("message", createMessageString);
+		model.put("messageDetail", detailMessageString);
+		model.put("eventsUnattended", eventsUnattended);
+		flash.addFlashAttribute("success", "New Note Created");
 
 		return "notes/form";
+	}
+	
+	@PostMapping("/form")
+	public String saveUnitNote(@Valid UnitNote note, Model model, RedirectAttributes flash) {
+		unitService.saveUnitNote(note);
+		model.addAttribute("title", titleString);
+		model.addAttribute("message", createMessageString);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+		
+		return "redirect:notes/form";
+	}
+	
+	@GetMapping("/delete/{noteId}")
+	public String deleteUnitNote(@PathVariable(value = "noteId") Long noteId, Model model, RedirectAttributes flash) {
+		if(noteId > 0) {
+			unitService.deleteUnitNote(noteId);
+		}
+		flash.addFlashAttribute("success", "Note Deleted");
+		return "redirect:../notes/list";
 	}
 
 }
