@@ -129,10 +129,10 @@ public class SensorController {
 		ObjectMapper objectMapper = new ObjectMapper();
 	    SensorSetting sensorSetting = objectMapper.readValue(sensorSettings, SensorSetting.class);
 	    FormData formData = new FormData();
+	    formData.setSensor(sensor);
+	    formData.setSensorSetting(sensorSetting);
 	    model.put("sensor", sensor);
-	    model.put("minValue", sensorSetting.getMinValue());
-	    model.put("maxValue", sensorSetting.getMaxValue());
-	    model.put("meassureUnit", sensorSetting.getMeassureUnit());
+	    model.put("formData", formData);
 		model.put("title", "Edit Sensor");
 		model.put("message", "Edit Sensor");
 		model.put("eventsUnattended", eventsUnattended);
@@ -144,7 +144,9 @@ public class SensorController {
 	@GetMapping("/form")
 	public String createSensor(Map<String, Object> model, RedirectAttributes flash) {
 		Sensor sensor = new Sensor();
+		FormData formData = new FormData();
 		model.put("sensor", sensor);
+		model.put("sensor", formData);
 		model.put("title", "Create New Sensor");
 		model.put("message", "Create New Sensor");
 		model.put("eventsUnattended", eventsUnattended);
@@ -154,7 +156,12 @@ public class SensorController {
 	}
 
 	@PostMapping("/form")
-	public String saveSensor(@Valid Sensor sensor, Model model, RedirectAttributes flash) {
+	public String saveSensor(@Valid FormData formData, Model model, RedirectAttributes flash) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Sensor sensor = formData.getSensor();
+		SensorSetting settingObject = formData.getSensorSetting();
+		String setting = objectMapper.writeValueAsString(settingObject);
+		sensor.setSettings(setting);
 		unitService.saveSensor(sensor);
 		model.addAttribute("title", "Create Sensor");
 		model.addAttribute("message", "Create Sensor");
@@ -168,7 +175,7 @@ public class SensorController {
 		if (sensorId > 0) {
 			unitService.deleteSensor(sensorId);
 		}
-		return "redirect:../watch";
+		return "redirect:unit/watch";
 	}
 
 }

@@ -179,7 +179,7 @@
 								<td th:text="'Productive'"></td>
 								<td sec:authorize="hasRole('ADMIN')" th:text=${zone.enabled}></td>
 								<td><a class="btn btn-primary btn-xs"
-									th:href="@{'/zona/' + ${zone.id} + '/listar-unidades'}"
+									th:href="@{'/zone/' + ${zone.id} + '/list-units'}"
 									th:text="'List Oil Wells'">></a></td>
 							</tr>
 						</tbody>

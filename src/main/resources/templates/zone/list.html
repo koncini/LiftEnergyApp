@@ -20,7 +20,7 @@
 
 				<h1 th:text="${message}"></h1>
 
-				<a sec:authorize="hasRole('ADMIN')" th:href="@{/zona/form}"
+				<a sec:authorize="hasRole('ADMIN')" th:href="@{/zone/form}"
 					class="btn btn-success btn-xs" th:text="'Create New Oil Field'"></a>
 
 				<div>
@@ -46,12 +46,12 @@
 								<td th:text="${zone.production}+' BPD'"></td>
 								<td th:text="${zone.enabled} ? 'Enabled' : 'Disabled'"></td>
 								<td><a class="btn btn-info btn-xs"
-									th:href="@{'/zona/form/' + ${zone.id}}" th:text="'Edit'"></a></td>
+									th:href="@{'/zone/form/' + ${zone.id}}" th:text="'Edit'"></a></td>
 								<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger btn-xs" 
-									th:href="@{'/zona/delete/' + ${zone.id}}"
+									th:href="@{'/zone/delete/' + ${zone.id}}"
 									th:text="'Delete'"></a></td>
 								<td><a class="btn btn-primary btn-xs"
-									th:href="@{'/zona/' + ${zone.id} + '/listar-unidades'}"
+									th:href="@{'/zone/' + ${zone.id} + '/list-units'}"
 									th:text="'List Oil Wells'"></a></td>
 							</tr>
 						</tbody>

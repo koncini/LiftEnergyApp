@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.actum.springboot.liftEnergy.app.models.UnitSettings;
+import com.actum.springboot.liftEnergy.app.models.UnitSetting;
 import com.actum.springboot.liftEnergy.app.models.WellData;
 import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
@@ -31,7 +31,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/zona")
+@RequestMapping("/zone")
 public class ZoneController {
 
 	@Autowired
@@ -53,8 +53,8 @@ public class ZoneController {
 		eventsUnattended = unitService.getCountOfUnattendedEvents();
 	}
 
-	@GetMapping("/listar-zonas")
-	public @ResponseBody List<ZoneNameAndId> mostrarZonas(Model model) {
+	@GetMapping("/list-zones")
+	public @ResponseBody List<ZoneNameAndId> listZones(Model model) {
 		List<ZoneNameAndId> zoneNames = unitService.findEnabledZones();
 		model.addAttribute("zoneNames", zoneNames);
 		model.addAttribute("eventsUnattended", eventsUnattended);
@@ -62,13 +62,13 @@ public class ZoneController {
 		return zoneNames;
 	}
 
-	@GetMapping("/{id}")
-	public String verZona(Model model) {
+	@GetMapping("/watch/{id}")
+	public String watchZone(Model model) {
 		return "zone/watch";
 	}
 
-	@GetMapping("/listar-zonas-detallado")
-	public String listarZonas(Model model) {
+	@GetMapping("/detailed-list")
+	public String detailedListZones(Model model) {
 		List<Zone> zones = unitService.findAllZones();
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", "All Oil Fields");
@@ -78,12 +78,12 @@ public class ZoneController {
 		return "zone/list";
 	}
 
-	@GetMapping("/{id}/listar-unidades")
-	public String listarUnidades(@PathVariable Long id, Model model)
+	@GetMapping("/{id}/list-units")
+	public String listUnits(@PathVariable Long id, Model model)
 			throws JsonMappingException, JsonProcessingException {
 		Zone zone = unitService.findOneZone(id);
 		List<Unit> units = zone.getUnits();
-		Map<Long, List<UnitSettings>> unitSettingMap = new HashMap<>();
+		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
 		Map<Long, String> unitRelatedZone = new HashMap<>();
 
@@ -92,7 +92,7 @@ public class ZoneController {
 			String unitSettings = unit.getSettings();
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+			List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {});
 			unitSettingMap.put(unitId, settings);
 
 			String unitMetrics = unit.getMetrics();

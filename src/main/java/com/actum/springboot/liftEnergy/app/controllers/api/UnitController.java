@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.actum.springboot.liftEnergy.app.models.UnitSettings;
+import com.actum.springboot.liftEnergy.app.models.UnitSetting;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
@@ -62,9 +62,9 @@ public class UnitController {
 		Unit unit = unitService.findOneUnit(unitId);
 		ObjectMapper objectMapper = new ObjectMapper();
 		String unitSettings = unit.getSettings();
-		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+		List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {});
 		//TODO: Encontrar la manera de no acceder por indice a un elemento de la lista revisar si requiere seguridad
-		UnitSettings motorSpeed =settings.get(8);
+		UnitSetting motorSpeed =settings.get(8);
 		motorSpeed.setValue(800);
 		settings.set(8, motorSpeed);
 		String newSettingResponse = objectMapper.writeValueAsString(settings);
@@ -88,9 +88,9 @@ public class UnitController {
 		Unit unit = unitService.findOneUnit(unitId);
 		ObjectMapper objectMapper = new ObjectMapper();
 		String unitSettings = unit.getSettings();
-		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {});
+		List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {});
 		//TODO: Encontrar la manera de no acceder por indice a un elemento de la lista
-		UnitSettings motorSpeed = settings.get(8);
+		UnitSetting motorSpeed = settings.get(8);
 		String unitStatus = (String) settings.get(6).getValue();
 		String json = "{\"reset\": true, \"start\": false, \"stop\": false, \"set_point\": " + motorSpeed.getValue().toString() + "}";
 		if (unitStatus.equals("running")) {			

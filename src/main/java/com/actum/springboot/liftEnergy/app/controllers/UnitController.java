@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.actum.springboot.liftEnergy.app.models.MotorData;
 import com.actum.springboot.liftEnergy.app.models.PowerCost;
 import com.actum.springboot.liftEnergy.app.models.UnitData;
-import com.actum.springboot.liftEnergy.app.models.UnitSettings;
+import com.actum.springboot.liftEnergy.app.models.UnitSetting;
 import com.actum.springboot.liftEnergy.app.models.WellData;
 import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
@@ -34,7 +34,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/unidad")
+@RequestMapping("/unit")
 @SessionAttributes("unit")
 public class UnitController {
 
@@ -66,8 +66,8 @@ public class UnitController {
 		eventsUnattended = unitService.getCountOfUnattendedEvents();
 	}
 
-	@GetMapping("/ver/{id}")
-	public String verUnidad(@PathVariable Long id, Model model) throws JsonMappingException, JsonProcessingException {
+	@GetMapping("/watch/{id}")
+	public String watchUnit(@PathVariable Long id, Model model) throws JsonMappingException, JsonProcessingException {
 		Unit unit = unitService.findOneUnit(id);
 
 		if (unit == null) {
@@ -77,7 +77,7 @@ public class UnitController {
 		String unitSettings = unit.getSettings();
 		String unitMetrics = unit.getMetrics();
 		ObjectMapper objectMapper = new ObjectMapper();
-		List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {
+		List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {
 		});
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -106,11 +106,11 @@ public class UnitController {
 		return "unit/watch";
 	}
 
-	@GetMapping("/listar-unidades-detallado")
-	public String listarUnidades(Model model) throws JsonMappingException, JsonProcessingException {
+	@GetMapping("/detailed-list")
+	public String listUnits(Model model) throws JsonMappingException, JsonProcessingException {
 		List<Unit> units = unitService.findAllUnits();
 
-		Map<Long, List<UnitSettings>> unitSettingMap = new HashMap<>();
+		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
 		Map<Long, String> unitRelatedZone = new HashMap<>();
 
@@ -119,7 +119,7 @@ public class UnitController {
 			String unitSettings = unit.getSettings();
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			List<UnitSettings> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSettings>>() {
+			List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {
 			});
 			unitSettingMap.put(unitId, settings);
 
@@ -199,7 +199,7 @@ public class UnitController {
 		if(unitId > 0) {
 			unitService.deleteUnit(unitId);
 		}
-		return "redirect:../listar-unidades-detallado";
+		return "redirect:../detailed-list";
 	}
 
 }

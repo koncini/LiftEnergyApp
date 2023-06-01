@@ -2,7 +2,7 @@ package com.actum.springboot.liftEnergy.app.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UnitSettings {
+public class UnitSetting {
 	
 	@JsonProperty("name")
 	private String name;
