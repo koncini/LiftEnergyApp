@@ -107,7 +107,7 @@
 						<div th:if="${not #lists.isEmpty(zones)}" class="card-footer">
 							<div class="row text-center">
 								<div th:if="${zones[0] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${zones[0].name}" class="text-muted"></div>
+									<div th:text="${#strings.replace(zones[0].name, '_', ' ')}" class="text-muted"></div>
 									<strong th:text="${zones[0].production + ' BPD 25.11%'}"></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar bg-success" role="progressbar"
@@ -116,7 +116,7 @@
 									</div>
 								</div>
 								<div th:if="${zones[1] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${zones[1].name}" class="text-muted"></div>
+									<div th:text="${#strings.replace(zones[1].name, '_', ' ')}" class="text-muted"></div>
 									<strong th:text="${zones[1].production + ' BPD 24.05%'}"></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar bg-info" role="progressbar"
@@ -125,7 +125,7 @@
 									</div>
 								</div>
 								<div th:if="${zones[2] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${zones[2].name}" class="text-muted"></div>
+									<div th:text="${#strings.replace(zones[2].name, '_', ' ')}" class="text-muted"></div>
 									<strong th:text="${zones[2].production + ' BPD 22.32%'}"></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar bg-warning" role="progressbar"
@@ -134,7 +134,7 @@
 									</div>
 								</div>
 								<div th:if="${zones[3] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${zones[3].name}" class="text-muted"></div>
+									<div th:text="${#strings.replace(zones[3].name, '_', ' ')}" class="text-muted"></div>
 									<strong th:text="${zones[3].production + ' BPD 14.87%'}"></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar bg-danger" role="progressbar"
@@ -143,7 +143,7 @@
 									</div>
 								</div>
 								<div th:if="${zones[4] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${zones[4].name}" class="text-muted"></div>
+									<div th:text="${#strings.replace(zones[4].name, '_', ' ')}" class="text-muted"></div>
 									<strong th:text="${zones[4].production + ' BPD 13.64%'}">></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar" role="progressbar"

@@ -36,14 +36,14 @@
 							</div>
 							<!-- /.col-->
 						</div>
-						<img th:if="${#strings.length(sample.image)}" th:src="@{'/uploads/' + ${sample.image}}"
+						<img style="width: 100%" th:if="${#strings.length(sample.image)}" th:src="@{'/uploads/' + ${sample.image}}"
 							th:alt="${sample.name}">
 						<!-- /.row-->
 						<div class="col-sm-5">
 							<h4 class="card-title mb-0">Dinagraph Sample AI Converted</h4>
 						</div>
 						<div class="chart-wrapper"
-							style="height: 300px; margin-top: 40px;">
+							style="height: 480px; margin-top: 40px;">
 							<canvas class="chart" id="dinagraph_sample_chart" height="300"></canvas>
 						</div>
 						<ul>

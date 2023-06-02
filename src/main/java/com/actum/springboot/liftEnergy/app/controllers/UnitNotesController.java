@@ -109,7 +109,7 @@ public class UnitNotesController {
 		model.put("eventsUnattended", eventsUnattended);
 		flash.addFlashAttribute("success", "New Note Created");
 
-		return "notes/form";
+		return "notes/new";
 	}
 	
 	@PostMapping("/form")
