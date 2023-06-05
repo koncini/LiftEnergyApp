@@ -44,7 +44,7 @@ public class ArtixController {
 
 	@GetMapping("/result/{sampleId}")
 	public String artixResult(@PathVariable(value = "sampleId") Long sampleId, Map<String, Object> model) {
-		DinagraphSample dinagraphSample = unitService.findOneDinagraphSample(sampleId);
+		DinagraphSample dinagraphSample = unitService.getOneDinagraphSample(sampleId);
 		if (dinagraphSample == null) {
 			return "redirect:../form";
 		}
@@ -58,7 +58,7 @@ public class ArtixController {
 
 	@GetMapping("/form")
 	public String artixConsole(Map<String, Object> model) {
-		List<DinagraphSample> samples = unitService.findAllDinagraphSamples();
+		List<DinagraphSample> samples = unitService.getAllDinagraphSamples();
 		DinagraphSample dinagraphSample = new DinagraphSample();
 		model.put("sample", dinagraphSample);
 		model.put("title", "Artix Console");

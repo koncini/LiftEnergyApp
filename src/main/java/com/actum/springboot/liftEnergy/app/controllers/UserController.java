@@ -38,7 +38,7 @@ public class UserController {
 
 	@GetMapping("/listar-usuarios")
 	public String listarUsuarios(Model model) {
-		List<User> usuarios = unitService.findAllUsers();
+		List<User> usuarios = unitService.getAllUsers();
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", messageString);
 		model.addAttribute("users", usuarios);
@@ -50,7 +50,7 @@ public class UserController {
 	@GetMapping("/form/{userId}")
 	public String editUser(@PathVariable(value = "userId") Long userId, Model model, RedirectAttributes flash) {
 
-		User user = unitService.findOneUser(userId);
+		User user = unitService.getOneUser(userId);
 		if (user == null) {
 			return "redirect:/list";
 		}

@@ -59,8 +59,8 @@ public class SensorController {
 	public String analizarUnidad(@PathVariable(value = "unitId") Long unitId,
 			@PathVariable(value = "sensorId") Long sensorId, Model model) {
 
-		Sensor sensor = unitService.findEnabledSensorById(sensorId);
-		Unit unit = unitService.findOneUnit(unitId);
+		Sensor sensor = unitService.getEnabledSensorById(sensorId);
+		Unit unit = unitService.getOneUnit(unitId);
 
 		LocalDate currentDate = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
@@ -79,12 +79,12 @@ public class SensorController {
 	@GetMapping("{unitId}/analisis-dinagrafico")
 	public String analisiDinagrafico(@PathVariable(value = "unitId") Long unitId, Model model) throws ParseException {
 
-		Unit unit = unitService.findOneUnit(unitId);
+		Unit unit = unitService.getOneUnit(unitId);
 		if (unit == null) {
 			return "redirect:/listar";
 		}
 
-		DinagraphSample sample = unitService.findOneDinagraphSample(unitId);
+		DinagraphSample sample = unitService.getOneDinagraphSample(unitId);
 
 		LocalDate currentDate = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
@@ -121,7 +121,7 @@ public class SensorController {
 	public String editSensor(@PathVariable(value = "sensorId") Long sensorId, Map<String, Object> model,
 			RedirectAttributes flash) throws JsonMappingException, JsonProcessingException {
 
-		Sensor sensor = unitService.findOneSensor(sensorId);
+		Sensor sensor = unitService.getOneSensor(sensorId);
 		if (sensor == null) {
 			return "redirect:/list";
 		}

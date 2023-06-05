@@ -38,7 +38,7 @@ public class UnitProductionController {
 	private ResponseEntity<String> uploadUnitProduction(@PathVariable(value = "unit_id") Long unitId,
 			@RequestBody Map<String, Object> requestBody) throws JsonMappingException, JsonProcessingException {
 
-		Unit unit = unitService.findOneUnit(unitId);
+		Unit unit = unitService.getOneUnit(unitId);
 
 		if (unit == null) {
 			return ResponseEntity.ok("La unidad a la que desea escribir datos no existe o está deshabilitada");

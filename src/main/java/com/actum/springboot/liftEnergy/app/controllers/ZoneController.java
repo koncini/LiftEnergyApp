@@ -55,7 +55,7 @@ public class ZoneController {
 
 	@GetMapping("/list-zones")
 	public @ResponseBody List<ZoneNameAndId> listZones(Model model) {
-		List<ZoneNameAndId> zoneNames = unitService.findEnabledZones();
+		List<ZoneNameAndId> zoneNames = unitService.getEnabledZones();
 		model.addAttribute("zoneNames", zoneNames);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
@@ -69,7 +69,7 @@ public class ZoneController {
 
 	@GetMapping("/detailed-list")
 	public String detailedListZones(Model model) {
-		List<Zone> zones = unitService.findAllZones();
+		List<Zone> zones = unitService.getAllZones();
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", "All Oil Fields");
 		model.addAttribute("zones", zones);
@@ -81,7 +81,7 @@ public class ZoneController {
 	@GetMapping("/{id}/list-units")
 	public String listUnits(@PathVariable Long id, Model model)
 			throws JsonMappingException, JsonProcessingException {
-		Zone zone = unitService.findOneZone(id);
+		Zone zone = unitService.getOneZone(id);
 		List<Unit> units = zone.getUnits();
 		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
@@ -120,7 +120,7 @@ public class ZoneController {
 	@GetMapping("/form/{zoneId}")
 	public String editZone(@PathVariable(value = "zoneId") Long zoneId, Map<String, Object> model, RedirectAttributes flash) {
 
-		Zone zone = unitService.findOneZone(zoneId);
+		Zone zone = unitService.getOneZone(zoneId);
 		if (zone == null) {
 			return "redirect:/list";
 		}

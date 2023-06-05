@@ -26,7 +26,7 @@ public class DinagraphSampleContoller {
 	
 	@GetMapping("/get-data/{sample_id}")
 	private ResponseEntity<DinagraphSample> getSampleData(@PathVariable(value = "sample_id") Long sampleId) {
-		DinagraphSample sample = unitService.findOneDinagraphSample(sampleId);
+		DinagraphSample sample = unitService.getOneDinagraphSample(sampleId);
 		String fetchUrl = "http://localhost:8090/api/samples/get-data/" + sampleId;
 		Map<String, Object> responseBody = new HashMap<>();
 		responseBody.put("data", sample);

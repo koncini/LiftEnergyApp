@@ -29,7 +29,7 @@ public class SettingsController {
 	
 	@GetMapping("/listar-settings")
 	public String listarSettings(Model model) {
-		List<User> usuarios = unitService.findAllUsers();
+		List<User> usuarios = unitService.getAllUsers();
 		model.addAttribute("title", "Settings");
 		model.addAttribute("message", "App Setings");
 		model.addAttribute("users", usuarios);

@@ -51,7 +51,7 @@ public class UnitEventsController {
 
 	@GetMapping("/list-events")
 	public String listEvents(Model model) {
-		List<UnitEvent> unitEvents = unitService.findAllUnitEvents();
+		List<UnitEvent> unitEvents = unitService.getAllUnitEvents();
 		Map<Long, Long> units = new HashMap<>();
 		
 		for(UnitEvent unitEvent: unitEvents) {
@@ -70,7 +70,7 @@ public class UnitEventsController {
 	
 	@GetMapping("/attend/{eventId}")
 	public String attendEvent(@PathVariable(value = "eventId") Long eventId, Model model, RedirectAttributes flash) {
-		UnitEvent unitEvent = unitService.findOneUnitEvent(eventId);
+		UnitEvent unitEvent = unitService.getOneUnitEvent(eventId);
 		unitEvent.setEventAttended(true);
 		unitService.saveUnitEvent(unitEvent);
 		flash.addFlashAttribute("success", "Event noted as attended");

@@ -88,11 +88,11 @@ public class IndexController {
 		List<Zone> zones = null;
 
 		if (hasRole("ROLE_ADMIN")) {
-			zones = unitService.findTop5ZonesByProduction();
+			zones = unitService.getTop5ZonesByProduction();
 		} else {
 			String userName = getCurrentUserName();
-			User currentUser = unitService.findUserByName(userName);
-			zones = unitService.findTop5ZonesByProductionAndUserId(currentUser.getId());
+			User currentUser = unitService.getUserByName(userName);
+			zones = unitService.getTop5ZonesByProductionAndUserId(currentUser.getId());
 		}
 
 		String brentoilResponse = commoditiesClient.getCommoditiesData("BRENT", "daily");

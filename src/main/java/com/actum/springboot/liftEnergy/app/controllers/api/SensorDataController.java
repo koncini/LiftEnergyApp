@@ -46,7 +46,7 @@ public class SensorDataController {
 	private ResponseEntity<String> uploadSensorData(@PathVariable(value = "sensor_id") Long sensorId,
 			@RequestBody Map<String, Object> requestBody) throws JsonMappingException, JsonProcessingException {
 
-		Sensor sensor = unitService.findEnabledSensorById(sensorId);
+		Sensor sensor = unitService.getEnabledSensorById(sensorId);
 
 		if (sensor == null) {
 			return ResponseEntity.ok("El sensor desde el que escribe datos no existe o está deshabilitado");

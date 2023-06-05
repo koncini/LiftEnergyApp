@@ -20,12 +20,12 @@ public class ZoneController {
 
 	@GetMapping("/get-zones")
 	public List<Zone> getZones() {
-		return unitService.findAllZones();
+		return unitService.getAllZones();
 	}
 
 	@GetMapping("/get-zone")
 	public Zone getZoneById(@RequestParam(value = "id") Long id) {
-		return unitService.findOneZone(id);
+		return unitService.getOneZone(id);
 	}
 
 }

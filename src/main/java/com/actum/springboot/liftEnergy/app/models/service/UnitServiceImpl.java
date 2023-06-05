@@ -72,13 +72,13 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<Unit> findAllUnits() {
+	public List<Unit> getAllUnits() {
 		return (List<Unit>) unitDao.findAll();
 	}
 
 	@Override
 	@Transactional
-	public Unit findOneUnit(Long id) {
+	public Unit getOneUnit(Long id) {
 		return unitDao.findById(id).orElse(null);
 	}
 
@@ -102,13 +102,13 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<Zone> findAllZones() {
+	public List<Zone> getAllZones() {
 		return (List<Zone>) zoneDao.findAll();
 	}
 
 	@Override
 	@Transactional
-	public List<ZoneNameAndId> findEnabledZones() {
+	public List<ZoneNameAndId> getEnabledZones() {
 		return zoneDao.findIdAndNameByEnabledIsTrue();
 	}
 
@@ -120,7 +120,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public Zone findOneZone(Long id) {
+	public Zone getOneZone(Long id) {
 		return zoneDao.findById(id).orElse(null);
 	}
 
@@ -132,7 +132,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<Sensor> findAllSensors() {
+	public List<Sensor> getAllSensors() {
 		return (List<Sensor>) sensorDao.findAll();
 	}
 
@@ -144,25 +144,25 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public Sensor findOneSensor(Long id) {
+	public Sensor getOneSensor(Long id) {
 		return sensorDao.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
-	public List<Sensor> findEnabledSensors() {
+	public List<Sensor> getEnabledSensors() {
 		return sensorDao.findByEnabledTrue();
 	}
 
 	@Override
 	@Transactional
-	public List<Sensor> findEnabledSensorsById(Long id) {
+	public List<Sensor> getEnabledSensorsById(Long id) {
 		return sensorDao.findByEnabledIsTrueAndUnitId(id);
 	}
 
 	@Override
 	@Transactional
-	public Sensor findEnabledSensorById(Long id) {
+	public Sensor getEnabledSensorById(Long id) {
 		return sensorDao.findByIdAndEnabledTrue(id).orElse(null);
 	}
 
@@ -174,7 +174,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<SensorData> findDinagraphData() {
+	public List<SensorData> getDinagraphData() {
 		return sensorDataDao.findByDinagraphReadingTrue();
 	}
 
@@ -186,19 +186,19 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<User> findAllUsers() {
+	public List<User> getAllUsers() {
 		return (List<User>) userDao.findAll();
 	}
 
 	@Override
 	@Transactional
-	public List<Zone> findZonesbyUserId(Long id) {
+	public List<Zone> getZonesbyUserId(Long id) {
 		return (List<Zone>) zoneDao.findAllByUserId(id);
 	}
 
 	@Override
 	@Transactional
-	public User findUserByName(String name) {
+	public User getUserByName(String name) {
 		return userDao.findByUsername(name);
 	}
 
@@ -210,7 +210,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<UnitNote> findAllUnitNotes() {
+	public List<UnitNote> getAllUnitNotes() {
 		return (List<UnitNote>) unitNoteDao.findAll();
 	}
 
@@ -222,7 +222,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public UnitNote findOneUnitNote(Long id) {
+	public UnitNote getOneUnitNote(Long id) {
 		return unitNoteDao.findById(id).orElse(null);
 	}
 
@@ -234,7 +234,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<UnitEvent> findAllUnitEvents() {
+	public List<UnitEvent> getAllUnitEvents() {
 		return (List<UnitEvent>) unitEventDao.findAll();
 	}
 
@@ -246,7 +246,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public UnitEvent findOneUnitEvent(Long id) {
+	public UnitEvent getOneUnitEvent(Long id) {
 		return unitEventDao.findById(id).orElse(null);
 	}
 
@@ -271,13 +271,13 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<Zone> findTop5ZonesByProduction() {
+	public List<Zone> getTop5ZonesByProduction() {
 		return zoneDao.findTop5ByOrderByProductionDesc();
 	}
 
 	@Override
 	@Transactional
-	public List<Zone> findTop5ZonesByProductionAndUserId(Long id) {
+	public List<Zone> getTop5ZonesByProductionAndUserId(Long id) {
 		return zoneDao.findTop5ByUserIdOrderByProductionDesc(id);
 	}
 
@@ -303,7 +303,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public User findOneUser(Long id) {
+	public User getOneUser(Long id) {
 		return userDao.findById(id).orElse(null);
 	}
 	
@@ -315,7 +315,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<Setting> findAllSettings() {
+	public List<Setting> getAllSettings() {
 		return (List<Setting>) settingDao.findAll();
 	}
 
@@ -327,7 +327,7 @@ public class UnitServiceImpl implements IUnitService {
 	
 	@Override
 	@Transactional
-	public Setting findOneSetting(Long id) {
+	public Setting getOneSetting(Long id) {
 		return settingDao.findById(id).orElse(null);
 	}
 	
@@ -339,7 +339,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public List<DinagraphSample> findAllDinagraphSamples() {
+	public List<DinagraphSample> getAllDinagraphSamples() {
 		return (List<DinagraphSample>) dinagraphSampleDao.findAll();
 	}
 
@@ -351,13 +351,13 @@ public class UnitServiceImpl implements IUnitService {
 	
 	@Override
 	@Transactional
-	public DinagraphSample findOneDinagraphSample(Long id) {
+	public DinagraphSample getOneDinagraphSample(Long id) {
 		return dinagraphSampleDao.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
-	public List<ZoneProduction> findAllZoneProduction() {
+	public List<ZoneProduction> getAllZoneProduction() {
 		return (List<ZoneProduction>) zoneProductionDao.findAll();
 	}
 
@@ -375,13 +375,13 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public ZoneProduction findOneZoneProduction(Long id) {
+	public ZoneProduction getOneZoneProduction(Long id) {
 		return zoneProductionDao.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
-	public List<UnitProduction> findAllUnitProduction() {
+	public List<UnitProduction> getAllUnitProduction() {
 		return (List<UnitProduction>) unitProductionDao.findAll();
 	}
 
@@ -399,7 +399,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public UnitProduction findOneUnitProduction(Long id) {
+	public UnitProduction getOneUnitProduction(Long id) {
 		return unitProductionDao.findById(id).orElse(null);
 	}
 
@@ -443,7 +443,7 @@ public class UnitServiceImpl implements IUnitService {
 
 	@Override
 	@Transactional
-	public Unit findEnabledUnitById(Long id) {
+	public Unit getEnabledUnitById(Long id) {
 		return unitDao.findByIdAndEnabledTrue(id).orElse(null);
 	}
 
@@ -466,6 +466,7 @@ public class UnitServiceImpl implements IUnitService {
 	}
 
 	@Override
+	@Transactional
 	public List<SensorData> getSensorDataFromCurrentWeek(Long sensorId) {
 		return null;
 	}

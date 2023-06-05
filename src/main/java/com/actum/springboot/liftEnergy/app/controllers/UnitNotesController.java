@@ -62,7 +62,7 @@ public class UnitNotesController {
 
 	@GetMapping("/list-notes")
 	public String listNotes(Model model) {
-		List<UnitNote> unitNotes = unitService.findAllUnitNotes();
+		List<UnitNote> unitNotes = unitService.getAllUnitNotes();
 		Map<Long, String> users = new HashMap<>();
 		Map<Long, Long> units = new HashMap<>();
 
@@ -85,7 +85,7 @@ public class UnitNotesController {
 	
 	@GetMapping("/form/{noteId}")
 	public String editUnitNote(@PathVariable(value = "noteId") Long noteId, Map<String, Object> model, RedirectAttributes flash) {
-		UnitNote unitNote = unitService.findOneUnitNote(noteId);
+		UnitNote unitNote = unitService.getOneUnitNote(noteId);
 		if (unitNote == null) {
 			return "redirect:../list";
 		}

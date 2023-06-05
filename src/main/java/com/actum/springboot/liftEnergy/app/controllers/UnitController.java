@@ -68,7 +68,7 @@ public class UnitController {
 
 	@GetMapping("/watch/{id}")
 	public String watchUnit(@PathVariable Long id, Model model) throws JsonMappingException, JsonProcessingException {
-		Unit unit = unitService.findOneUnit(id);
+		Unit unit = unitService.getOneUnit(id);
 
 		if (unit == null) {
 			return "redirect:/index";
@@ -108,7 +108,7 @@ public class UnitController {
 
 	@GetMapping("/detailed-list")
 	public String listUnits(Model model) throws JsonMappingException, JsonProcessingException {
-		List<Unit> units = unitService.findAllUnits();
+		List<Unit> units = unitService.getAllUnits();
 
 		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
@@ -148,7 +148,7 @@ public class UnitController {
 	@GetMapping("/form/{unitId}")
 	public String editUnit(@PathVariable(value = "unitId") Long unitId, Map<String, Object> model, RedirectAttributes flash) {
 		
-		Unit unit = unitService.findOneUnit(unitId);
+		Unit unit = unitService.getOneUnit(unitId);
 		if (unit == null) {
 			return "redirect:/list";	
 		}
@@ -185,7 +185,7 @@ public class UnitController {
 	
 	@GetMapping("/edit-settings/{unitId}")
 	public String editUnitSettings(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
-		Unit unit = unitService.findOneUnit(unitId);
+		Unit unit = unitService.getOneUnit(unitId);
 		model.addAttribute("unit", unit);
 		model.addAttribute("title", titleFormUnitString);
 		model.addAttribute("message", messageFormUnitString);

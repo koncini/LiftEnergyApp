@@ -20,77 +20,77 @@ public interface IUnitService {
 
 	public void saveZone(Zone zone);
 
-	public List<Zone> findAllZones();
+	public List<Zone> getAllZones();
 
 	public void deleteZone(Long id);
 
-	public Zone findOneZone(Long id);
+	public Zone getOneZone(Long id);
 	
-	public List<Zone> findZonesbyUserId(Long id);
+	public List<Zone> getZonesbyUserId(Long id);
 	
-	public List<Zone> findTop5ZonesByProduction();
+	public List<Zone> getTop5ZonesByProduction();
 	
-	public List<Zone> findTop5ZonesByProductionAndUserId(Long id);
+	public List<Zone> getTop5ZonesByProductionAndUserId(Long id);
 	
 	public String getZoneNameByUnitId(Long unitId);
 
 	public void saveUnit(Unit unit);
 
-	public List<Unit> findAllUnits();
+	public List<Unit> getAllUnits();
 
 	public void deleteUnit(Long id);
 
-	public Unit findOneUnit(Long id);
+	public Unit getOneUnit(Long id);
 
-	public Unit findEnabledUnitById(Long id);
+	public Unit getEnabledUnitById(Long id);
 
 	public void saveSensor(Sensor sensor);
 
-	public List<Sensor> findAllSensors();
+	public List<Sensor> getAllSensors();
 
 	public void deleteSensor(Long id);
 
-	public Sensor findOneSensor(Long id);
+	public Sensor getOneSensor(Long id);
 
-	public List<Sensor> findEnabledSensors();
+	public List<Sensor> getEnabledSensors();
 
-	public List<SensorData> findDinagraphData();
+	public List<SensorData> getDinagraphData();
 
-	public List<Sensor> findEnabledSensorsById(Long id);
+	public List<Sensor> getEnabledSensorsById(Long id);
 
-	public Sensor findEnabledSensorById(Long id);
+	public Sensor getEnabledSensorById(Long id);
 
 	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp);
 
 	public void saveSensorData(SensorData sensorData);
 
-	public List<ZoneNameAndId> findEnabledZones();
+	public List<ZoneNameAndId> getEnabledZones();
 
-	public List<User> findAllUsers();
+	public List<User> getAllUsers();
 	
-	public User findOneUser(Long id);
+	public User getOneUser(Long id);
 
-	public User findUserByName(String name);
+	public User getUserByName(String name);
 	
 	public void saveUnitNote(UnitNote note);
 	
 	public void deleteUser(Long id);
 
-	public List<UnitNote> findAllUnitNotes();
+	public List<UnitNote> getAllUnitNotes();
 
 	public void deleteUnitNote(Long id);
 
-	public UnitNote findOneUnitNote(Long id);
+	public UnitNote getOneUnitNote(Long id);
 	
 	public List<UnitNote> getNotesByUnit(Long id);
 	
 	public void saveUnitEvent(UnitEvent event);
 	
-	public List<UnitEvent> findAllUnitEvents();
+	public List<UnitEvent> getAllUnitEvents();
 	
 	public void deleteUnitEvent(Long id);
 	
-	public UnitEvent findOneUnitEvent(Long id);
+	public UnitEvent getOneUnitEvent(Long id);
 	
 	public List<SensorData> getSensorDataFromToday(Long sensorId);
 	
@@ -104,35 +104,35 @@ public interface IUnitService {
 
 	public void saveSetting(Setting setting);
 
-	public List<Setting> findAllSettings();
+	public List<Setting> getAllSettings();
 
 	public void deleteSetting(Long id);
 
-	public Setting findOneSetting(Long id);
+	public Setting getOneSetting(Long id);
 
-	public List<DinagraphSample> findAllDinagraphSamples();
+	public List<DinagraphSample> getAllDinagraphSamples();
 
 	public void saveDinagraphSample(DinagraphSample dinagraphSample);
 
 	public void deleteDinagraphSample(Long id);
 
-	public DinagraphSample findOneDinagraphSample(Long id);
+	public DinagraphSample getOneDinagraphSample(Long id);
 	
-	public List<ZoneProduction> findAllZoneProduction();
+	public List<ZoneProduction> getAllZoneProduction();
 	
 	public void saveZoneProduction (ZoneProduction zoneProduction);
 	
 	public void deleteZoneProduction (Long id);
 	
-	public ZoneProduction findOneZoneProduction(Long id);
+	public ZoneProduction getOneZoneProduction(Long id);
 		
-	public List<UnitProduction> findAllUnitProduction();
+	public List<UnitProduction> getAllUnitProduction();
 	
 	public void saveUnitProduction (UnitProduction unitProduction);
 			
 	public void deleteUnitProduction (Long id);
 
-	public UnitProduction findOneUnitProduction(Long id);
+	public UnitProduction getOneUnitProduction(Long id);
 	
 	public void insertUnitProduction(Long unitId, Double production, Date timeStamp);
 
