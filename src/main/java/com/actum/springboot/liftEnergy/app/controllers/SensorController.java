@@ -73,7 +73,7 @@ public class SensorController {
 		model.addAttribute("message", messageWatchSensorString);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "sensor/graficar";
+		return "sensor/graph";
 	}
 
 	@GetMapping("{unitId}/analisis-dinagrafico")

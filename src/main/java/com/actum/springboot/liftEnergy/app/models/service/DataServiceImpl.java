@@ -18,7 +18,6 @@ import com.actum.springboot.liftEnergy.app.models.dao.IUnitNoteDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUnitProductionDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IUserDao;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao;
-import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneProductionDao;
 import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
@@ -69,6 +68,63 @@ public class DataServiceImpl implements IDataService {
 	
 	@Autowired
 	private IUnitProductionDao unitProductionDao;
+	
+	//______________________________Zones____________________________________
+	
+	@Override
+	@Transactional
+	public void saveZone(Zone zone) {
+		zoneDao.save(zone);
+	}
+
+	@Override
+	@Transactional
+	public List<Zone> getAllZones() {
+		return (List<Zone>) zoneDao.findAll();
+	}
+
+	@Override
+	@Transactional
+	public void deleteZone(Long id) {
+		zoneDao.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public Zone getOneZone(Long id) {
+		return zoneDao.findById(id).orElse(null);
+	}
+	
+	@Override
+	@Transactional
+	public List<Zone> getZonesbyUserId(Long id) {
+		return (List<Zone>) zoneDao.findAllByUserId(id);
+	}
+	
+	@Override
+	@Transactional
+	public List<Zone> getTop5ZonesByProduction() {
+		return zoneDao.findTop5ByOrderByProductionDesc();
+	}
+
+	@Override
+	@Transactional
+	public List<Zone> getTop5ZonesByProductionAndUserId(Long id) {
+		return zoneDao.findTop5ByUserIdOrderByProductionDesc(id);
+	}
+	
+	@Override
+	@Transactional
+	public String getZoneNameByUnitId(Long unitId) {
+		return unitDao.findZoneNameByUnitId(unitId);
+	}
+	
+	@Override
+	public List<Zone> getAllEnabledZones() {
+		return (List<Zone>) zoneDao.findByEnabled(true);
+	}
+		
+	//__________________________________Units___________________________________
 
 	@Override
 	@Transactional
@@ -93,37 +149,21 @@ public class DataServiceImpl implements IDataService {
 	public void deleteUnit(Long id) {
 		unitDao.deleteById(id);
 	}
-
+	
 	@Override
 	@Transactional
-	public void saveZone(Zone zone) {
-		zoneDao.save(zone);
+	public Unit getEnabledUnitById(Long id) {
+		return unitDao.findByIdAndEnabledTrue(id).orElse(null);
 	}
-
+	
 	@Override
 	@Transactional
-	public List<Zone> getAllZones() {
-		return (List<Zone>) zoneDao.findAll();
+	public List<Unit> getAllEnabledUnits() {
+		return (List<Unit>) unitDao.findByEnabled(true);
 	}
 
-	@Override
-	@Transactional
-	public List<ZoneNameAndId> getEnabledZones() {
-		return zoneDao.findIdAndNameByEnabledIsTrue();
-	}
-
-	@Override
-	@Transactional
-	public void deleteZone(Long id) {
-		zoneDao.deleteById(id);
-	}
-
-	@Override
-	@Transactional
-	public Zone getOneZone(Long id) {
-		return zoneDao.findById(id).orElse(null);
-	}
-
+	//______________________________________Sensors____________________________________
+	
 	@Override
 	@Transactional
 	public void saveSensor(Sensor sensor) {
@@ -184,6 +224,8 @@ public class DataServiceImpl implements IDataService {
 		sensorDataDao.insertSensorData(sensorId, data, unit, dinagraphReading, timeStamp);
 	}
 
+	//_______________________________Users_____________________________________
+	
 	@Override
 	@Transactional
 	public List<User> getAllUsers() {
@@ -192,16 +234,24 @@ public class DataServiceImpl implements IDataService {
 
 	@Override
 	@Transactional
-	public List<Zone> getZonesbyUserId(Long id) {
-		return (List<Zone>) zoneDao.findAllByUserId(id);
-	}
-
-	@Override
-	@Transactional
 	public User getUserByName(String name) {
 		return userDao.findByUsername(name);
 	}
+	
+	@Override
+	@Transactional
+	public User getOneUser(Long id) {
+		return userDao.findById(id).orElse(null);
+	}
+	
+	@Override
+	@Transactional
+	public void deleteUser(Long id) {
+		userDao.deleteById(id);
+	}
 
+	//______________________________Unit Notes__________________________________
+	
 	@Override
 	@Transactional
 	public void saveUnitNote(UnitNote note) {
@@ -225,7 +275,15 @@ public class DataServiceImpl implements IDataService {
 	public UnitNote getOneUnitNote(Long id) {
 		return unitNoteDao.findById(id).orElse(null);
 	}
+	
+	@Override
+	@Transactional
+	public List<UnitNote> getNotesByUnit(Long id) {
+		return unitNoteDao.findAllNotesByUnitId(id);
+	}
 
+	//_______________________________Unit Events_______________________________
+	
 	@Override
 	@Transactional
 	public void saveUnitEvent(UnitEvent event) {
@@ -249,12 +307,14 @@ public class DataServiceImpl implements IDataService {
 	public UnitEvent getOneUnitEvent(Long id) {
 		return unitEventDao.findById(id).orElse(null);
 	}
-
+	
 	@Override
 	@Transactional
-	public List<UnitNote> getNotesByUnit(Long id) {
-		return unitNoteDao.findAllNotesByUnitId(id);
+	public long getCountOfUnattendedEvents() {
+		return unitEventDao.countByEventAttended(false);
 	}
+
+	//_______________________________Sensor Data__________________________________
 
 	@Override
 	@Transactional
@@ -268,17 +328,11 @@ public class DataServiceImpl implements IDataService {
 		Date now = new Date();
 		return sensorDataDao.findBySensorIdAndTimestampCurrentDay(sensorId, startOfDay, now);
 	}
-
+	
 	@Override
 	@Transactional
-	public List<Zone> getTop5ZonesByProduction() {
-		return zoneDao.findTop5ByOrderByProductionDesc();
-	}
-
-	@Override
-	@Transactional
-	public List<Zone> getTop5ZonesByProductionAndUserId(Long id) {
-		return zoneDao.findTop5ByUserIdOrderByProductionDesc(id);
+	public List<SensorData> getSensorDataFromCurrentWeek(Long sensorId) {
+		return null;
 	}
 
 	@Override
@@ -295,17 +349,7 @@ public class DataServiceImpl implements IDataService {
 		return sensorDataDao.findBySensorIdAndTimeStampCurrentYear(sensorId, year);
 	}
 
-	@Override
-	@Transactional
-	public long getCountOfUnattendedEvents() {
-		return unitEventDao.countByEventAttended(false);
-	}
-
-	@Override
-	@Transactional
-	public User getOneUser(Long id) {
-		return userDao.findById(id).orElse(null);
-	}
+	//____________________________Settings_______________________________________
 	
 	@Override
 	@Transactional
@@ -331,6 +375,8 @@ public class DataServiceImpl implements IDataService {
 		return settingDao.findById(id).orElse(null);
 	}
 	
+	//__________________________Dinagraph Samples_____________________________
+	
 	@Override
 	@Transactional
 	public void saveDinagraphSample(DinagraphSample dinagraphSample) {
@@ -355,6 +401,8 @@ public class DataServiceImpl implements IDataService {
 		return dinagraphSampleDao.findById(id).orElse(null);
 	}
 
+	//__________________________Zone Production__________________________________
+	
 	@Override
 	@Transactional
 	public List<ZoneProduction> getAllZoneProduction() {
@@ -378,7 +426,45 @@ public class DataServiceImpl implements IDataService {
 	public ZoneProduction getOneZoneProduction(Long id) {
 		return zoneProductionDao.findById(id).orElse(null);
 	}
+	
+	@Override
+	@Transactional
+	public Long getTotalZoneProductionFromLastHour(Long zoneId) {
+		return zoneProductionDao.findTotalProductionForZoneIdInLast60Minutes(zoneId);
+	}
+	
+	@Override
+	@Transactional
+	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId) {
+		return zoneProductionDao.findByZoneIdAndCurrentDate(zoneId);
+	}
+	
+	@Override
+	@Transactional
+	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId) {
+		return zoneProductionDao.findByZoneIdAndCurrentMonth(zoneId);
+	}
 
+	@Override
+	@Transactional
+	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId) {
+		int year = Year.now().getValue();
+		return zoneProductionDao.findByZoneIdAndYear(zoneId, year);
+	}
+
+	@Override
+	@Transactional
+	public List<UnitProduction> getUnitProductionFromToday(Long unitId) {
+		return unitProductionDao.findByUnitIdAndCurrentDate(unitId);
+	}
+	
+	@Override
+	public void saveZoneProduction(Long zoneId, Double production, Date timeStamp) {
+		zoneProductionDao.insertZoneProduction(zoneId, production, timeStamp);
+	}
+
+	//__________________________Unit Production______________________________
+	
 	@Override
 	@Transactional
 	public List<UnitProduction> getAllUnitProduction() {
@@ -402,30 +488,11 @@ public class DataServiceImpl implements IDataService {
 	public UnitProduction getOneUnitProduction(Long id) {
 		return unitProductionDao.findById(id).orElse(null);
 	}
-
+	
 	@Override
 	@Transactional
-	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId) {
-		return zoneProductionDao.findByZoneIdAndCurrentDate(zoneId);
-	}
-
-	@Override
-	@Transactional
-	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId) {
-		return zoneProductionDao.findByZoneIdAndCurrentMonth(zoneId);
-	}
-
-	@Override
-	@Transactional
-	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId) {
-		int year = Year.now().getValue();
-		return zoneProductionDao.findByZoneIdAndYear(zoneId, year);
-	}
-
-	@Override
-	@Transactional
-	public List<UnitProduction> getUnitProductionFromToday(Long unitId) {
-		return unitProductionDao.findByUnitIdAndCurrentDate(unitId);
+	public Long getTotalUnitProductionFromLastHour(Long unitId) {
+		return unitProductionDao.findTotalProductionForUnitIdInLast60Minutes(unitId);
 	}
 
 	@Override
@@ -443,32 +510,8 @@ public class DataServiceImpl implements IDataService {
 
 	@Override
 	@Transactional
-	public Unit getEnabledUnitById(Long id) {
-		return unitDao.findByIdAndEnabledTrue(id).orElse(null);
-	}
-
-	@Override
-	@Transactional
-	public void insertUnitProduction(Long unitId, Double production, Date timeStamp) {
+	public void saveUnitProduction(Long unitId, Double production, Date timeStamp) {
 		unitProductionDao.insertUnitProduction(unitId, production, timeStamp);		
-	}
-
-	@Override
-	@Transactional
-	public void deleteUser(Long id) {
-		userDao.deleteById(id);
-	}
-
-	@Override
-	@Transactional
-	public String getZoneNameByUnitId(Long unitId) {
-		return unitDao.findZoneNameByUnitId(unitId);
-	}
-
-	@Override
-	@Transactional
-	public List<SensorData> getSensorDataFromCurrentWeek(Long sensorId) {
-		return null;
 	}
 
 }

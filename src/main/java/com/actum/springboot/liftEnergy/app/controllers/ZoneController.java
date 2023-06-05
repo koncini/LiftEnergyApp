@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.UnitSetting;
 import com.actum.springboot.liftEnergy.app.models.WellData;
 import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
-import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IDataService;
@@ -51,15 +49,6 @@ public class ZoneController {
 	@PostConstruct
 	public void init() {
 		eventsUnattended = dataService.getCountOfUnattendedEvents();
-	}
-
-	@GetMapping("/list-zones")
-	public @ResponseBody List<ZoneNameAndId> listZones(Model model) {
-		List<ZoneNameAndId> zoneNames = dataService.getEnabledZones();
-		model.addAttribute("zoneNames", zoneNames);
-		model.addAttribute("eventsUnattended", eventsUnattended);
-
-		return zoneNames;
 	}
 
 	@GetMapping("/watch/{id}")

@@ -1,5 +1,6 @@
 package com.actum.springboot.liftEnergy.app.models.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -14,5 +15,7 @@ public interface IUnitDao extends CrudRepository<Unit, Long> {
 	
     @Query("SELECT u.zone.name FROM Unit u WHERE u.id = :unitId")
     public String findZoneNameByUnitId(@Param("unitId") Long unitId);
+    
+    public List<Unit> findByEnabled(boolean enabled);
 
 }

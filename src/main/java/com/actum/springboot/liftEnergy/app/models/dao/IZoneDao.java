@@ -17,6 +17,8 @@ public interface IZoneDao extends CrudRepository<Zone, Long> {
     public List<Zone> findTop5ByOrderByProductionDesc();
 
     public List<Zone> findTop5ByUserIdOrderByProductionDesc(Long userId);
+    
+    public List<Zone> findByEnabled(boolean enabled);
 
 	interface ZoneNameAndId {
 		Long getId();

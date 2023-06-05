@@ -3,7 +3,6 @@ package com.actum.springboot.liftEnergy.app.models.service;
 import java.util.Date;
 import java.util.List;
 
-import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
@@ -27,6 +26,8 @@ public interface IDataService {
 	public Zone getOneZone(Long id);
 	
 	public List<Zone> getZonesbyUserId(Long id);
+
+	public List<Zone> getAllEnabledZones();
 	
 	public List<Zone> getTop5ZonesByProduction();
 	
@@ -37,6 +38,8 @@ public interface IDataService {
 	public void saveUnit(Unit unit);
 
 	public List<Unit> getAllUnits();
+	
+	public List<Unit> getAllEnabledUnits();
 
 	public void deleteUnit(Long id);
 
@@ -63,8 +66,6 @@ public interface IDataService {
 	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp);
 
 	public void saveSensorData(SensorData sensorData);
-
-	public List<ZoneNameAndId> getEnabledZones();
 
 	public List<User> getAllUsers();
 	
@@ -134,13 +135,19 @@ public interface IDataService {
 
 	public UnitProduction getOneUnitProduction(Long id);
 	
-	public void insertUnitProduction(Long unitId, Double production, Date timeStamp);
+	public void saveZoneProduction(Long zoneId, Double production, Date timeStamp);
+
+	public Long getTotalZoneProductionFromLastHour(Long zoneId);
 
 	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId);
 	
 	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId);
 	
 	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId);
+
+	public void saveUnitProduction(Long unitId, Double production, Date timeStamp);
+
+	public Long getTotalUnitProductionFromLastHour(Long unitId);
 
 	public List<UnitProduction> getUnitProductionFromToday(Long unitId);
 	

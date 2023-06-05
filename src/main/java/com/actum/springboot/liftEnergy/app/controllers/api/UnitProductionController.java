@@ -56,7 +56,7 @@ public class UnitProductionController {
 		}
 
 		log.info("Data parsed");
-		dataService.insertUnitProduction(unitId, production, timeStamp);
+		dataService.saveUnitProduction(unitId, production, timeStamp);
 		return ResponseEntity.ok("Data uploaded successfully");
 	}
 	

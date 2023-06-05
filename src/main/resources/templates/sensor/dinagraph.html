@@ -102,7 +102,7 @@
 							<li><strong>Pump Unit Status: </strong><span th:text="${sample.name == 'Bomba llena' ? 'ok' : 'failure'}"></span></li>
 							<li><strong>Working Hours: </strong><span th:text="'100'"></span></li>
 						</ul>
-						<button type="button" class="btn btn-primary"
+						<button th:if="${sample.name != 'Bomba llena'}" type="button" class="btn btn-primary"
 							th:text="'Adjust Pump Unit'" onclick="showModal()"></button>
 					</div>
 				</div>
