@@ -21,7 +21,7 @@ import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.dao.IZoneDao.ZoneNameAndId;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
 public class ZoneController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@Value("${texto.zonecontroller.listunits.unit}")
 	private String unitString;
@@ -50,12 +50,12 @@ public class ZoneController {
 
 	@PostConstruct
 	public void init() {
-		eventsUnattended = unitService.getCountOfUnattendedEvents();
+		eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 
 	@GetMapping("/list-zones")
 	public @ResponseBody List<ZoneNameAndId> listZones(Model model) {
-		List<ZoneNameAndId> zoneNames = unitService.getEnabledZones();
+		List<ZoneNameAndId> zoneNames = dataService.getEnabledZones();
 		model.addAttribute("zoneNames", zoneNames);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
@@ -69,7 +69,7 @@ public class ZoneController {
 
 	@GetMapping("/detailed-list")
 	public String detailedListZones(Model model) {
-		List<Zone> zones = unitService.getAllZones();
+		List<Zone> zones = dataService.getAllZones();
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", "All Oil Fields");
 		model.addAttribute("zones", zones);
@@ -81,7 +81,7 @@ public class ZoneController {
 	@GetMapping("/{id}/list-units")
 	public String listUnits(@PathVariable Long id, Model model)
 			throws JsonMappingException, JsonProcessingException {
-		Zone zone = unitService.getOneZone(id);
+		Zone zone = dataService.getOneZone(id);
 		List<Unit> units = zone.getUnits();
 		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
@@ -102,7 +102,7 @@ public class ZoneController {
 			WellData wellData = wellDataWrapper.getWellDataByName("well_production");
 			wellProductionMap.put(unitId, wellData.getValue());
 			
-			unitRelatedZone.put(unitId, unitService.getZoneNameByUnitId(unitId));
+			unitRelatedZone.put(unitId, dataService.getZoneNameByUnitId(unitId));
 
 		}
 
@@ -120,7 +120,7 @@ public class ZoneController {
 	@GetMapping("/form/{zoneId}")
 	public String editZone(@PathVariable(value = "zoneId") Long zoneId, Map<String, Object> model, RedirectAttributes flash) {
 
-		Zone zone = unitService.getOneZone(zoneId);
+		Zone zone = dataService.getOneZone(zoneId);
 		if (zone == null) {
 			return "redirect:/list";
 		}
@@ -147,7 +147,7 @@ public class ZoneController {
 		
 	@PostMapping("/form")
 	public String saveZone(@Valid Zone zone, Model model, RedirectAttributes flash) {
-		unitService.saveZone(zone);
+		dataService.saveZone(zone);
 		model.addAttribute("title", "Create Oil Field ");
 		model.addAttribute("message", "Create Oil Field");
 		model.addAttribute("eventsUnattended", eventsUnattended);
@@ -158,7 +158,7 @@ public class ZoneController {
 	@GetMapping("/delete/{zoneId}")
 	public String deleteZone(@PathVariable(value = "zoneId") Long zoneId, Model model, RedirectAttributes flash) {
 		if(zoneId > 0) {
-			unitService.deleteZone(zoneId);
+			dataService.deleteZone(zoneId);
 		}
 		return "redirect:zone/detailed-list";
 	}

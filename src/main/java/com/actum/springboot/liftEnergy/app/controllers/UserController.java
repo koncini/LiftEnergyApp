@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.entity.User;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 
 import jakarta.annotation.PostConstruct;
 
@@ -21,7 +21,7 @@ import jakarta.annotation.PostConstruct;
 public class UserController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@Value("${texto.usercontroller.list.message}")
 	private String messageString;
@@ -33,12 +33,12 @@ public class UserController {
 
 	@PostConstruct
 	public void init() {
-		eventsUnattended = unitService.getCountOfUnattendedEvents();
+		eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 
 	@GetMapping("/listar-usuarios")
 	public String listarUsuarios(Model model) {
-		List<User> usuarios = unitService.getAllUsers();
+		List<User> usuarios = dataService.getAllUsers();
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", messageString);
 		model.addAttribute("users", usuarios);
@@ -50,7 +50,7 @@ public class UserController {
 	@GetMapping("/form/{userId}")
 	public String editUser(@PathVariable(value = "userId") Long userId, Model model, RedirectAttributes flash) {
 
-		User user = unitService.getOneUser(userId);
+		User user = dataService.getOneUser(userId);
 		if (user == null) {
 			return "redirect:/list";
 		}
@@ -76,7 +76,7 @@ public class UserController {
 	@GetMapping("/delete/{userId}")
 	public String deleteUser(@PathVariable(value = "userId") Long userId, Model model, RedirectAttributes flash) {
 		if(userId > 0) {
-			unitService.deleteUser(userId);
+			dataService.deleteUser(userId);
 		}
 		return "redirect:zone/listar-usuarios";
 	}

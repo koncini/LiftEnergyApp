@@ -19,7 +19,7 @@ import com.actum.springboot.liftEnergy.app.models.UnitSetting;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -34,32 +34,32 @@ public class UnitController {
 	public String defaultSpeed = "1800";
 	
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@GetMapping("/get-units")
 	private List<Unit> getUnits() {
-		return unitService.getAllUnits();
+		return dataService.getAllUnits();
 	}
 
 	@GetMapping("/get-unit")
 	private Unit getUnitById(@RequestParam(value = "id") Long id) {
-		return unitService.getOneUnit(id);
+		return dataService.getOneUnit(id);
 	}
 
 	@GetMapping("/get-unit-sensors")
 	private List<Sensor> getUnitSensors(@RequestParam(value = "id") Long id) {
-		return unitService.getEnabledSensorsById(id);
+		return dataService.getEnabledSensorsById(id);
 	}
 
 	@PostMapping("/register-unit")
 	private void registerUnit() {
-		unitService.saveUnit(null);
+		dataService.saveUnit(null);
 	}
 	
 	@PostMapping("/set-motor-speed/{unitId}")
 	@Secured("permitAll")
 	private ResponseEntity<String> setMotorSpeed(@PathVariable(value = "unitId") Long unitId) throws JsonMappingException, JsonProcessingException{
-		Unit unit = unitService.getOneUnit(unitId);
+		Unit unit = dataService.getOneUnit(unitId);
 		ObjectMapper objectMapper = new ObjectMapper();
 		String unitSettings = unit.getSettings();
 		List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {});
@@ -69,7 +69,7 @@ public class UnitController {
 		settings.set(8, motorSpeed);
 		String newSettingResponse = objectMapper.writeValueAsString(settings);
 		unit.setSettings(newSettingResponse);
-		unitService.saveUnit(unit);
+		dataService.saveUnit(unit);
 		String json = "{\"success\": true}";
 		log.info("New Motor Speed Setted");
 	    return new ResponseEntity<>(json, HttpStatus.OK);
@@ -79,13 +79,13 @@ public class UnitController {
 	@GetMapping("/get-dinagraph-data/{unitId}")
 	@Secured("permitAll")
 	private List<SensorData> getDinagraphData(@PathVariable(value = "unitId") Long unitId) {
-		return unitService.getDinagraphData();
+		return dataService.getDinagraphData();
 	}	
 	
 	@GetMapping("/get-unit-setup/{unitId}")
 	@Secured("permitAll")
 	private ResponseEntity<String> getUnitSetup(@PathVariable(value = "unitId") Long unitId) throws JsonMappingException, JsonProcessingException {
-		Unit unit = unitService.getOneUnit(unitId);
+		Unit unit = dataService.getOneUnit(unitId);
 		ObjectMapper objectMapper = new ObjectMapper();
 		String unitSettings = unit.getSettings();
 		List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {});

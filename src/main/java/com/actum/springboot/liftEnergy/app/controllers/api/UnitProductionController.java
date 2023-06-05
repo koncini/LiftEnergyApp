@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitProduction;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -31,14 +31,14 @@ public class UnitProductionController {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 	
 	@PostMapping("/upload-data/{unit_id}")
 	@Secured("permitAll")
 	private ResponseEntity<String> uploadUnitProduction(@PathVariable(value = "unit_id") Long unitId,
 			@RequestBody Map<String, Object> requestBody) throws JsonMappingException, JsonProcessingException {
 
-		Unit unit = unitService.getOneUnit(unitId);
+		Unit unit = dataService.getOneUnit(unitId);
 
 		if (unit == null) {
 			return ResponseEntity.ok("La unidad a la que desea escribir datos no existe o está deshabilitada");
@@ -56,31 +56,31 @@ public class UnitProductionController {
 		}
 
 		log.info("Data parsed");
-		unitService.insertUnitProduction(unitId, production, timeStamp);
+		dataService.insertUnitProduction(unitId, production, timeStamp);
 		return ResponseEntity.ok("Data uploaded successfully");
 	}
 	
 	@GetMapping("/get-today-production-data/{unit_id}")
 	private ResponseEntity<List<UnitProduction>> getTodayProductionData(@PathVariable(value = "unit_id")Long unitId){
-		List<UnitProduction> production = unitService.getUnitProductionFromToday(unitId);
+		List<UnitProduction> production = dataService.getUnitProductionFromToday(unitId);
 		return ResponseEntity.ok(production);
 	}
 	
 	@GetMapping("/get-month-production-data/{unit_id}")
 	private ResponseEntity<List<UnitProduction>> getMonthProductionData(@PathVariable(value = "unit_id")Long unitId){
-		List<UnitProduction> production = unitService.getUnitProductionFromCurrentMonth(unitId);
+		List<UnitProduction> production = dataService.getUnitProductionFromCurrentMonth(unitId);
 		return ResponseEntity.ok(production);
 	}
 	
 	@GetMapping("/get-week-production-data/{unit_id}")
 	private ResponseEntity<List<UnitProduction>> getWeekProductionData(@PathVariable(value = "unit_id")Long unitId){
-		List<UnitProduction> production = unitService.getUnitProductionFromCurrentMonth(unitId);
+		List<UnitProduction> production = dataService.getUnitProductionFromCurrentMonth(unitId);
 		return ResponseEntity.ok(production);
 	}
 	
 	@GetMapping("/get-year-production-data/{unit_id}")
 	private ResponseEntity<List<UnitProduction>> getYearProductionData(@PathVariable(value = "unit_id")Long unitId){
-		List<UnitProduction> production = unitService.getUnitProductionFromCurrentYear(unitId);
+		List<UnitProduction> production = dataService.getUnitProductionFromCurrentYear(unitId);
 		return ResponseEntity.ok(production);
 	}
 

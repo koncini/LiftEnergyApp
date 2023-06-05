@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 
 @RestController("api DinagraphSample")
 @RequestMapping("/api/samples")
@@ -22,11 +22,11 @@ public class DinagraphSampleContoller {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 	
 	@GetMapping("/get-data/{sample_id}")
 	private ResponseEntity<DinagraphSample> getSampleData(@PathVariable(value = "sample_id") Long sampleId) {
-		DinagraphSample sample = unitService.getOneDinagraphSample(sampleId);
+		DinagraphSample sample = dataService.getOneDinagraphSample(sampleId);
 		String fetchUrl = "http://localhost:8090/api/samples/get-data/" + sampleId;
 		Map<String, Object> responseBody = new HashMap<>();
 		responseBody.put("data", sample);

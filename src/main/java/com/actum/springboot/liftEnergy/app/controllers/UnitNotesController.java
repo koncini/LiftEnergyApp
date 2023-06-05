@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.entity.UnitNote;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 public class UnitNotesController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@Value("${texto.unitnotecontroller.list.message}")
 	private String messageString;
@@ -46,12 +46,12 @@ public class UnitNotesController {
 
 	@PostConstruct
 	public void init() {
-		eventsUnattended = unitService.getCountOfUnattendedEvents();
+		eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 
 	@GetMapping("/list-notes/{id}")
 	public String listNotesByUnit(@PathVariable Long id, Model model) {
-		List<UnitNote> unitNotesFiltered = unitService.getNotesByUnit(id);
+		List<UnitNote> unitNotesFiltered = dataService.getNotesByUnit(id);
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", messageString);
 		model.addAttribute("unitNotes", unitNotesFiltered);
@@ -62,7 +62,7 @@ public class UnitNotesController {
 
 	@GetMapping("/list-notes")
 	public String listNotes(Model model) {
-		List<UnitNote> unitNotes = unitService.getAllUnitNotes();
+		List<UnitNote> unitNotes = dataService.getAllUnitNotes();
 		Map<Long, String> users = new HashMap<>();
 		Map<Long, Long> units = new HashMap<>();
 
@@ -85,7 +85,7 @@ public class UnitNotesController {
 	
 	@GetMapping("/form/{noteId}")
 	public String editUnitNote(@PathVariable(value = "noteId") Long noteId, Map<String, Object> model, RedirectAttributes flash) {
-		UnitNote unitNote = unitService.getOneUnitNote(noteId);
+		UnitNote unitNote = dataService.getOneUnitNote(noteId);
 		if (unitNote == null) {
 			return "redirect:../list";
 		}
@@ -114,7 +114,7 @@ public class UnitNotesController {
 	
 	@PostMapping("/form")
 	public String saveUnitNote(@Valid UnitNote note, Model model, RedirectAttributes flash) {
-		unitService.saveUnitNote(note);
+		dataService.saveUnitNote(note);
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", createMessageString);
 		model.addAttribute("eventsUnattended", eventsUnattended);
@@ -125,7 +125,7 @@ public class UnitNotesController {
 	@GetMapping("/delete/{noteId}")
 	public String deleteUnitNote(@PathVariable(value = "noteId") Long noteId, Model model, RedirectAttributes flash) {
 		if(noteId > 0) {
-			unitService.deleteUnitNote(noteId);
+			dataService.deleteUnitNote(noteId);
 		}
 		flash.addFlashAttribute("success", "Note Deleted");
 		return "redirect:../notes/list";

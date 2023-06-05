@@ -22,7 +22,7 @@ import com.actum.springboot.liftEnergy.app.clients.CommoditiesClient;
 import com.actum.springboot.liftEnergy.app.models.ExchangeRateData;
 import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class IndexController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@Autowired
 	private CommoditiesClient commoditiesClient;
@@ -66,7 +66,7 @@ public class IndexController {
 
 	@PostConstruct
 	public void init() {
-	    eventsUnattended = unitService.getCountOfUnattendedEvents();
+	    eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 
 	@GetMapping(value = { "/index", "/" })
@@ -88,11 +88,11 @@ public class IndexController {
 		List<Zone> zones = null;
 
 		if (hasRole("ROLE_ADMIN")) {
-			zones = unitService.getTop5ZonesByProduction();
+			zones = dataService.getTop5ZonesByProduction();
 		} else {
 			String userName = getCurrentUserName();
-			User currentUser = unitService.getUserByName(userName);
-			zones = unitService.getTop5ZonesByProductionAndUserId(currentUser.getId());
+			User currentUser = dataService.getUserByName(userName);
+			zones = dataService.getTop5ZonesByProductionAndUserId(currentUser.getId());
 		}
 
 		String brentoilResponse = commoditiesClient.getCommoditiesData("BRENT", "daily");

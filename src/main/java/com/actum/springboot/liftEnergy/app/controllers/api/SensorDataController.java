@@ -24,7 +24,7 @@ import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +36,7 @@ public class SensorDataController {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@Autowired
 	private PushoverClient pushoverClient;
@@ -46,7 +46,7 @@ public class SensorDataController {
 	private ResponseEntity<String> uploadSensorData(@PathVariable(value = "sensor_id") Long sensorId,
 			@RequestBody Map<String, Object> requestBody) throws JsonMappingException, JsonProcessingException {
 
-		Sensor sensor = unitService.getEnabledSensorById(sensorId);
+		Sensor sensor = dataService.getEnabledSensorById(sensorId);
 
 		if (sensor == null) {
 			return ResponseEntity.ok("El sensor desde el que escribe datos no existe o está deshabilitado");
@@ -69,37 +69,37 @@ public class SensorDataController {
 		detectOutOfRangeVariable(data, sensor, timeStamp);
 
 		log.info("Data parsed");
-		unitService.insertSensorData(sensorId, data, sensorUnit, dinagraphReading, timeStamp);
+		dataService.insertSensorData(sensorId, data, sensorUnit, dinagraphReading, timeStamp);
 		return ResponseEntity.ok("Data uploaded successfully");
 	}
 
 	@GetMapping("/get-today-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getTodaySensorData(@PathVariable(value = "sensor_id") Long sensorId) {
-		List<SensorData> sensorData = unitService.getSensorDataFromToday(sensorId);
+		List<SensorData> sensorData = dataService.getSensorDataFromToday(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
 
 	@GetMapping("/get-week-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getWeekSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
-		List<SensorData> sensorData = unitService.getSensorDataFromCurrentYear(sensorId);
+		List<SensorData> sensorData = dataService.getSensorDataFromCurrentYear(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
 
 	@GetMapping("/get-month-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getMonthSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
-		List<SensorData> sensorData = unitService.getSensorDataFromCurrentMonth(sensorId);
+		List<SensorData> sensorData = dataService.getSensorDataFromCurrentMonth(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
 
 	@GetMapping("/get-year-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getYearSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
-		List<SensorData> sensorData = unitService.getSensorDataFromCurrentYear(sensorId);
+		List<SensorData> sensorData = dataService.getSensorDataFromCurrentYear(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
 
 	@GetMapping("/get-dinagraph-data/{unit_id}")
 	private ResponseEntity<List<SensorData>> getDinagraphData(@PathVariable(value = "unit_id") Long unitId) {
-		List<SensorData> todayData = unitService.getSensorDataFromCurrentYear(unitId);
+		List<SensorData> todayData = dataService.getSensorDataFromCurrentYear(unitId);
 		return ResponseEntity.ok(todayData);
 	}
 
@@ -122,7 +122,7 @@ public class SensorDataController {
 			unitEvent.setEventPriority(3);
 			unitEvent.setEventAttended(false);
 			unitEvent.setTimestamp(timestamp);
-			unitService.saveUnitEvent(unitEvent);
+			dataService.saveUnitEvent(unitEvent);
 			System.out.println(response + " value over range");
 		} else if (data > settings.getMaxValue()) {
 			String response = pushoverClient.sendSensorOverRangeMessage(
@@ -134,7 +134,7 @@ public class SensorDataController {
 			unitEvent.setEventPriority(3);
 			unitEvent.setEventAttended(false);
 			unitEvent.setTimestamp(timestamp);
-			unitService.saveUnitEvent(unitEvent);
+			dataService.saveUnitEvent(unitEvent);
 			System.out.println(response + " value under range");
 		} else {
 			System.out.println("value between limit");

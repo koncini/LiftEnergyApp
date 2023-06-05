@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 
 @RestController("api ZoneController")
 @RequestMapping("/api/zone")
 public class ZoneController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@GetMapping("/get-zones")
 	public List<Zone> getZones() {
-		return unitService.getAllZones();
+		return dataService.getAllZones();
 	}
 
 	@GetMapping("/get-zone")
 	public Zone getZoneById(@RequestParam(value = "id") Long id) {
-		return unitService.getOneZone(id);
+		return dataService.getOneZone(id);
 	}
 
 }

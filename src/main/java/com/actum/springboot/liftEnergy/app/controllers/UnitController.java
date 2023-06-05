@@ -24,7 +24,7 @@ import com.actum.springboot.liftEnergy.app.models.UnitSetting;
 import com.actum.springboot.liftEnergy.app.models.WellData;
 import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -39,7 +39,7 @@ import jakarta.validation.Valid;
 public class UnitController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@Value("${texto.unitcontroller.watchunits.message}")
 	private String messageWatchString;
@@ -63,12 +63,12 @@ public class UnitController {
 
 	@PostConstruct
 	public void init() {
-		eventsUnattended = unitService.getCountOfUnattendedEvents();
+		eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 
 	@GetMapping("/watch/{id}")
 	public String watchUnit(@PathVariable Long id, Model model) throws JsonMappingException, JsonProcessingException {
-		Unit unit = unitService.getOneUnit(id);
+		Unit unit = dataService.getOneUnit(id);
 
 		if (unit == null) {
 			return "redirect:/index";
@@ -108,7 +108,7 @@ public class UnitController {
 
 	@GetMapping("/detailed-list")
 	public String listUnits(Model model) throws JsonMappingException, JsonProcessingException {
-		List<Unit> units = unitService.getAllUnits();
+		List<Unit> units = dataService.getAllUnits();
 
 		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
@@ -130,7 +130,7 @@ public class UnitController {
 			WellData wellData = wellDataWrapper.getWellDataByName("well_production");
 			wellProductionMap.put(unitId, wellData.getValue());
 			
-			unitRelatedZone.put(unitId, unitService.getZoneNameByUnitId(unitId));
+			unitRelatedZone.put(unitId, dataService.getZoneNameByUnitId(unitId));
 
 		}
 
@@ -148,7 +148,7 @@ public class UnitController {
 	@GetMapping("/form/{unitId}")
 	public String editUnit(@PathVariable(value = "unitId") Long unitId, Map<String, Object> model, RedirectAttributes flash) {
 		
-		Unit unit = unitService.getOneUnit(unitId);
+		Unit unit = dataService.getOneUnit(unitId);
 		if (unit == null) {
 			return "redirect:/list";	
 		}
@@ -185,7 +185,7 @@ public class UnitController {
 	
 	@GetMapping("/edit-settings/{unitId}")
 	public String editUnitSettings(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
-		Unit unit = unitService.getOneUnit(unitId);
+		Unit unit = dataService.getOneUnit(unitId);
 		model.addAttribute("unit", unit);
 		model.addAttribute("title", titleFormUnitString);
 		model.addAttribute("message", messageFormUnitString);
@@ -197,7 +197,7 @@ public class UnitController {
 	@GetMapping("/delete/{unitId}")
 	public String deleteUnit(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
 		if(unitId > 0) {
-			unitService.deleteUnit(unitId);
+			dataService.deleteUnit(unitId);
 		}
 		return "redirect:../detailed-list";
 	}

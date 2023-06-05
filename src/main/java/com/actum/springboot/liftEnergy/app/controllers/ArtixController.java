@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.clients.ArtixClient;
 import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
 public class ArtixController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@Autowired
 	private ArtixClient artixClient;
@@ -39,12 +39,12 @@ public class ArtixController {
 
 	@PostConstruct
 	public void init() {
-		eventsUnattended = unitService.getCountOfUnattendedEvents();
+		eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 
 	@GetMapping("/result/{sampleId}")
 	public String artixResult(@PathVariable(value = "sampleId") Long sampleId, Map<String, Object> model) {
-		DinagraphSample dinagraphSample = unitService.getOneDinagraphSample(sampleId);
+		DinagraphSample dinagraphSample = dataService.getOneDinagraphSample(sampleId);
 		if (dinagraphSample == null) {
 			return "redirect:../form";
 		}
@@ -58,7 +58,7 @@ public class ArtixController {
 
 	@GetMapping("/form")
 	public String artixConsole(Map<String, Object> model) {
-		List<DinagraphSample> samples = unitService.getAllDinagraphSamples();
+		List<DinagraphSample> samples = dataService.getAllDinagraphSamples();
 		DinagraphSample dinagraphSample = new DinagraphSample();
 		model.put("sample", dinagraphSample);
 		model.put("title", "Artix Console");
@@ -91,14 +91,14 @@ public class ArtixController {
 				return "redirect:form";
 			}
 		}
-		unitService.saveDinagraphSample(dinagraphSample);
+		dataService.saveDinagraphSample(dinagraphSample);
 		flash.addFlashAttribute("success", "Sample Upload Succesfully");
 		return "redirect:form";
 	}
 
 	@GetMapping("/delete/{sampleId}")
 	public String deleteSample(@PathVariable(name = "sampleId") Long sampleId, RedirectAttributes flash) {
-		unitService.deleteDinagraphSample(sampleId);
+		dataService.deleteDinagraphSample(sampleId);
 		flash.addFlashAttribute("warning", "Sample Deleted Succesfully");
 		return "redirect:../form";
 	}

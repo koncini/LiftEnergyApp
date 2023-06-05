@@ -24,7 +24,7 @@ import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
 public class SensorController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 
 	@Autowired
 	private PushoverClient pushoverClient;
@@ -52,15 +52,15 @@ public class SensorController {
 
 	@PostConstruct
 	public void init() {
-		eventsUnattended = unitService.getCountOfUnattendedEvents();
+		eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 
 	@GetMapping("{unitId}/analisis/{sensorId}")
 	public String analizarUnidad(@PathVariable(value = "unitId") Long unitId,
 			@PathVariable(value = "sensorId") Long sensorId, Model model) {
 
-		Sensor sensor = unitService.getEnabledSensorById(sensorId);
-		Unit unit = unitService.getOneUnit(unitId);
+		Sensor sensor = dataService.getEnabledSensorById(sensorId);
+		Unit unit = dataService.getOneUnit(unitId);
 
 		LocalDate currentDate = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
@@ -79,12 +79,12 @@ public class SensorController {
 	@GetMapping("{unitId}/analisis-dinagrafico")
 	public String analisiDinagrafico(@PathVariable(value = "unitId") Long unitId, Model model) throws ParseException {
 
-		Unit unit = unitService.getOneUnit(unitId);
+		Unit unit = dataService.getOneUnit(unitId);
 		if (unit == null) {
 			return "redirect:/listar";
 		}
 
-		DinagraphSample sample = unitService.getOneDinagraphSample(unitId);
+		DinagraphSample sample = dataService.getOneDinagraphSample(unitId);
 
 		LocalDate currentDate = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
@@ -104,7 +104,7 @@ public class SensorController {
 			unitEvent.setEventPriority(1);
 			unitEvent.setEventAttended(false);
 			unitEvent.setTimestamp(sqlFormatter.parse(eventDate));
-			unitService.saveUnitEvent(unitEvent);
+			dataService.saveUnitEvent(unitEvent);
 		}
 
 		model.addAttribute("unit", unit);
@@ -121,7 +121,7 @@ public class SensorController {
 	public String editSensor(@PathVariable(value = "sensorId") Long sensorId, Map<String, Object> model,
 			RedirectAttributes flash) throws JsonMappingException, JsonProcessingException {
 
-		Sensor sensor = unitService.getOneSensor(sensorId);
+		Sensor sensor = dataService.getOneSensor(sensorId);
 		if (sensor == null) {
 			return "redirect:/list";
 		}
@@ -162,7 +162,7 @@ public class SensorController {
 		SensorSetting settingObject = formData.getSensorSetting();
 		String setting = objectMapper.writeValueAsString(settingObject);
 		sensor.setSettings(setting);
-		unitService.saveSensor(sensor);
+		dataService.saveSensor(sensor);
 		model.addAttribute("title", "Create Sensor");
 		model.addAttribute("message", "Create Sensor");
 		model.addAttribute("eventsUnattended", eventsUnattended);
@@ -173,7 +173,7 @@ public class SensorController {
 	@GetMapping("/delete/{sensorId}")
 	public String deleteSensor(@PathVariable(value = "sensorId") Long sensorId, Model model, RedirectAttributes flash) {
 		if (sensorId > 0) {
-			unitService.deleteSensor(sensorId);
+			dataService.deleteSensor(sensorId);
 		}
 		return "redirect:unit/watch";
 	}

@@ -35,7 +35,7 @@ import com.actum.springboot.liftEnergy.app.models.entity.ZoneProduction;
 import jakarta.transaction.Transactional;
 
 @Service
-public class UnitServiceImpl implements IUnitService {
+public class DataServiceImpl implements IDataService {
 
 	@Autowired
 	private IZoneDao zoneDao;

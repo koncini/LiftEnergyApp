@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
-import com.actum.springboot.liftEnergy.app.models.service.IUnitService;
+import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 
 import jakarta.annotation.PostConstruct;
 
@@ -23,7 +23,7 @@ import jakarta.annotation.PostConstruct;
 public class UnitEventsController {
 
 	@Autowired
-	private IUnitService unitService;
+	private IDataService dataService;
 	
 	@Value("${texto.uniteventcontroller.list.message}")
 	private String messageString;
@@ -35,7 +35,7 @@ public class UnitEventsController {
 
 	@PostConstruct
 	public void init() {
-		eventsUnattended = unitService.getCountOfUnattendedEvents();
+		eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 	
 	@GetMapping("/list-events/{id}")
@@ -51,7 +51,7 @@ public class UnitEventsController {
 
 	@GetMapping("/list-events")
 	public String listEvents(Model model) {
-		List<UnitEvent> unitEvents = unitService.getAllUnitEvents();
+		List<UnitEvent> unitEvents = dataService.getAllUnitEvents();
 		Map<Long, Long> units = new HashMap<>();
 		
 		for(UnitEvent unitEvent: unitEvents) {
@@ -70,9 +70,9 @@ public class UnitEventsController {
 	
 	@GetMapping("/attend/{eventId}")
 	public String attendEvent(@PathVariable(value = "eventId") Long eventId, Model model, RedirectAttributes flash) {
-		UnitEvent unitEvent = unitService.getOneUnitEvent(eventId);
+		UnitEvent unitEvent = dataService.getOneUnitEvent(eventId);
 		unitEvent.setEventAttended(true);
-		unitService.saveUnitEvent(unitEvent);
+		dataService.saveUnitEvent(unitEvent);
 		flash.addFlashAttribute("success", "Event noted as attended");
 		return "redirect:../list-events";
 	}

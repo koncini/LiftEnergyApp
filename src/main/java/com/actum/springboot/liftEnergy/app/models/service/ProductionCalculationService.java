@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class ProductionCalculationService {
 	
 	@Autowired
-	private IUnitService unitservice;
+	private IDataService dataService;
 	
 	@Scheduled(fixedRate = 60000)
 	public void calculateZoneProduction() {

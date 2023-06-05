@@ -16,7 +16,7 @@ import com.actum.springboot.liftEnergy.app.models.entity.User;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.entity.ZoneProduction;
 
-public interface IUnitService {
+public interface IDataService {
 
 	public void saveZone(Zone zone);
 
