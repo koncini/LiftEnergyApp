@@ -27,7 +27,7 @@
 
 				<h1 th:text="${message} + ' ' + ${detail} + ' ' + ${title}"></h1>
 
-				<a sec:authorize="hasRole('ADMIN')" th:href="@{/unit-events/list-attended-events}"
+				<a sec:authorize="hasRole('ADMIN')" th:if="${unattendedList}" th:href="@{/unit-events/list-attended-events}"
 					class="btn btn-primary btn-xs" th:text="'Event History'"></a>
 
 				<table class="table table-bordered table-striped table-hover my-4">
@@ -39,20 +39,20 @@
 							<th>Detail</th>
 							<th>Priority</th>
 							<th>Date</th>
-							<th sec:authorize="hasRole('ADMIN')">Actions</th>
+							<th th:if="${!unattendedList}">Attended by</th>
+							<th sec:authorize="hasRole('ADMIN')" th:if="${unattendedList}">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="event: ${unitEvents}"
-							th:style="${event.eventPriority == 1} ? 'background-color: rgb(255, 150, 150);' : ''"
-							th:if="${!event.eventAttended}">
+							th:style="${event.eventPriority == 1} ? 'background-color: rgb(255, 150, 150);' : ''">
 							<td th:text="${event.id}"></td>
 							<td th:text="${unitEventsUnits[event.id]}"></td>
 							<td th:text="${event.eventName}"></td>
 							<td th:text="${event.eventDetail}"></td>
 							<td th:text="${event.eventPriority}"></td>
 							<td th:text="${event.timeStamp}"></td>
-							<td sec:authorize="hasRole('ADMIN')"><a
+							<td sec:authorize="hasRole('ADMIN')" th:if="${not event.eventAttended}"><a
 								class="btn btn-danger btn-xs"
 								th:href="@{'/unit-events/attend/' + ${event.id}}"
 								th:text="'Attend'"></a></td>

@@ -3,6 +3,9 @@ package com.actum.springboot.liftEnergy.app.models.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.actum.springboot.liftEnergy.app.models.entity.DinagraphSample;
 import com.actum.springboot.liftEnergy.app.models.entity.Sensor;
 import com.actum.springboot.liftEnergy.app.models.entity.SensorData;
@@ -16,6 +19,8 @@ import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.entity.ZoneProduction;
 
 public interface IDataService {
+	
+	//______________________________Zones____________________________________
 
 	public void saveZone(Zone zone);
 
@@ -34,6 +39,8 @@ public interface IDataService {
 	public List<Zone> getTop5ZonesByProductionAndUserId(Long id);
 	
 	public String getZoneNameByUnitId(Long unitId);
+	
+	//______________________________Units____________________________________
 
 	public void saveUnit(Unit unit);
 
@@ -46,6 +53,8 @@ public interface IDataService {
 	public Unit getOneUnit(Long id);
 
 	public Unit getEnabledUnitById(Long id);
+	
+	//______________________________Sensors____________________________________
 
 	public void saveSensor(Sensor sensor);
 
@@ -66,12 +75,16 @@ public interface IDataService {
 	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp);
 
 	public void saveSensorData(SensorData sensorData);
+	
+	//_______________________________Users_____________________________________
 
 	public List<User> getAllUsers();
 	
 	public User getOneUser(Long id);
 
 	public User getUserByName(String name);
+	
+	//_______________________________Unit Notes________________________________
 	
 	public void saveUnitNote(UnitNote note);
 	
@@ -85,13 +98,23 @@ public interface IDataService {
 	
 	public List<UnitNote> getNotesByUnit(Long id);
 	
+	//_______________________________Unit Events_______________________________
+	
 	public void saveUnitEvent(UnitEvent event);
 	
-	public List<UnitEvent> getAllUnitEvents();
+	public Page<UnitEvent> getAllUnitEvents(Pageable pageable);
+	
+	public Page<UnitEvent> getAllAttendedUnitEvents(Pageable pageable);
+	
+	public Page<UnitEvent> getAllUnattendedUnitEvents(Pageable pageable);
 	
 	public void deleteUnitEvent(Long id);
 	
 	public UnitEvent getOneUnitEvent(Long id);
+	
+	public long getCountOfUnattendedEvents();
+	
+	//_______________________________Sensor Data_______________________________
 	
 	public List<SensorData> getSensorDataFromToday(Long sensorId);
 	
@@ -101,8 +124,8 @@ public interface IDataService {
 	
 	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId);
 	
-	public long getCountOfUnattendedEvents();
-
+	//_______________________________Settings__________________________________
+	
 	public void saveSetting(Setting setting);
 
 	public List<Setting> getAllSettings();
@@ -110,6 +133,8 @@ public interface IDataService {
 	public void deleteSetting(Long id);
 
 	public Setting getOneSetting(Long id);
+	
+	//__________________________Dinagraph Samples______________________________
 
 	public List<DinagraphSample> getAllDinagraphSamples();
 
@@ -119,6 +144,8 @@ public interface IDataService {
 
 	public DinagraphSample getOneDinagraphSample(Long id);
 	
+	//____________________________Zone Production______________________________
+	
 	public List<ZoneProduction> getAllZoneProduction();
 	
 	public void saveZoneProduction (ZoneProduction zoneProduction);
@@ -126,6 +153,20 @@ public interface IDataService {
 	public void deleteZoneProduction (Long id);
 	
 	public ZoneProduction getOneZoneProduction(Long id);
+	
+	public void saveZoneProduction(Long zoneId, Double production, Date timeStamp);
+	
+	public Long getTotalZoneProductionFromLastHour(Long zoneId);
+	
+	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId);
+	
+	public List<ZoneProduction> getZoneProductionFromCurrentWeek(Long zoneId);
+	
+	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId);
+	
+	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId);
+	
+	//____________________________Unit Production______________________________
 		
 	public List<UnitProduction> getAllUnitProduction();
 	
@@ -134,18 +175,6 @@ public interface IDataService {
 	public void deleteUnitProduction (Long id);
 
 	public UnitProduction getOneUnitProduction(Long id);
-	
-	public void saveZoneProduction(Long zoneId, Double production, Date timeStamp);
-
-	public Long getTotalZoneProductionFromLastHour(Long zoneId);
-
-	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId);
-	
-	public List<ZoneProduction> getZoneProductionFromCurrentWeek(Long zoneId);
-	
-	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId);
-	
-	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId);
 
 	public void saveUnitProduction(Long unitId, Double production, Date timeStamp);
 

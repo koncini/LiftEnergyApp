@@ -6,15 +6,20 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.actum.springboot.liftEnergy.app.models.entity.UnitEvent;
 import com.actum.springboot.liftEnergy.app.models.service.IDataService;
+import com.actum.springboot.liftEnergy.app.util.paginator.PageRender;
 
 import jakarta.annotation.PostConstruct;
 
@@ -50,8 +55,14 @@ public class UnitEventsController {
 	}
 
 	@GetMapping("/list-unattended-events")
-	public String listUnattendedEvents(Model model) {
-		List<UnitEvent> unitEvents = dataService.getAllUnitEvents();
+	public String listUnattendedEvents(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+		
+		Pageable pageRequest = PageRequest.of(page, 10);
+		
+		Page<UnitEvent> unitEventsPage = dataService.getAllUnattendedUnitEvents(pageRequest);
+		PageRender<UnitEvent> pageRender = new PageRender<>("/list-unattended-events", unitEventsPage);
+		
+		List<UnitEvent> unitEvents = unitEventsPage.getContent();	
 		Map<Long, Long> units = new HashMap<>();
 		
 		for(UnitEvent unitEvent: unitEvents) {
@@ -64,14 +75,22 @@ public class UnitEventsController {
 		model.addAttribute("detail", "Unattended");
 		model.addAttribute("unitEvents", unitEvents);
 		model.addAttribute("unitEventsUnits", units);
+		model.addAttribute("unattendedList", true);
+		model.addAttribute("page", pageRender);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "events/list";
 	}
 	
 	@GetMapping("/list-attended-events")
-	public String listAttendedEvents(Model model) {
-		List<UnitEvent> unitEvents = dataService.getAllUnitEvents();
+	public String listAttendedEvents(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+		
+		Pageable pageRequest = PageRequest.of(page, 10);
+		
+		Page<UnitEvent> unitEventsPage = dataService.getAllAttendedUnitEvents(pageRequest);
+		PageRender<UnitEvent> pageRender = new PageRender<>("/list-unattended-events", unitEventsPage);
+		
+		List<UnitEvent> unitEvents = unitEventsPage.getContent();	
 		Map<Long, Long> units = new HashMap<>();
 		
 		for(UnitEvent unitEvent: unitEvents) {
@@ -80,12 +99,14 @@ public class UnitEventsController {
 		}
 		
 		model.addAttribute("title", titleString);
-		model.addAttribute("detail", "Attended");
 		model.addAttribute("message", messageString);
+		model.addAttribute("detail", "Attended");
 		model.addAttribute("unitEvents", unitEvents);
 		model.addAttribute("unitEventsUnits", units);
+		model.addAttribute("unattendedList", false);
+		model.addAttribute("page", pageRender);
 		model.addAttribute("eventsUnattended", eventsUnattended);
-		
+
 		return "events/list";
 	}
 	
