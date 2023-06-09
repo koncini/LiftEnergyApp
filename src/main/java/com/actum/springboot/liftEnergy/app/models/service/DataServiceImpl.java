@@ -332,7 +332,12 @@ public class DataServiceImpl implements IDataService {
 	@Override
 	@Transactional
 	public List<SensorData> getSensorDataFromCurrentWeek(Long sensorId) {
-		return null;
+		Date now = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(now);
+		calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		Date startOfWeek = calendar.getTime();
+		return sensorDataDao.findBySensorIdAndTimestampCurrentWeek(sensorId, startOfWeek, now);
 	}
 
 	@Override
@@ -441,6 +446,12 @@ public class DataServiceImpl implements IDataService {
 	
 	@Override
 	@Transactional
+	public List<ZoneProduction> getZoneProductionFromCurrentWeek(Long zoneId) {
+		return zoneProductionDao.findByZoneIdAndCurrentWeek(zoneId);
+	}
+	
+	@Override
+	@Transactional
 	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId) {
 		return zoneProductionDao.findByZoneIdAndCurrentMonth(zoneId);
 	}
@@ -459,6 +470,7 @@ public class DataServiceImpl implements IDataService {
 	}
 	
 	@Override
+	@Transactional
 	public void saveZoneProduction(Long zoneId, Double production, Date timeStamp) {
 		zoneProductionDao.insertZoneProduction(zoneId, production, timeStamp);
 	}
@@ -495,6 +507,12 @@ public class DataServiceImpl implements IDataService {
 		return unitProductionDao.findTotalProductionForUnitIdInLast60Minutes(unitId);
 	}
 
+	@Override
+	@Transactional
+	public List<UnitProduction> getUnitProductionFromCurrentWeek(Long unitId) {
+		return unitProductionDao.findByUnitIdAndCurrentWeek(unitId);
+	}
+	
 	@Override
 	@Transactional
 	public List<UnitProduction> getUnitProductionFromCurrentMonth(Long unitId) {

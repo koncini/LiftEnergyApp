@@ -36,9 +36,16 @@ public class ProductionCalculationService {
 			String metrics = unit.getMetrics();
 			WellDataWrapper wellDataWrapper = mapper.readValue(metrics, WellDataWrapper.class);
 			List<WellData> wellData = wellDataWrapper.getWellData();
-			
-			
+			//modifyValue(wellData, "production", production);			
 		}
+	}
+	
+	public void modifyValue(List<WellData> wellDataList, String name, Long value) {
+	    for (WellData wellData : wellDataList) {
+	        if (wellData.getName().equals(name)) {
+	            wellData.setValue(value);
+	        }
+	    }
 	}
 
 }

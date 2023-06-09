@@ -22,24 +22,17 @@
 				<table class="table table-bordered table-striped table-hover my-4">
 					<thead class="thead-dark">
 						<tr>
-							<th>Username</th>
-							<th>Name</th>
-							<th>Surname</th>
-							<th>Email</th>
-							<th>Enabled</th>
-							<th>Edit user</th>
-							<th>Delete user</th>
+							<th>Item</th>
+							<th>Value</th>
+							<th>Edit</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="user: ${users}">
-							<td th:text="${user.username}"></td>
-							<td th:text="${user.name}"></td>
-							<td th:text="${user.lastname}"></td>
-							<td th:text="${user.email}"></td>
-							<td th:text="${user.enabled}"></td>
-							<td><a class="btn btn-info btn-xs"
-								th:href="@{'/usuarios/form/' + ${user.id}}" th:text="'Edit'"></a></td>
+							<td th:text="'External Module'"></td>
+							<td th:text="'Artix'"></td>
+							<td><a class="btn btn-info btn-xs" th:text="'Edit'"></a></td>
 							<td><a class="btn btn-danger btn-xs" th:text="'Delete'"></a></td>
 						</tr>
 					</tbody>

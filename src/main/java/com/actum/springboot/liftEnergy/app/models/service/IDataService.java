@@ -141,6 +141,8 @@ public interface IDataService {
 
 	public List<ZoneProduction> getZoneProductionFromToday(Long zoneId);
 	
+	public List<ZoneProduction> getZoneProductionFromCurrentWeek(Long zoneId);
+	
 	public List<ZoneProduction> getZoneProductionFromCurrentMonth(Long zoneId);
 	
 	public List<ZoneProduction> getZoneProductionFromCurrentYear(Long zoneId);
@@ -151,6 +153,8 @@ public interface IDataService {
 
 	public List<UnitProduction> getUnitProductionFromToday(Long unitId);
 	
+	public List<UnitProduction> getUnitProductionFromCurrentWeek(Long unitId);
+
 	public List<UnitProduction> getUnitProductionFromCurrentMonth(Long unitId);
 	
 	public List<UnitProduction> getUnitProductionFromCurrentYear(Long unitId);

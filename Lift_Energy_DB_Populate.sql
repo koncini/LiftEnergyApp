@@ -314,6 +314,7 @@ CREATE TABLE `db_lift_energy`.`unit_events` (
   `event_detail` VARCHAR(280) NOT NULL,
   `event_priority` TINYINT(10) NOT NULL,
   `event_attended` BOOLEAN NOT NULL,
+  `attended_BY` INT,
   `time` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_event_units`

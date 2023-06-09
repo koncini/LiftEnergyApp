@@ -22,6 +22,9 @@ public interface IZoneProductionDao extends CrudRepository<ZoneProduction, Long>
 	@Query("SELECT zp FROM ZoneProduction zp WHERE zp.zoneId = :zoneId AND DATE(zp.timeStamp) = CURRENT_DATE")
     public List<ZoneProduction> findByZoneIdAndCurrentDate(@Param("zoneId") Long zoneId);
 	
+	@Query("SELECT zp FROM ZoneProduction zp WHERE zp.zoneId = :zoneId AND WEEK(zp.timeStamp) = WEEK(CURRENT_DATE)")
+	public List<ZoneProduction> findByZoneIdAndCurrentWeek(@Param("zoneId") Long zoneId);
+	
 	@Query("SELECT zp FROM ZoneProduction zp WHERE zp.zoneId = :zoneId AND MONTH(zp.timeStamp) = MONTH(CURRENT_DATE)")
     public List<ZoneProduction> findByZoneIdAndCurrentMonth(@Param("zoneId") Long zoneId);
 

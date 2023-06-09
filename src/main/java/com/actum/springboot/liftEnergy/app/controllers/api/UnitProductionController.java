@@ -66,14 +66,14 @@ public class UnitProductionController {
 		return ResponseEntity.ok(production);
 	}
 	
-	@GetMapping("/get-month-production-data/{unit_id}")
-	private ResponseEntity<List<UnitProduction>> getMonthProductionData(@PathVariable(value = "unit_id")Long unitId){
-		List<UnitProduction> production = dataService.getUnitProductionFromCurrentMonth(unitId);
+	@GetMapping("/get-week-production-data/{unit_id}")
+	private ResponseEntity<List<UnitProduction>> getWeekProductionData(@PathVariable(value = "unit_id")Long unitId){
+		List<UnitProduction> production = dataService.getUnitProductionFromCurrentWeek(unitId);
 		return ResponseEntity.ok(production);
 	}
 	
-	@GetMapping("/get-week-production-data/{unit_id}")
-	private ResponseEntity<List<UnitProduction>> getWeekProductionData(@PathVariable(value = "unit_id")Long unitId){
+	@GetMapping("/get-month-production-data/{unit_id}")
+	private ResponseEntity<List<UnitProduction>> getMonthProductionData(@PathVariable(value = "unit_id")Long unitId){
 		List<UnitProduction> production = dataService.getUnitProductionFromCurrentMonth(unitId);
 		return ResponseEntity.ok(production);
 	}

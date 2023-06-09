@@ -74,7 +74,7 @@
 			</li>
 		</ul>
 		<ul class="nav navbar-nav ml-auto">
-			<li class="nav-item d-md-down-none"><a class="nav-link" th:href="@{../../unit-events/list-events}">
+			<li class="nav-item d-md-down-none"><a class="nav-link" th:href="@{../../unit-events/list-unattended-events}">
 					<i class="icon-bell"></i> <span
 					class="badge badge-pill badge-danger" th:text="${eventsUnattended}"></span>
 			</a></li>
@@ -91,20 +91,20 @@
 	<div th:fragment="sidebar" class="sidebar">
 		<nav class="sidebar-nav">
 			<ul class="nav">
-<!--				<li class="nav-title" sec:authorize="hasRole('MANAGER')">MANAGER</li>-->
-<!--				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a-->
-<!--					class="nav-link" href="#"> <i class="nav-icon icon-wallet"></i>-->
-<!--						Financial Info-->
-<!--				</a></li>-->
-<!--				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a-->
-<!--					class="nav-link" href="#"> <i class="nav-icon icon-speedometer"></i>-->
-<!--						Production Analysis-->
-<!--				</a></li>-->
-<!--				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a-->
-<!--					class="nav-link" href="#"> <i class="nav-icon icon-pie-chart"></i>General-->
-<!--						Graphs-->
-<!--				</a></li>-->
-<!--				<li class="divider" sec:authorize="hasRole('OPERATION_STAFF')"></li>-->
+				<li class="nav-title" sec:authorize="hasRole('MANAGER')">MANAGER</li>
+				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+					class="nav-link" href="#"> <i class="nav-icon icon-wallet"></i>
+						Financial Info
+				</a></li>
+				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+					class="nav-link" href="#"> <i class="nav-icon icon-speedometer"></i>
+						Production Analysis
+				</a></li>
+				<li class="nav-item" sec:authorize="hasRole('MANAGER')"><a
+					class="nav-link" href="#"> <i class="nav-icon icon-pie-chart"></i>General
+						Graphs
+				</a></li>
+				<li class="divider" sec:authorize="hasRole('OPERATION_STAFF')"></li>
 				<li class="nav-title" sec:authorize="hasRole('OPERATION_STAFF')">OPERATION
 					STAFF</li>
 				<li class="nav-item nav-dropdown"
@@ -113,10 +113,10 @@
 						class="nav-icon icon-fire"></i> Oil Field Production
 				</a>
 					<ul class="nav-dropdown-items">
-<!--						<li class="nav-item"><a class="nav-link" href="#"-->
-<!--							target="_top"> <i class="nav-icon icon-graph"></i> Production-->
-<!--								Graphs-->
-<!--						</a></li>-->
+						<li class="nav-item"><a class="nav-link" href="#"
+							target="_top"> <i class="nav-icon icon-graph"></i> Production
+								Graphs
+						</a></li>
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{../../../zone/detailed-list}" target="_top">
 								<i class="nav-icon icon-location-pin"></i> Oil Fields
@@ -135,10 +135,10 @@
 						class="nav-icon icon-drop"></i> Oil Well Production
 				</a>
 					<ul class="nav-dropdown-items">
-<!--						<li class="nav-item"><a class="nav-link" href="#"-->
-<!--							target="_top"> <i class="nav-icon icon-graph"></i> Production-->
-<!--								Graphs-->
-<!--						</a></li>-->
+						<li class="nav-item"><a class="nav-link" href="#"
+							target="_top"> <i class="nav-icon icon-graph"></i> Production
+								Graphs
+						</a></li>
 						<li class="nav-item"><a class="nav-link"
 							th:href="@{../../../unit/detailed-list}" target="_top">
 								<i class="nav-icon icon-location-pin"></i> Oil Wells
@@ -155,7 +155,7 @@
 						class="nav-icon icon-bell"></i> Notifications
 				</a>
 					<ul class="nav-dropdown-items">
-						<li class="nav-item"><a class="nav-link" th:href="@{../../../unit-events/list-events}"
+						<li class="nav-item"><a class="nav-link" th:href="@{../../../unit-events/list-unattended-events}"
 							target="_top"> <i class="nav-icon icon-question"></i> Events
 						</a></li>
 						<li class="nav-item"><a class="nav-link" th:href="@{../../../unit-notes/list-notes}"

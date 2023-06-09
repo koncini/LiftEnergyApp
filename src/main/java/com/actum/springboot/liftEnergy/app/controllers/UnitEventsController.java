@@ -49,8 +49,8 @@ public class UnitEventsController {
 		return "events/list";
 	}
 
-	@GetMapping("/list-events")
-	public String listEvents(Model model) {
+	@GetMapping("/list-unattended-events")
+	public String listUnattendedEvents(Model model) {
 		List<UnitEvent> unitEvents = dataService.getAllUnitEvents();
 		Map<Long, Long> units = new HashMap<>();
 		
@@ -61,10 +61,31 @@ public class UnitEventsController {
 		
 		model.addAttribute("title", titleString);
 		model.addAttribute("message", messageString);
+		model.addAttribute("detail", "Unattended");
 		model.addAttribute("unitEvents", unitEvents);
 		model.addAttribute("unitEventsUnits", units);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
+		return "events/list";
+	}
+	
+	@GetMapping("/list-attended-events")
+	public String listAttendedEvents(Model model) {
+		List<UnitEvent> unitEvents = dataService.getAllUnitEvents();
+		Map<Long, Long> units = new HashMap<>();
+		
+		for(UnitEvent unitEvent: unitEvents) {
+			Long unitId = unitEvent.getUnit().getId();
+			units.put(unitEvent.getId(), unitId);
+		}
+		
+		model.addAttribute("title", titleString);
+		model.addAttribute("detail", "Attended");
+		model.addAttribute("message", messageString);
+		model.addAttribute("unitEvents", unitEvents);
+		model.addAttribute("unitEventsUnits", units);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+		
 		return "events/list";
 	}
 	
@@ -74,7 +95,7 @@ public class UnitEventsController {
 		unitEvent.setEventAttended(true);
 		dataService.saveUnitEvent(unitEvent);
 		flash.addFlashAttribute("success", "Event noted as attended");
-		return "redirect:../list-events";
+		return "redirect:../list-unattended-events";
 	}
 
 }

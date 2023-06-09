@@ -29,5 +29,5 @@ public class WellData {
 	public void setValue(Number value) {
 		this.value = value;
 	}
-
+	
 }

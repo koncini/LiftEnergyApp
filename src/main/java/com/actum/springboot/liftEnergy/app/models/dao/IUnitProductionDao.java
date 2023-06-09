@@ -22,7 +22,10 @@ public interface IUnitProductionDao extends CrudRepository<UnitProduction, Long>
 
 	@Query("SELECT up FROM UnitProduction up WHERE up.unitId = :unitId AND DATE(up.timeStamp) = CURRENT_DATE")
 	public List<UnitProduction> findByUnitIdAndCurrentDate(@Param("unitId") Long unitId);
-
+	
+	@Query("SELECT up FROM UnitProduction up WHERE up.unitId = :unitId AND WEEK(up.timeStamp) = WEEK(CURRENT_DATE)")
+	public List<UnitProduction> findByUnitIdAndCurrentWeek(@Param("unitId") Long unitId);
+	
 	@Query("SELECT up FROM UnitProduction up WHERE up.unitId = :unitId AND MONTH(up.timeStamp) = MONTH(CURRENT_DATE)")
 	public List<UnitProduction> findByUnitIdAndCurrentMonth(@Param("unitId") Long unitId);
 

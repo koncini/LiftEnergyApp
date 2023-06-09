@@ -48,6 +48,9 @@ public class UnitEvent implements Serializable {
 
 	@Column(name = "event_attended")
 	private Boolean eventAttended;
+	
+	@Column(name = "attended_by")
+	private Long attendedBy;
 
 	public Long getId() {
 		return id;
@@ -113,4 +116,12 @@ public class UnitEvent implements Serializable {
 		this.eventAttended = eventAttended;
 	}
 
+	public Long getAttendedBy() {
+		return attendedBy;
+	}
+
+	public void setAttendedBy(Long attendedBy) {
+		this.attendedBy = attendedBy;
+	}
+	
 }

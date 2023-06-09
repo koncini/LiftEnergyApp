@@ -18,29 +18,64 @@
 			<div class="container my-2">
 				<div class="card">
 					<div class="card-header">
-						<h1 th:text="${message} + ' ' + ${unit.id}"></h1>
+						<h1 th:text="${message} + ' ' + ${unit.id} + ' Settings'"></h1>
 					</div>
 					<div class="card-body">
-						<form th:action="@{/unit/form}" th:object="${unit}" method="post">
+						<form th:action="@{/unit/form}" method="post">
 
 							<div class="form-group-row">
-								<label class="col-sm-2 col-form-label"> Oil Field </label>
+								<label class="col-sm-2 col-form-label"> Work mode </label>
 								<div class="cols-sm-6">
-									<input type="text" th:field="*{zone}" class="form-control" />
+									<input type="text" class="form-control" />
 								</div>
 							</div>
 
 							<div class="form-group-row">
-								<label class="col-sm-2 col-form-label"> Latitude </label>
+								<label class="col-sm-2 col-form-label"> Dinagraph </label>
 								<div class="cols-sm-6">
-									<input type="text" th:field="*{latitude}" class="form-control" />
+									<input type="text" class="form-control" />
 								</div>
 							</div>
-
+							
 							<div class="form-group-row">
-								<label class="col-sm-2 col-form-label"> Longitude </label>
+								<label class="col-sm-2 col-form-label"> Well Depth Detection </label>
 								<div class="cols-sm-6">
-									<input type="text" th:field="*{longitude}" class="form-control" />
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Meassuring Mode </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Event Warnings </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Status </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Production Goal </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
+								</div>
+							</div>
+							
+							<div class="form-group-row">
+								<label class="col-sm-2 col-form-label"> Motor Speed </label>
+								<div class="cols-sm-6">
+									<input type="text" class="form-control" />
 								</div>
 							</div>
 							<br></br>

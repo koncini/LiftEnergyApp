@@ -81,7 +81,7 @@ public class SensorDataController {
 
 	@GetMapping("/get-week-data/{sensor_id}")
 	private ResponseEntity<List<SensorData>> getWeekSensorData(@PathVariable(value = "sensor_id") Long sensorId) {
-		List<SensorData> sensorData = dataService.getSensorDataFromCurrentYear(sensorId);
+		List<SensorData> sensorData = dataService.getSensorDataFromCurrentWeek(sensorId);
 		return ResponseEntity.ok(sensorData);
 	}
 
