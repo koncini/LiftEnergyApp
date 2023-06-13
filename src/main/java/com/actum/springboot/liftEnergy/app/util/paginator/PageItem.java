@@ -6,7 +6,6 @@ public class PageItem {
 	private boolean current;
 	
 	public PageItem(int number, boolean current) {
-		super();
 		this.number = number;
 		this.current = current;
 	}
@@ -15,16 +14,8 @@ public class PageItem {
 		return number;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
-	}
-
 	public boolean isCurrent() {
 		return current;
-	}
-
-	public void setCurrent(boolean current) {
-		this.current = current;
 	}
 
 }

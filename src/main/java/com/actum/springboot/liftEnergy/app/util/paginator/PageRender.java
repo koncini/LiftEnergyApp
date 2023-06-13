@@ -31,16 +31,20 @@ public class PageRender<T> {
 		return currentPage;
 	}
 
-	public boolean isFirstPage() {
+	public boolean isFirst() {
 		return page.isFirst();
 	}
 
-	public boolean isLastPage() {
+	public boolean isLast() {
 		return page.isLast();
 	}
 
 	public boolean isHasNext() {
 		return page.hasNext();
+	}
+	
+	public boolean isHasPrevious() {
+		return page.hasPrevious();
 	}
 
 	public PageRender(String url, Page<T> page) {

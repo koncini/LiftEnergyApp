@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,7 +64,7 @@ public class UnitEventsController {
 		Pageable pageRequest = PageRequest.of(page, 10);
 		
 		Page<UnitEvent> unitEventsPage = dataService.getAllUnattendedUnitEvents(pageRequest);
-		PageRender<UnitEvent> pageRender = new PageRender<>("/list-unattended-events", unitEventsPage);
+		PageRender<UnitEvent> pageRender = new PageRender<>("/unit-events/list-unattended-events", unitEventsPage);
 		
 		List<UnitEvent> unitEvents = unitEventsPage.getContent();	
 		Map<Long, Long> units = new HashMap<>();
@@ -117,6 +121,17 @@ public class UnitEventsController {
 		dataService.saveUnitEvent(unitEvent);
 		flash.addFlashAttribute("success", "Event noted as attended");
 		return "redirect:../list-unattended-events";
+	}
+	
+	private UserDetails getCurrentUserDetails() {
+
+		SecurityContext context = SecurityContextHolder.getContext();
+
+		Authentication auth = context.getAuthentication();
+
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+
+		return userDetails;
 	}
 
 }
