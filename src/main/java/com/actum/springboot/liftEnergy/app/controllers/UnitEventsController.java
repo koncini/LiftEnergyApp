@@ -92,7 +92,7 @@ public class UnitEventsController {
 		Pageable pageRequest = PageRequest.of(page, 10);
 		
 		Page<UnitEvent> unitEventsPage = dataService.getAllAttendedUnitEvents(pageRequest);
-		PageRender<UnitEvent> pageRender = new PageRender<>("/list-unattended-events", unitEventsPage);
+		PageRender<UnitEvent> pageRender = new PageRender<>("/unit-events/list-attended-events", unitEventsPage);
 		
 		List<UnitEvent> unitEvents = unitEventsPage.getContent();	
 		Map<Long, Long> units = new HashMap<>();
@@ -116,8 +116,10 @@ public class UnitEventsController {
 	
 	@GetMapping("/attend/{eventId}")
 	public String attendEvent(@PathVariable(value = "eventId") Long eventId, Model model, RedirectAttributes flash) {
+		String currentUserName = getCurrentUserDetails().getUsername();
 		UnitEvent unitEvent = dataService.getOneUnitEvent(eventId);
 		unitEvent.setEventAttended(true);
+		unitEvent.setAttendedBy(currentUserName);
 		dataService.saveUnitEvent(unitEvent);
 		flash.addFlashAttribute("success", "Event noted as attended");
 		return "redirect:../list-unattended-events";

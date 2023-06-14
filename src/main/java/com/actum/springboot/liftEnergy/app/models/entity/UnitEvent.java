@@ -50,7 +50,7 @@ public class UnitEvent implements Serializable {
 	private Boolean eventAttended;
 	
 	@Column(name = "attended_by")
-	private Long attendedBy;
+	private String attendedBy;
 
 	public Long getId() {
 		return id;
@@ -116,11 +116,11 @@ public class UnitEvent implements Serializable {
 		this.eventAttended = eventAttended;
 	}
 
-	public Long getAttendedBy() {
+	public String getAttendedBy() {
 		return attendedBy;
 	}
 
-	public void setAttendedBy(Long attendedBy) {
+	public void setAttendedBy(String attendedBy) {
 		this.attendedBy = attendedBy;
 	}
 	

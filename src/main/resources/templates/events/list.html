@@ -56,11 +56,12 @@
 								class="btn btn-danger btn-xs"
 								th:href="@{'/unit-events/attend/' + ${event.id}}"
 								th:text="'Attend'"></a></td>
+							<td th:if="${event.eventAttended}" th:text="${event.attendedBy}"></td>
 						</tr>
 					</tbody>
 				</table>
 				
-				<nav th:replace="~{layout/paginator :: paginator}"></nav>
+				<nav th:if="${not #lists.isEmpty(unitEvents)}" th:replace="~{layout/paginator :: paginator}"></nav>
 
 			</div>
 
