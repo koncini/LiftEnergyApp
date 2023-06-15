@@ -71,10 +71,6 @@ public interface IDataService {
 	public List<Sensor> getEnabledSensorsById(Long id);
 
 	public Sensor getEnabledSensorById(Long id);
-
-	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp);
-
-	public void saveSensorData(SensorData sensorData);
 	
 	//_______________________________Users_____________________________________
 
@@ -123,6 +119,12 @@ public interface IDataService {
 	public List<SensorData> getSensorDataFromCurrentMonth(Long sensorId);
 	
 	public List<SensorData> getSensorDataFromCurrentYear(Long sensorId);
+	
+	public void insertSensorData(Long sensorId, Double data, String unit, Boolean dinagraphReading, Date timeStamp);
+
+	public void saveSensorData(SensorData sensorData);
+	
+	public void deleteSensorDataBySensorId(Long id);
 	
 	//_______________________________Settings__________________________________
 	

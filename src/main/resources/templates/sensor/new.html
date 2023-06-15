@@ -23,12 +23,12 @@
 						<h1 th:text="${message}"></h1>
 					</div>
 					<div class="card-body">
-						<form th:action="@{'/sensor/form?unitId=' + ${unitId}}" th:object="${formData}"
-							method="post">
+						<form th:action="@{'/sensor/form?unitId=' + ${unitId}}"
+							th:object="${formData}" method="post">
 							<div class="form-group-row">
 								<label class="col-sm-2 col-form-label"> Type </label>
 								<div class="cols-sm-6">
-									<input type="text" 
+									<input type="text" th:field="*{sensor.type}"
 										class="form-control" />
 								</div>
 							</div>
@@ -36,23 +36,23 @@
 							<div class="form-group-row">
 								<label class="col-sm-2 col-form-label"> Max Value </label>
 								<div class="cols-sm-6">
-									<input type="text" 
-										class="form-control" />
+									<input type="text" th:field="*{sensorSetting.maxValue}"
+										class="form-control" autocomplete="false"/>
 								</div>
 							</div>
 
 							<div class="form-group-row">
 								<label class="col-sm-2 col-form-label"> Min Value </label>
 								<div class="cols-sm-6">
-									<input type="text" 
-										class="form-control" />
+									<input type="text" th:field="*{sensorSetting.minValue}"
+										class="form-control" autocomplete="false"/>
 								</div>
 							</div>
 
 							<div class="form-group-row">
 								<label class="col-sm-2 col-form-label"> Meassure Unit </label>
 								<div class="cols-sm-6">
-									<input type="text" 
+									<input type="text" th:field="*{sensorSetting.meassureUnit}"
 										class="form-control" />
 								</div>
 							</div>
@@ -62,6 +62,8 @@
 									<input type="submit" value="Save" class="btn btn-secondary" />
 								</div>
 							</div>
+
+							<input type="hidden" th:field="*{sensor.enabled}" />
 						</form>
 					</div>
 				</div>

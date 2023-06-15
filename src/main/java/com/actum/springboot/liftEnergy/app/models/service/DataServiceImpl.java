@@ -367,6 +367,12 @@ public class DataServiceImpl implements IDataService {
 		int year = Year.now().getValue();
 		return sensorDataDao.findBySensorIdAndTimeStampCurrentYear(sensorId, year);
 	}
+	
+	@Override
+	@Transactional
+	public void deleteSensorDataBySensorId(Long id) {
+		sensorDataDao.deleteBySensorId(id);		
+	}
 
 	// ____________________________Settings_______________________________________
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -139,7 +140,7 @@ public class SensorController {
 		model.put("title", "Edit Sensor");
 		model.put("message", "Edit Sensor");
 		model.put("eventsUnattended", eventsUnattended);
-		flash.addFlashAttribute("success", "New Oil Field Created");
+		flash.addFlashAttribute("success", "Sensor Edited Succesfully");
 
 		return "sensor/form";
 	}
@@ -148,9 +149,11 @@ public class SensorController {
 	public String createSensor(@RequestParam(name = "unitId") Long unitId, Map<String, Object> model,
 			RedirectAttributes flash) {
 		Sensor sensor = new Sensor();
+		SensorSetting sensorSetting = new SensorSetting();
 		FormData formData = new FormData();
-		model.put("sensor", sensor);
-		model.put("sensor", formData);
+		formData.setSensor(sensor);
+		formData.setSensorSetting(sensorSetting);
+		model.put("formData", formData);
 		model.put("unitId", unitId);
 		model.put("title", "Create New Sensor");
 		model.put("message", "Create New Sensor");
@@ -161,13 +164,17 @@ public class SensorController {
 	}
 
 	@PostMapping("/form")
-	public String saveSensor(@RequestParam(name = "unitId") Long unitId, @Valid FormData formData, Model model,
-			RedirectAttributes flash) throws JsonProcessingException {
+	public String saveSensor(@RequestParam(name = "unitId") Long unitId, @Valid FormData formData, BindingResult result,
+			Model model, RedirectAttributes flash) throws JsonProcessingException {
+		if(result.hasErrors()) {
+			return "redirect:../../unit/watch/" + unitId;
+		}
 		ObjectMapper objectMapper = new ObjectMapper();
 		Sensor sensor = formData.getSensor();
 		SensorSetting settingObject = formData.getSensorSetting();
 		String setting = objectMapper.writeValueAsString(settingObject);
 		sensor.setSettings(setting);
+		sensor.setEnabled(true);
 		sensor.setUnit(dataService.getOneUnit(unitId));
 		dataService.saveSensor(sensor);
 		model.addAttribute("unitId", unitId);
@@ -175,17 +182,22 @@ public class SensorController {
 		model.addAttribute("message", "Create Sensor");
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
-		return "redirect:form";
+		return "redirect:/unit/watch/" + unitId;
 	}
 
 	@GetMapping("/delete/{sensorId}")
 	public String deleteSensor(@PathVariable(value = "sensorId") Long sensorId, Model model, RedirectAttributes flash) {
 		Sensor sensor = dataService.getOneSensor(sensorId);
-		if (sensorId > 0 || sensor == null) {
+		dataService.deleteSensorDataBySensorId(sensorId);
+		Unit unit = null;
+		if (sensor != null) {
 			dataService.deleteSensor(sensorId);
-		} 
-		Unit unit = sensor.getUnit();
-		return "redirect:../../unit/watch/" + unit.getId();
+			unit = sensor.getUnit();
+			flash.addFlashAttribute("warning", "Sensor Deleted Succesfully");
+			return "redirect:../../unit/watch/" + unit.getId();
+		}
+		flash.addFlashAttribute("error", "Cannot Find Sensor");
+		return "redirect:../../unit/list";
 	}
 
 }

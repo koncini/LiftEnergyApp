@@ -2,14 +2,19 @@ package com.actum.springboot.liftEnergy.app.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class SensorSetting {
 
+	@NotEmpty
 	@JsonProperty("min_value")
 	private Double minValue;
 
+	@NotEmpty
 	@JsonProperty("max_value")
 	private Double maxValue;
 	
+	@NotEmpty
 	@JsonProperty("meassure_unit")
 	private String meassureUnit;
 

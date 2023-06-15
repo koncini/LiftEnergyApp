@@ -61,7 +61,7 @@
 					</tbody>
 				</table>
 				
-				<nav th:if="${not #lists.isEmpty(unitEvents)}" th:replace="~{layout/paginator :: paginator}"></nav>
+				<nav th:if="${not #strings.isEmpty(unitEvents)}" th:replace="~{layout/paginator :: paginator}"></nav>
 
 			</div>
 

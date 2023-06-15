@@ -38,5 +38,8 @@ public interface ISensorDataDao extends CrudRepository<SensorData, Long> {
 	@Query("SELECT sd FROM SensorData sd WHERE sd.sensor.id = :sensorId AND YEAR(sd.timeStamp) = :year")
     public List<SensorData> findBySensorIdAndTimeStampCurrentYear(@Param("sensorId") Long sensorId, @Param("year") int year);
 	
+    @Modifying
+    @Query("DELETE FROM SensorData sd WHERE sd.sensor.id = :sensorId")
+    void deleteBySensorId(Long sensorId);
 
 }
