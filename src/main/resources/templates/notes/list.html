@@ -16,6 +16,14 @@
 		<main class="main">
 			<!-- Breadcrumb-->
 			<div class="container my-2">
+				<div class="alert alert-success" th:if="${success != null}"
+					th:text="${success}"></div>
+				<div class="alert alert-danger" th:if="${error != null}"
+					th:text="${error}"></div>
+				<div class="alert alert-warning" th:if="${warning != null}"
+					th:text="${warning}"></div>
+				<div class="alert alert-info" th:if="${info != null}"
+					th:text="${info}"></div>
 				<h1 th:text="${message}"></h1>
 
 				<table class="table table-bordered table-striped table-hover my-4">
@@ -38,7 +46,7 @@
 							<td th:text="${note.note}"></td>
 							<td th:text="${note.timeStamp}"></td>
 							<td><a class="btn btn-primary btn-xs"
-								th:href="@{'/unit-notes/form/' + ${note.id}}"
+								th:href="@{'/unit-notes/form/' + ${note.id} + '?unitId=' + ${unitNotesUnits[note.id]}}"
 								th:text="'Edit Note'"></a></td>
 							<td sec:authorize="hasRole('ADMIN')"><a
 								class="btn btn-danger btn-xs"
@@ -47,6 +55,8 @@
 						</tr>
 					</tbody>
 				</table>
+
+				<nav th:replace="~{layout/paginator :: paginator}"></nav>
 
 			</div>
 

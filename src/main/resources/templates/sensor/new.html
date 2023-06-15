@@ -23,7 +23,7 @@
 						<h1 th:text="${message}"></h1>
 					</div>
 					<div class="card-body">
-						<form th:action="@{/sensor/form}" th:object="${formData}"
+						<form th:action="@{'/sensor/form?unitId=' + ${unitId}}" th:object="${formData}"
 							method="post">
 							<div class="form-group-row">
 								<label class="col-sm-2 col-form-label"> Type </label>

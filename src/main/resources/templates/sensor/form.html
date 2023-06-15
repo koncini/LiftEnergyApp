@@ -23,7 +23,7 @@
 						<h1 th:text="${message} + ' ' + ${sensor.id}"></h1>
 					</div>
 					<div class="card-body">
-						<form th:action="@{/sensor/form}" th:object="${formData}" method="post">
+						<form th:action="@{'/sensor/form?unitId=' + ${unitId}}" th:object="${formData}" method="post">
 							<div class="form-group-row">
 								<label class="col-sm-2 col-form-label"> Type </label>
 								<div class="cols-sm-6">
@@ -57,6 +57,9 @@
 									<input type="submit" value="Save" class="btn btn-secondary" />
 								</div>
 							</div>
+							
+							<input type="hidden" th:field="*{sensor.enabled}" />
+							<input type="hidden" th:field="*{sensor.id}" />
 						</form>
 					</div>
 				</div>

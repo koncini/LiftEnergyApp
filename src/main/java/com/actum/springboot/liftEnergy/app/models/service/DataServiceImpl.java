@@ -262,8 +262,8 @@ public class DataServiceImpl implements IDataService {
 
 	@Override
 	@Transactional
-	public List<UnitNote> getAllUnitNotes() {
-		return (List<UnitNote>) unitNoteDao.findAll();
+	public Page<UnitNote> getAllUnitNotes(Pageable pageable) {
+		return unitNoteDao.findAll(pageable);
 	}
 
 	@Override
@@ -280,8 +280,8 @@ public class DataServiceImpl implements IDataService {
 
 	@Override
 	@Transactional
-	public List<UnitNote> getNotesByUnit(Long id) {
-		return unitNoteDao.findAllNotesByUnitId(id);
+	public Page<UnitNote> getNotesByUnit(Long id, Pageable pageable) {
+		return unitNoteDao.findAllNotesByUnitId(id, pageable);
 	}
 
 	// _______________________________Unit Events_______________________________

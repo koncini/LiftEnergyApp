@@ -24,14 +24,14 @@
 					</div>
 					<div class="card-body">
 
-						<form th:action="@{/unit-notes/form}" th:object="${note}"
+						<form th:action="@{'/unit-notes/form?unitId=' + ${unitId}}" th:object="${unitNote}"
 							method="post">
 
 							<div class="form-group-row">
 								<label class="col-sm-2 col-form-label"> Note for Oil
 									Field </label>
 								<div class="cols-sm-6">
-									<textarea class="form-control" cols="40" rows="5"></textarea>
+									<textarea th:field="*{note}" class="form-control" cols="40" rows="5"></textarea>
 								</div>
 							</div>
 

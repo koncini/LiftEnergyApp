@@ -84,19 +84,19 @@ public interface IDataService {
 
 	public User getUserByName(String name);
 	
+	public void deleteUser(Long id);
+	
 	//_______________________________Unit Notes________________________________
 	
 	public void saveUnitNote(UnitNote note);
-	
-	public void deleteUser(Long id);
 
-	public List<UnitNote> getAllUnitNotes();
-
-	public void deleteUnitNote(Long id);
+	public Page<UnitNote> getAllUnitNotes(Pageable pageable);
 
 	public UnitNote getOneUnitNote(Long id);
 	
-	public List<UnitNote> getNotesByUnit(Long id);
+	public Page<UnitNote> getNotesByUnit(Long id, Pageable pageable);
+	
+	public void deleteUnitNote(Long id);
 	
 	//_______________________________Unit Events_______________________________
 	
