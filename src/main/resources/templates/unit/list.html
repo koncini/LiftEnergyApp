@@ -21,8 +21,7 @@
 				<h1 th:text="${#strings.replace(message, '_', ' ')}"></h1>
 
 				<a sec:authorize="hasRole('ADMIN')" th:href="@{/unit/form}"
-					class="btn btn-success btn-xs"
-					th:text="'Create New Oil Well'"></a>
+					class="btn btn-success btn-xs" th:text="'Create New Oil Well'"></a>
 
 				<div>
 					<table class="table table-bordered table-striped table-hover my-4">
@@ -44,7 +43,8 @@
 							<tr th:each="unit: ${units}"
 								th:style="${wellData.get(unit.id) lt 2200} ? 'background-color: rgb(255, 150, 150);' : ''">
 								<td th:text="${unit.id}"></td>
-								<td th:text="${#strings.replace(unitRelatedZone.get(unit.id), '_', ' ')}"></td>
+								<td
+									th:text="${#strings.replace(unitRelatedZone.get(unit.id), '_', ' ')}"></td>
 								<td th:text="${unit.latitude}+ ' ' +${unit.longitude}"></td>
 								<td th:text="${wellData.get(unit.id)}+' BPD'"></td>
 								<td th:text="'Automatic'"></td>
@@ -52,10 +52,13 @@
 								<td th:text="${unit.enabled}"></td>
 								<td><a class="btn btn-info btn-xs"
 									th:href="@{'/unit/form/' + ${unit.id}}" th:text="'Edit'"></a></td>
-								<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger btn-xs" 
-									th:href="@{'/unit/delete/' + ${unit.id}}" th:text="'Delete'"></a></td>
+								<td sec:authorize="hasRole('ADMIN')"><a
+									class="btn btn-danger btn-xs"
+									th:href="@{'/unit/delete/' + ${unit.id}}" th:text="'Delete'"
+									onclick="return confirm('Are you sure to delete this component?');"></a></td>
 								<td><a class="btn btn-primary btn-xs"
-									th:href="@{'/unit/watch/' + ${unit.id}}" th:text="'Oil Well Detailed'"></a></td>
+									th:href="@{'/unit/watch/' + ${unit.id}}"
+									th:text="'Oil Well Detailed'"></a></td>
 							</tr>
 						</tbody>
 					</table>

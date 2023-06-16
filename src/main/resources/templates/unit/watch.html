@@ -171,7 +171,8 @@
 									<td sec:authorize="hasRole('ADMIN')"><a
 										class="btn btn-danger btn-xs"
 										th:href="@{'/sensor/delete/' + ${sensor.id}}"
-										th:text="'Delete'"></a></td>
+										th:text="'Delete'"
+										onclick="return confirm('Are you sure to delete this component?');"></a></td>
 									<td><a class="btn btn-primary btn-xs"
 										th:href="@{'/sensor/form/' + ${sensor.id} + '?unitId=' + ${unit.id}}"
 										th:text="'Edit Sensor'"></a></td>

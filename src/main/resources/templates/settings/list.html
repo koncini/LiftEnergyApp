@@ -33,7 +33,8 @@
 							<td th:text="'External Module'"></td>
 							<td th:text="'Artix'"></td>
 							<td><a class="btn btn-info btn-xs" th:text="'Edit'"></a></td>
-							<td><a class="btn btn-danger btn-xs" th:text="'Delete'"></a></td>
+							<td><a class="btn btn-danger btn-xs" th:text="'Delete'"
+								onclick="return confirm('Are you sure to delete this component?');"></a></td>
 						</tr>
 					</tbody>
 				</table>

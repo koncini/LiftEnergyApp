@@ -51,12 +51,14 @@
 							<td sec:authorize="hasRole('ADMIN')"><a
 								class="btn btn-danger btn-xs"
 								th:href="@{'/unit-notes/delete/' + ${note.id}}"
-								th:text="'Delete'"></a></td>
+								th:text="'Delete'"
+								onclick="return confirm('Are you sure to delete this component?');"></a></td>
 						</tr>
 					</tbody>
 				</table>
 
-				<nav th:if="${#strings.isEmpty(unitNotes)}"  th:replace="~{layout/paginator :: paginator}"></nav>
+				<nav th:if="${#strings.isEmpty(unitNotes)}"
+					th:replace="~{layout/paginator :: paginator}"></nav>
 
 			</div>
 

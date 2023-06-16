@@ -44,9 +44,9 @@
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Description</label>
 								<div class="col-sm-6">
-									<textarea th:field="*{description}"
-										class="form-control" cols="40" rows="5"
-										th:errorclass="'form-control alert-danger'" autocomplete="off"></textarea>
+									<textarea th:field="*{description}" class="form-control"
+										cols="40" rows="5" th:errorclass="'form-control alert-danger'"
+										autocomplete="off"></textarea>
 									<small class="form-text text-danger"
 										th:if="${#fields.hasErrors('description')}"
 										th:errors="*{description}"></small>
@@ -88,7 +88,8 @@
 							<td><a class="btn btn-info btn-xs"
 								th:href="@{'/artix/result/' + ${sample.id}}" th:text="'Details'"></a></td>
 							<td><a class="btn btn-danger btn-xs"
-								th:href="@{'/artix/delete/' + ${sample.id}}" th:text="'Delete'"></a></td>
+								th:href="@{'/artix/delete/' + ${sample.id}}" th:text="'Delete'"
+								onclick="return confirm('Are you sure to delete this component?');"></a></td>
 						</tr>
 					</tbody>
 				</table>

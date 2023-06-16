@@ -46,7 +46,8 @@
 							<td><a class="btn btn-info btn-xs"
 								th:href="@{'/usuarios/form/' + ${user.id}}" th:text="'Edit'"></a></td>
 							<td><a class="btn btn-danger btn-xs"
-								th:href="@{'/usuarios/delete/' + ${user.id}}" th:text="'Delete'"></a></td>
+								th:href="@{'/usuarios/delete/' + ${user.id}}" th:text="'Delete'"
+								onclick="return confirm('Are you sure to delete this component?');"></a></td>
 						</tr>
 					</tbody>
 				</table>

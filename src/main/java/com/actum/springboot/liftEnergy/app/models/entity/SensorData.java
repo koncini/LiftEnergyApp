@@ -35,7 +35,7 @@ public class SensorData implements Serializable {
 	private String unit;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sensor_id", insertable = false, updatable = false)
+	@JoinColumn(name = "sensor_id")
 	@JsonBackReference
 	private Sensor sensor;
 
