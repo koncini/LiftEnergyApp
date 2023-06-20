@@ -57,8 +57,8 @@ public class SensorController {
 		eventsUnattended = dataService.getCountOfUnattendedEvents();
 	}
 
-	@GetMapping("{unitId}/analisis/{sensorId}")
-	public String analizarUnidad(@PathVariable(value = "unitId") Long unitId,
+	@GetMapping("{unitId}/analysis/{sensorId}")
+	public String analyzeUnit(@PathVariable(value = "unitId") Long unitId,
 			@PathVariable(value = "sensorId") Long sensorId, Model model) {
 
 		Sensor sensor = dataService.getEnabledSensorById(sensorId);
@@ -78,8 +78,8 @@ public class SensorController {
 		return "sensor/graph";
 	}
 
-	@GetMapping("{unitId}/analisis-dinagrafico")
-	public String analisiDinagrafico(@PathVariable(value = "unitId") Long unitId, Model model) throws ParseException {
+	@GetMapping("{unitId}/dinagraph-analysis")
+	public String dinagraphAnalysis(@PathVariable(value = "unitId") Long unitId, Model model) throws ParseException {
 
 		Unit unit = dataService.getOneUnit(unitId);
 		if (unit == null) {
@@ -151,6 +151,7 @@ public class SensorController {
 		Sensor sensor = new Sensor();
 		SensorSetting sensorSetting = new SensorSetting();
 		FormData formData = new FormData();
+		sensor.setEnabled(true);
 		formData.setSensor(sensor);
 		formData.setSensorSetting(sensorSetting);
 		model.put("formData", formData);
@@ -174,7 +175,6 @@ public class SensorController {
 		SensorSetting settingObject = formData.getSensorSetting();
 		String setting = objectMapper.writeValueAsString(settingObject);
 		sensor.setSettings(setting);
-		sensor.setEnabled(true);
 		sensor.setUnit(dataService.getOneUnit(unitId));
 		dataService.saveSensor(sensor);
 		model.addAttribute("unitId", unitId);
