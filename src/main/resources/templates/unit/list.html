@@ -41,14 +41,14 @@
 						</thead>
 						<tbody>
 							<tr th:each="unit: ${units}"
-								th:style="${wellData.get(unit.id) lt 2200} ? 'background-color: rgb(255, 150, 150);' : ''">
+								th:style="${wellProductionData.get(unit.id) lt 2200} ? 'background-color: rgb(255, 150, 150);' : ''">
 								<td th:text="${unit.id}"></td>
 								<td
 									th:text="${#strings.replace(unitRelatedZone.get(unit.id), '_', ' ')}"></td>
 								<td th:text="${unit.latitude}+ ' ' +${unit.longitude}"></td>
-								<td th:text="${wellData.get(unit.id)}+' BPD'"></td>
-								<td th:text="'Automatic'"></td>
-								<td th:text="'Idle'"></td>
+								<td th:text="${wellProductionData.get(unit.id)}+' BPD'"></td>
+								<td th:text="${unitWorkMode.get(unit.id)}"></td>
+								<td th:text="${unitStatus.get(unit.id)}"></td>
 								<td th:text="${unit.enabled}"></td>
 								<td><a class="btn btn-info btn-xs"
 									th:href="@{'/unit/form/' + ${unit.id}}" th:text="'Edit'"></a></td>

@@ -37,6 +37,7 @@
 								<th>Oil Wells</th>
 							</tr>
 						</thead>
+						<!-- TODO: Cuando es lista especifica esconder el nombre de los Campos -->
 						<tbody>
 							<tr th:each="zone: ${zones}"
 								th:style="${zone.production lt 10000} ? 'background-color: rgb(255, 150, 150);' : ''">
@@ -52,7 +53,7 @@
 									th:href="@{'/zone/delete/' + ${zone.id}}" th:text="'Delete'"
 									onclick="return confirm('Are you sure to delete this component?');"></a></td>
 								<td><a class="btn btn-primary btn-xs"
-									th:href="@{'/zone/' + ${zone.id} + '/list-units'}"
+									th:href="@{'/unit/' + ${zone.id} + '/list-units'}"
 									th:text="'List Oil Wells'"></a></td>
 							</tr>
 						</tbody>

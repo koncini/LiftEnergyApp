@@ -1,6 +1,5 @@
 package com.actum.springboot.liftEnergy.app.controllers;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,16 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.actum.springboot.liftEnergy.app.models.UnitSetting;
-import com.actum.springboot.liftEnergy.app.models.WellData;
-import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
-import com.actum.springboot.liftEnergy.app.models.entity.Unit;
 import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IDataService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -35,14 +26,8 @@ public class ZoneController {
 	@Autowired
 	private IDataService dataService;
 
-	@Value("${texto.zonecontroller.listunits.unit}")
-	private String unitString;
-
 	@Value("${texto.zonecontroller.listunits.title}")
 	private String titleString;
-
-	@Value("${texto.zonecontroller.listunits.zone}")
-	private String zoneString;
 
 	private Long eventsUnattended;
 
@@ -65,45 +50,6 @@ public class ZoneController {
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "zone/list";
-	}
-
-	@GetMapping("/{id}/list-units")
-	public String listUnits(@PathVariable Long id, Model model)
-			throws JsonMappingException, JsonProcessingException {
-		Zone zone = dataService.getOneZone(id);
-		List<Unit> units = zone.getUnits();
-		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
-		Map<Long, Number> wellProductionMap = new HashMap<>();
-		Map<Long, String> unitRelatedZone = new HashMap<>();
-
-		for (Unit unit : units) {
-			Long unitId = unit.getId();
-			String unitSettings = unit.getSettings();
-			ObjectMapper objectMapper = new ObjectMapper();
-
-			List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {});
-			unitSettingMap.put(unitId, settings);
-
-			String unitMetrics = unit.getMetrics();
-			ObjectMapper mapper = new ObjectMapper();
-			WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
-
-			WellData wellData = wellDataWrapper.getWellDataByName("well_production");
-			wellProductionMap.put(unitId, wellData.getValue());
-			
-			unitRelatedZone.put(unitId, dataService.getZoneNameByUnitId(unitId));
-
-		}
-
-		model.addAttribute("title", titleString);
-		model.addAttribute("message", unitString.concat(zoneString).concat(zone.getName()));
-		model.addAttribute("units", units);
-		model.addAttribute("unitRelatedZone", unitRelatedZone);
-		model.addAttribute("unitSettings", unitSettingMap);
-		model.addAttribute("wellData", wellProductionMap);
-		model.addAttribute("eventsUnattended", eventsUnattended);
-
-		return "unit/list";
 	}
 
 	@GetMapping("/form/{zoneId}")

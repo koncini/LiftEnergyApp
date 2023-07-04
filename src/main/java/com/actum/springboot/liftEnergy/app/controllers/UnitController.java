@@ -24,6 +24,7 @@ import com.actum.springboot.liftEnergy.app.models.UnitSetting;
 import com.actum.springboot.liftEnergy.app.models.WellData;
 import com.actum.springboot.liftEnergy.app.models.WellDataWrapper;
 import com.actum.springboot.liftEnergy.app.models.entity.Unit;
+import com.actum.springboot.liftEnergy.app.models.entity.Zone;
 import com.actum.springboot.liftEnergy.app.models.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -52,12 +53,18 @@ public class UnitController {
 
 	@Value("${texto.unitcontroller.watchsensor.message}")
 	private String messageWatchSensorString;
-	
+
 	@Value("${texto.unitcontroller.form.title}")
 	private String titleFormUnitString;
 
 	@Value("${texto.unitcontroller.form.message}")
 	private String messageFormUnitString;
+	
+	@Value("${texto.unitcontroller.listunits.unit}")
+	private String unitString;
+	
+	@Value("${texto.unitcontroller.listunits.zone}")
+	private String zoneString;
 
 	private Long eventsUnattended;
 
@@ -87,7 +94,7 @@ public class UnitController {
 		List<UnitData> unitData = wellDataWrapper.getUnitData();
 		List<MotorData> motorData = wellDataWrapper.getMotorData();
 		List<PowerCost> powerCost = wellDataWrapper.getPowerCost();
-		
+
 		LocalDate currentDate = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E dd MMM yyyy");
 		String formattedDate = currentDate.format(formatter);
@@ -112,6 +119,9 @@ public class UnitController {
 
 		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
 		Map<Long, Number> wellProductionMap = new HashMap<>();
+		Map<Long, Number> unitProductionGoalMap = new HashMap<>();
+		Map<Long, String> unitWorkModeMap = new HashMap<>();
+		Map<Long, String> unitStatusMap = new HashMap<>();
 		Map<Long, String> unitRelatedZone = new HashMap<>();
 
 		for (Unit unit : units) {
@@ -119,8 +129,66 @@ public class UnitController {
 			String unitSettings = unit.getSettings();
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {
-			});
+			List<UnitSetting> settingsData = objectMapper.readValue(unitSettings,
+					new TypeReference<List<UnitSetting>>() {
+					});
+
+//			for (UnitSetting setting : settingsData) {
+//				if (setting.getName().equals("production_goal")) {
+//					Object productionGoalData = unitSettingService.getValueByName("production_goal");
+//					unitProductionGoalMap.put(unitId, (Number) productionGoalData);
+//					break; 
+//				}
+//			}
+
+			String unitMetrics = unit.getMetrics();
+			ObjectMapper mapper = new ObjectMapper();
+			WellDataWrapper wellDataWrapper = mapper.readValue(unitMetrics, WellDataWrapper.class);
+
+			WellData wellProductionData = wellDataWrapper.getWellDataByName("well_production");
+//			Object workModeData = unitSettingService.getValueByName("work_mode");
+//			Object statusData = unitSettingService.getValueByName("status");
+
+			wellProductionMap.put(unitId, wellProductionData.getValue());
+//			unitWorkModeMap.put(unitId, workModeData.toString());
+//			unitStatusMap.put(unitId, statusData.toString());
+
+			unitRelatedZone.put(unitId, dataService.getZoneNameByUnitId(unitId));
+
+		}
+
+		model.addAttribute("title", "Oil Wells");
+		model.addAttribute("message", "All Oil Wells");
+		model.addAttribute("units", units);
+		model.addAttribute("unitRelatedZone", unitRelatedZone);
+		model.addAttribute("unitSettings", unitSettingMap);
+		model.addAttribute("wellProductionData", wellProductionMap);
+		model.addAttribute("wellProductionGoal", unitProductionGoalMap);
+		model.addAttribute("unitWorkMode", unitWorkModeMap);
+		model.addAttribute("unitStatus", unitStatusMap);
+		model.addAttribute("eventsUnattended", eventsUnattended);
+
+		return "unit/list";
+	}
+	
+	@GetMapping("/{id}/list-units")
+	public String listUnits(@PathVariable Long id, Model model)
+			throws JsonMappingException, JsonProcessingException {
+		Zone zone = dataService.getOneZone(id);
+		List<Unit> units = zone.getUnits();
+		Map<Long, List<UnitSetting>> unitSettingMap = new HashMap<>();
+		Map<Long, Number> wellProductionMap = new HashMap<>();
+		Map<Long, Number> unitProductionGoalMap = new HashMap<>();
+		Map<Long, String> unitWorkModeMap = new HashMap<>();
+		Map<Long, String> unitStatusMap = new HashMap<>();
+		Map<Long, String> unitRelatedZone = new HashMap<>();
+
+		for (Unit unit : units) {
+			Long unitId = unit.getId();
+			String unitSettings = unit.getSettings();
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			List<UnitSetting> settings = objectMapper.readValue(unitSettings, new TypeReference<List<UnitSetting>>() {});
 			unitSettingMap.put(unitId, settings);
 
 			String unitMetrics = unit.getMetrics();
@@ -134,55 +202,59 @@ public class UnitController {
 
 		}
 
-		model.addAttribute("title", "Oil Wells");
-		model.addAttribute("message", "All Oil Wells");
+		model.addAttribute("title", "Oil Wells From Oil Field");
+		model.addAttribute("message", unitString.concat(zoneString).concat(zone.getName()));
 		model.addAttribute("units", units);
 		model.addAttribute("unitRelatedZone", unitRelatedZone);
 		model.addAttribute("unitSettings", unitSettingMap);
-		model.addAttribute("wellData", wellProductionMap);
+		model.addAttribute("wellProductionData", wellProductionMap);
+		model.addAttribute("wellProductionGoal", unitProductionGoalMap);
+		model.addAttribute("unitWorkMode", unitWorkModeMap);
+		model.addAttribute("unitStatus", unitStatusMap);
 		model.addAttribute("eventsUnattended", eventsUnattended);
 
 		return "unit/list";
 	}
-		
+
 	@GetMapping("/form/{unitId}")
-	public String editUnit(@PathVariable(value = "unitId") Long unitId, Map<String, Object> model, RedirectAttributes flash) {
-		
+	public String editUnit(@PathVariable(value = "unitId") Long unitId, Map<String, Object> model,
+			RedirectAttributes flash) {
+
 		Unit unit = dataService.getOneUnit(unitId);
 		if (unit == null) {
-			return "redirect:/list";	
+			return "redirect:/list";
 		}
 		model.put("unit", unit);
 		model.put("title", titleFormUnitString);
 		model.put("message", messageFormUnitString);
 		model.put("eventsUnattended", eventsUnattended);
 		flash.addFlashAttribute("success", "Oil Well Edited");
-		
+
 		return "unit/form";
 	}
-	
+
 	@GetMapping("/form")
 	public String createUnit(Map<String, Object> model, RedirectAttributes flash) {
-		Unit unit = new Unit();		
+		Unit unit = new Unit();
 		model.put("unit", unit);
 		model.put("title", "Create New Oil Well ");
 		model.put("message", "Create New Oil Well");
 		model.put("eventsUnattended", eventsUnattended);
 		flash.addFlashAttribute("success", "New Oil Well Created");
-		
+
 		return "unit/new";
 	}
-	
+
 	@PostMapping("/form")
 	public String saveUnit(@Valid Unit unit, Model model, RedirectAttributes flash) {
-				
+
 		model.addAttribute("title", "Create Oil Well ");
 		model.addAttribute("message", "Create Oil Well");
 		model.addAttribute("eventsUnattended", eventsUnattended);
-		
+
 		return "redirect:form";
 	}
-	
+
 	@GetMapping("/edit-settings/{unitId}")
 	public String editUnitSettings(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
 		Unit unit = dataService.getOneUnit(unitId);
@@ -190,13 +262,13 @@ public class UnitController {
 		model.addAttribute("title", titleFormUnitString);
 		model.addAttribute("message", messageFormUnitString);
 		model.addAttribute("eventsUnattended", eventsUnattended);
-		
+
 		return "unit/config";
 	}
-	
+
 	@GetMapping("/delete/{unitId}")
 	public String deleteUnit(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
-		if(unitId > 0) {
+		if (unitId > 0) {
 			dataService.deleteUnit(unitId);
 		}
 		return "redirect:../detailed-list";
