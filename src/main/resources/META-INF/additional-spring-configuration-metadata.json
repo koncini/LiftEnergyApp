@@ -1,32 +1,44 @@
-{"properties": [
-  {
-    "name": "pushover.api.token",
-    "type": "java.lang.String",
-    "description": "A description for 'pushover.api.token'"
-  },
-  {
-    "name": "pushover.user.key",
-    "type": "java.lang.String",
-    "description": "A description for 'pushover.user.key'"
-  },
-  {
-    "name": "commodities.url",
-    "type": "java.lang.String",
-    "description": "A description for 'commodities.url'"
-  },
-  {
-    "name": "commodities.request.url",
-    "type": "java.lang.String",
-    "description": "A description for 'commodities.request.url'"
-  },
-  {
-    "name": "commodities.request.api.key",
-    "type": "java.lang.String",
-    "description": "A description for 'commodities.request.api.key'"
-  },
-  {
-    "name": "artix.request.url",
-    "type": "java.lang.String",
-    "description": "A description for 'artix.request.url'"
-  }
-]}
+{
+	"properties": [
+		{
+			"name": "pushover.api.token",
+			"type": "java.lang.String",
+			"description": "A description for 'pushover.api.token'"
+		},
+		{
+			"name": "pushover.user.key",
+			"type": "java.lang.String",
+			"description": "A description for 'pushover.user.key'"
+		},
+		{
+			"name": "commodities.url",
+			"type": "java.lang.String",
+			"description": "A description for 'commodities.url'"
+		},
+		{
+			"name": "commodities.request.url",
+			"type": "java.lang.String",
+			"description": "A description for 'commodities.request.url'"
+		},
+		{
+			"name": "commodities.request.api.key",
+			"type": "java.lang.String",
+			"description": "A description for 'commodities.request.api.key'"
+		},
+		{
+			"name": "artix.request.url",
+			"type": "java.lang.String",
+			"description": "A description for 'artix.request.url'"
+		},
+		{
+			"name": "pushover.api.token",
+			"type": "java.lang.String",
+			"description": "A description for 'pushover.api.token'"
+		},
+		{
+			"name": "commodities.request.url",
+			"type": "java.lang.String",
+			"description": "A description for 'commodities.request.url'"
+		}
+	]
+}
