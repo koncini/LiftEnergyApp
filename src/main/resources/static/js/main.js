@@ -229,16 +229,16 @@ switch (chartSelection) {
 		break;
 	case "sensorData":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
-		var fetchUrl = 'http://localhost:8090/api/sensors-data/get-today-data/';
+		var fetchUrl = 'http://localhost:8080/api/sensors-data/get-today-data/';
 		switch (productionChartRange) {
 			case "year":
-				fetchUrl = 'http://localhost:8090/api/sensors-data/get-year-data/';
+				fetchUrl = 'http://localhost:8080/api/sensors-data/get-year-data/';
 				break;
 			case "month":
-				fetchUrl = 'http://localhost:8090/api/sensors-data/get-month-data/';
+				fetchUrl = 'http://localhost:8080/api/sensors-data/get-month-data/';
 				break;
 			case "week":
-				fetchUrl = 'http://localhost:8090/api/sensors-data/get-week-data/';
+				fetchUrl = 'http://localhost:8080/api/sensors-data/get-week-data/';
 				break;
 			default:
 				fetchUrl = fetchUrl;
@@ -310,7 +310,7 @@ switch (chartSelection) {
 		break;
 	case "dinagraphReading":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
-		fetch('http://localhost:8090/api/samples/get-data/'.concat(sampleId))
+		fetch('http://localhost:8080/api/samples/get-data/'.concat(sampleId))
 			.then(response => response.json())
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
@@ -388,7 +388,7 @@ switch (chartSelection) {
 		break;
 	case "dinagraphSample":
 		// Fetch the dinagraph sample from the API and store it in a variable called jsonData.
-		fetch('http://localhost:8090/api/samples/get-data/'.concat(sampleId))
+		fetch('http://localhost:8080/api/samples/get-data/'.concat(sampleId))
 			.then(response => response.json())
 			.then(jsonData => {
 				// Get the fetch URL from the JSON response
@@ -466,16 +466,16 @@ switch (chartSelection) {
 		break;
 	case "unitProduction":
 		// Fetch the sensor data from the API and store it in a variable called jsonData.
-		var fetchUrl = 'http://localhost:8090/api/unit-production/get-today-production-data/';
+		var fetchUrl = 'http://localhost:8080/api/unit-production/get-today-production-data/';
 		switch (productionChartRange) {
 			case "year":
-				fetchUrl = 'http://localhost:8090/api/unit-production/get-year-production-data/';
+				fetchUrl = 'http://localhost:8080/api/unit-production/get-year-production-data/';
 				break;
 			case "month":
-				fetchUrl = 'http://localhost:8090/api/unit-production/get-month-production-data/';
+				fetchUrl = 'http://localhost:8080/api/unit-production/get-month-production-data/';
 				break;
 			case "week":
-				fetchUrl = 'http://localhost:8090/api/unit-production/get-week-production-data/';
+				fetchUrl = 'http://localhost:8080/api/unit-production/get-week-production-data/';
 				break;
 			default:
 				fetchUrl = fetchUrl;

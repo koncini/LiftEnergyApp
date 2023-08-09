@@ -69,9 +69,6 @@
 			<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a
 				class="nav-link" th:href="@{/settings/listar-settings}">Settings</a>
 			</li>
-			<li class="nav-item px-3" sec:authorize="hasRole('ADMIN')"><a
-				class="nav-link" th:href="@{/artix/form}">Artix Console</a>
-			</li>
 		</ul>
 		<ul class="nav navbar-nav ml-auto">
 			<li class="nav-item d-md-down-none"><a class="nav-link" th:href="@{../../unit-events/list-unattended-events}">
@@ -121,10 +118,10 @@
 							th:href="@{../../../zone/detailed-list}" target="_top">
 								<i class="nav-icon icon-location-pin"></i> Oil Fields
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"
-							target="_top"> <i class="nav-icon icon-settings"></i>
-								Settings
-						</a></li>						
+ 						<li class="nav-item"><a class="nav-link" href="#" 
+ 							target="_top"> <i class="nav-icon icon-settings"></i> 
+ 								Settings 
+ 						</a></li>						 
 					</ul></li>
 				<li class="divider" sec:authorize="hasRole('MAINTENANCE_STAFF')"></li>
 				<li class="nav-title" sec:authorize="hasRole('MAINTENANCE_STAFF')">MAINTENANCE
