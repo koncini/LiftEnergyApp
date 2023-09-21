@@ -29,8 +29,9 @@
 							<div class="card text-white bg-primary">
 								<div class="card-body pb-0">
 									<div>USD BASE VALUE</div>
-									<div th:text="'100 USD'" class="text-value"></div>
-								</div>
+									<div th:if="${allCommoditiesRateData != null}"
+										th:text="${allCommoditiesRateData[0].getValue()} + ' USD'"
+										class="text-value"></div>								</div>
 								<div class="chart-wrapper mt-3 mx-3" style="height: 70px;">
 									<canvas class="chart" id="card-chart1" height="70"></canvas>
 								</div>
@@ -107,7 +108,7 @@
 						<div th:if="${not #lists.isEmpty(zones)}" class="card-footer">
 							<div class="row text-center">
 								<div th:if="${zones[0] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${#strings.replace(zones[0].name, '_', ' ')}" class="text-muted"></div>
+									<div th:text="${#strings.capitalizeWords(#strings.replace(zones[0].name, '_', ' '))}" class="text-muted"></div>
 									<strong th:text="${zones[0].production + ' BPD 25.11%'}"></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar bg-success" role="progressbar"
@@ -116,7 +117,7 @@
 									</div>
 								</div>
 								<div th:if="${zones[1] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${#strings.replace(zones[1].name, '_', ' ')}" class="text-muted"></div>
+									<div th:text="${#strings.capitalizeWords(#strings.replace(zones[1].name, '_', ' '))}" class="text-muted"></div>
 									<strong th:text="${zones[1].production + ' BPD 24.05%'}"></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar bg-info" role="progressbar"
@@ -125,7 +126,7 @@
 									</div>
 								</div>
 								<div th:if="${zones[2] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${#strings.replace(zones[2].name, '_', ' ')}" class="text-muted"></div>
+									<div th:text="${#strings.capitalizeWords(#strings.replace(zones[2].name, '_', ' '))}" class="text-muted"></div>
 									<strong th:text="${zones[2].production + ' BPD 22.32%'}"></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar bg-warning" role="progressbar"
@@ -134,7 +135,7 @@
 									</div>
 								</div>
 								<div th:if="${zones[3] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${#strings.replace(zones[3].name, '_', ' ')}" class="text-muted"></div>
+									<div th:text="${#strings.capitalizeWords(#strings.replace(zones[3].name, '_', ' '))}" class="text-muted"></div>
 									<strong th:text="${zones[3].production + ' BPD 14.87%'}"></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar bg-danger" role="progressbar"
@@ -143,7 +144,7 @@
 									</div>
 								</div>
 								<div th:if="${zones[4] != null}" class="col-sm-12 col-md mb-sm-2 mb-0">
-									<div th:text="${#strings.replace(zones[4].name, '_', ' ')}" class="text-muted"></div>
+									<div th:text="${#strings.capitalizeWords(#strings.replace(zones[4].name, '_', ' '))}" class="text-muted"></div>
 									<strong th:text="${zones[4].production + ' BPD 13.64%'}">></strong>
 									<div class="progress progress-xs mt-2">
 										<div class="progress-bar" role="progressbar"
@@ -157,7 +158,7 @@
 				</div>
 
 				<div class="container">
-					<h3>Top Productive Oil Wells</h3>
+					<h3>Top Productive Oil Fields</h3>
 					<table class="table table-stripped table-hover table-bordered">
 						<thead class="thead-dark">
 							<tr>
@@ -173,7 +174,7 @@
 						<tbody>
 							<tr th:each="zone: ${zones}">
 								<td th:text="${zone.id}"></td>
-								<td th:text="${#strings.replace(zone.name, '_', ' ')}"></td>
+								<td th:text="${#strings.capitalizeWords(#strings.replace(zone.name, '_', ' '))}"></td>
 								<td th:text="${zone.latitude}+ ' ' +${zone.longitude}"></td>
 								<td th:text="${zone.production}+' BPD'"></td>
 								<td th:text="'Productive'"></td>

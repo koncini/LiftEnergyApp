@@ -35,27 +35,27 @@ switch (chartSelection) {
 		const chartData = {
 			labels: data.map(item => item.timestamp),
 			datasets: [{
-				label: 'orinoco 2',
+				label: 'Orinoco 2',
 				data: data.map(item => item.value),
 				borderColor: 'blue',
 				fill: false
 			}, {
-				label: 'ecopetrol 2',
+				label: 'Ecopetrol 2',
 				data: data.map(item => item.value * 2),
 				borderColor: 'green',
 				fill: false
 			}, {
-				label: 'maracaibo',
+				label: 'Maracaibo',
 				data: data.map(item => item.value * 3),
 				borderColor: 'red',
 				fill: false
 			}, {
-				label: 'puerto gaitan 2',
+				label: 'Puerto Gaitan 2',
 				data: data.map(item => item.value * 4),
 				borderColor: 'orange',
 				fill: false
 			}, {
-				label: 'maracaibo 2',
+				label: 'Maracaibo 2',
 				data: data.map(item => item.value * 5),
 				borderColor: 'purple',
 				fill: false

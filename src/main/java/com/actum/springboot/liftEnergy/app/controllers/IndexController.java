@@ -95,11 +95,13 @@ public class IndexController {
 			zones = dataService.getTop5ZonesByProductionAndUserId(currentUser.getId());
 		}
 
+		String allCommoditiesResponse = commoditiesClient.getCommoditiesData("ALL_COMMODITIES", "daily");
 		String brentoilResponse = commoditiesClient.getCommoditiesData("BRENT", "daily");
 		String wtioilResponse = commoditiesClient.getCommoditiesData("WTI", "daily");
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
+		ExchangeRateData allCommoditiesData = objectMapper.readValue(allCommoditiesResponse, ExchangeRateData.class);
 		ExchangeRateData brentoilData = objectMapper.readValue(brentoilResponse, ExchangeRateData.class);
 		ExchangeRateData wtioilData = objectMapper.readValue(wtioilResponse, ExchangeRateData.class);
 		
@@ -112,6 +114,7 @@ public class IndexController {
 		model.addAttribute("zoneMessage", zoneMessageString);
 		model.addAttribute("date", formattedDate);
 		model.addAttribute("echonomicsMessage", financialMessageString);
+		model.addAttribute("allCommoditiesRateData", allCommoditiesData.getData());
 		model.addAttribute("brentoilRateData", brentoilData.getData());
 		model.addAttribute("wtioilRateData", wtioilData.getData());
 		model.addAttribute("eventsUnattended", eventsUnattended);

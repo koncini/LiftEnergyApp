@@ -18,7 +18,7 @@ public class LiftEnergyAppApplication implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		String password = "Actum7963";
+		String password = "Flowdynamics3";
 		
 		for(int i=0; i<2; i++) {
 			String bcryptPassword = passwordEncoder.encode(password);
