@@ -24,7 +24,7 @@ public class ZoneController {
 	}
 
 	@GetMapping("/get-zone")
-	public Zone getZoneById(@RequestParam(value = "id") Long id) {
+	public Zone getZoneById(@RequestParam Long id) {
 		return dataService.getOneZone(id);
 	}
 

@@ -25,7 +25,7 @@ public class LoginController {
 	private String infoString;
 
 	@GetMapping("/login")
-	public String login(@RequestParam(value = "error", required = false) String error, Model model, Principal principal,
+	public String login(@RequestParam(required = false) String error, Model model, Principal principal,
 			RedirectAttributes flash) {
 		
 		model.addAttribute("title", titleString);

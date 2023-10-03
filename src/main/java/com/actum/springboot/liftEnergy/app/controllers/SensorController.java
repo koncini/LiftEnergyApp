@@ -58,8 +58,8 @@ public class SensorController {
 	}
 
 	@GetMapping("{unitId}/analysis/{sensorId}")
-	public String analyzeUnit(@PathVariable(value = "unitId") Long unitId,
-			@PathVariable(value = "sensorId") Long sensorId, Model model) {
+	public String analyzeUnit(@PathVariable Long unitId,
+			@PathVariable Long sensorId, Model model) {
 
 		Sensor sensor = dataService.getEnabledSensorById(sensorId);
 		Unit unit = dataService.getOneUnit(unitId);
@@ -79,7 +79,7 @@ public class SensorController {
 	}
 
 	@GetMapping("{unitId}/dinagraph-analysis")
-	public String dinagraphAnalysis(@PathVariable(value = "unitId") Long unitId, Model model) throws ParseException {
+	public String dinagraphAnalysis(@PathVariable Long unitId, Model model) throws ParseException {
 
 		Unit unit = dataService.getOneUnit(unitId);
 		if (unit == null) {
@@ -120,8 +120,8 @@ public class SensorController {
 	}
 
 	@GetMapping("/form/{sensorId}")
-	public String editSensor(@RequestParam(name = "unitId") Long unitId,
-			@PathVariable(value = "sensorId") Long sensorId, Map<String, Object> model, RedirectAttributes flash)
+	public String editSensor(@RequestParam Long unitId,
+			@PathVariable Long sensorId, Map<String, Object> model, RedirectAttributes flash)
 			throws JsonMappingException, JsonProcessingException {
 
 		Sensor sensor = dataService.getOneSensor(sensorId);
@@ -146,7 +146,7 @@ public class SensorController {
 	}
 
 	@GetMapping("/form")
-	public String createSensor(@RequestParam(name = "unitId") Long unitId, Map<String, Object> model,
+	public String createSensor(@RequestParam Long unitId, Map<String, Object> model,
 			RedirectAttributes flash) {
 		Sensor sensor = new Sensor();
 		SensorSetting sensorSetting = new SensorSetting();
@@ -165,7 +165,7 @@ public class SensorController {
 	}
 
 	@PostMapping("/form")
-	public String saveSensor(@RequestParam(name = "unitId") Long unitId, @Valid FormData formData, BindingResult result,
+	public String saveSensor(@RequestParam Long unitId, @Valid FormData formData, BindingResult result,
 			Model model, RedirectAttributes flash) throws JsonProcessingException {
 		if(result.hasErrors()) {
 			return "redirect:../../unit/watch/" + unitId;
@@ -186,7 +186,7 @@ public class SensorController {
 	}
 
 	@GetMapping("/delete/{sensorId}")
-	public String deleteSensor(@PathVariable(value = "sensorId") Long sensorId, Model model, RedirectAttributes flash) {
+	public String deleteSensor(@PathVariable Long sensorId, Model model, RedirectAttributes flash) {
 		Sensor sensor = dataService.getOneSensor(sensorId);
 		dataService.deleteSensorDataBySensorId(sensorId);
 		Unit unit = null;

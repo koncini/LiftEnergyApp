@@ -53,7 +53,7 @@ public class ZoneController {
 	}
 
 	@GetMapping("/form/{zoneId}")
-	public String editZone(@PathVariable(value = "zoneId") Long zoneId, Map<String, Object> model, RedirectAttributes flash) {
+	public String editZone(@PathVariable Long zoneId, Map<String, Object> model, RedirectAttributes flash) {
 
 		Zone zone = dataService.getOneZone(zoneId);
 		if (zone == null) {
@@ -91,7 +91,7 @@ public class ZoneController {
 	}
 	
 	@GetMapping("/delete/{zoneId}")
-	public String deleteZone(@PathVariable(value = "zoneId") Long zoneId, Model model, RedirectAttributes flash) {
+	public String deleteZone(@PathVariable Long zoneId, Model model, RedirectAttributes flash) {
 		if(zoneId > 0) {
 			dataService.deleteZone(zoneId);
 		}

@@ -26,8 +26,8 @@ public class PushoverController {
 
 	@PostMapping("/message")
 	@Secured("permitAll")
-	public ResponseEntity<String> sendMessage(@RequestParam("title") String title,
-			@RequestParam("message") String message) {
+	public ResponseEntity<String> sendMessage(@RequestParam String title,
+			@RequestParam String message) {
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();

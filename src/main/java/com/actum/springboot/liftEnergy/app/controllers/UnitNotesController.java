@@ -62,7 +62,7 @@ public class UnitNotesController {
 	}
 
 	@GetMapping("/list-notes")
-	public String listNotes(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+	public String listNotes(@RequestParam(defaultValue = "0") int page, Model model) {
 
 		Pageable pageRequest = PageRequest.of(page, 10);
 
@@ -92,7 +92,7 @@ public class UnitNotesController {
 	}
 
 	@GetMapping("/form/{noteId}")
-	public String editUnitNote(@RequestParam(name = "unitId") Long unitId, @PathVariable(value = "noteId") Long noteId,
+	public String editUnitNote(@RequestParam Long unitId, @PathVariable Long noteId,
 			Map<String, Object> model, RedirectAttributes flash) {
 		UnitNote unitNote = dataService.getOneUnitNote(noteId);
 		if (unitNote == null) {
@@ -110,7 +110,7 @@ public class UnitNotesController {
 	}
 
 	@GetMapping("/form")
-	public String createUnitNote(@RequestParam(name = "unitId") Long unitId, Map<String, Object> model,
+	public String createUnitNote(@RequestParam Long unitId, Map<String, Object> model,
 			RedirectAttributes flash) {
 		UnitNote unitNote = new UnitNote();
 
@@ -126,7 +126,7 @@ public class UnitNotesController {
 	}
 
 	@PostMapping("/form")
-	public String saveUnitNote(@RequestParam(name = "unitId") Long unitId, @Valid UnitNote note, Model model,
+	public String saveUnitNote(@RequestParam Long unitId, @Valid UnitNote note, Model model,
 			RedirectAttributes flash) {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -154,7 +154,7 @@ public class UnitNotesController {
 	}
 
 	@GetMapping("/delete/{noteId}")
-	public String deleteUnitNote(@PathVariable(value = "noteId") Long noteId, Model model, RedirectAttributes flash) {
+	public String deleteUnitNote(@PathVariable Long noteId, Model model, RedirectAttributes flash) {
 		if (noteId > 0) {
 			dataService.deleteUnitNote(noteId);
 		}

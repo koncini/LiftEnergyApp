@@ -42,12 +42,12 @@ public class UnitController {
 	}
 
 	@GetMapping("/get-unit")
-	private Unit getUnitById(@RequestParam(value = "id") Long id) {
+	private Unit getUnitById(@RequestParam Long id) {
 		return dataService.getOneUnit(id);
 	}
 
 	@GetMapping("/get-unit-sensors")
-	private List<Sensor> getUnitSensors(@RequestParam(value = "id") Long id) {
+	private List<Sensor> getUnitSensors(@RequestParam Long id) {
 		return dataService.getEnabledSensorsById(id);
 	}
 
@@ -58,7 +58,7 @@ public class UnitController {
 	
 	@PostMapping("/set-motor-speed/{unitId}")
 	@Secured("permitAll")
-	private ResponseEntity<String> setMotorSpeed(@PathVariable(value = "unitId") Long unitId) throws JsonMappingException, JsonProcessingException{
+	private ResponseEntity<String> setMotorSpeed(@PathVariable Long unitId) throws JsonMappingException, JsonProcessingException{
 		Unit unit = dataService.getOneUnit(unitId);
 		ObjectMapper objectMapper = new ObjectMapper();
 		String unitSettings = unit.getSettings();
@@ -78,13 +78,13 @@ public class UnitController {
 	
 	@GetMapping("/get-dinagraph-data/{unitId}")
 	@Secured("permitAll")
-	private List<SensorData> getDinagraphData(@PathVariable(value = "unitId") Long unitId) {
+	private List<SensorData> getDinagraphData(@PathVariable Long unitId) {
 		return dataService.getDinagraphData();
 	}	
 	
 	@GetMapping("/get-unit-setup/{unitId}")
 	@Secured("permitAll")
-	private ResponseEntity<String> getUnitSetup(@PathVariable(value = "unitId") Long unitId) throws JsonMappingException, JsonProcessingException {
+	private ResponseEntity<String> getUnitSetup(@PathVariable Long unitId) throws JsonMappingException, JsonProcessingException {
 		Unit unit = dataService.getOneUnit(unitId);
 		ObjectMapper objectMapper = new ObjectMapper();
 		String unitSettings = unit.getSettings();
