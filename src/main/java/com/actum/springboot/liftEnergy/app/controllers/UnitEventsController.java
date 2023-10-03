@@ -59,7 +59,7 @@ public class UnitEventsController {
 	}
 
 	@GetMapping("/list-unattended-events")
-	public String listUnattendedEvents(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+	public String listUnattendedEvents(@RequestParam(defaultValue = "0") int page, Model model) {
 		
 		Pageable pageRequest = PageRequest.of(page, 10);
 		
@@ -87,7 +87,7 @@ public class UnitEventsController {
 	}
 	
 	@GetMapping("/list-attended-events")
-	public String listAttendedEvents(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+	public String listAttendedEvents(@RequestParam(defaultValue = "0") int page, Model model) {
 		
 		Pageable pageRequest = PageRequest.of(page, 10);
 		
@@ -115,7 +115,7 @@ public class UnitEventsController {
 	}
 	
 	@GetMapping("/attend/{eventId}")
-	public String attendEvent(@PathVariable(value = "eventId") Long eventId, Model model, RedirectAttributes flash) {
+	public String attendEvent(@PathVariable Long eventId, Model model, RedirectAttributes flash) {
 		String currentUserName = getCurrentUserDetails().getUsername();
 		UnitEvent unitEvent = dataService.getOneUnitEvent(eventId);
 		unitEvent.setEventAttended(true);

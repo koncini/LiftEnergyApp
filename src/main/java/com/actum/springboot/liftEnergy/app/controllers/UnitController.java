@@ -217,7 +217,7 @@ public class UnitController {
 	}
 
 	@GetMapping("/form/{unitId}")
-	public String editUnit(@PathVariable(value = "unitId") Long unitId, Map<String, Object> model,
+	public String editUnit(@PathVariable Long unitId, Map<String, Object> model,
 			RedirectAttributes flash) {
 
 		Unit unit = dataService.getOneUnit(unitId);
@@ -256,7 +256,7 @@ public class UnitController {
 	}
 
 	@GetMapping("/edit-settings/{unitId}")
-	public String editUnitSettings(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
+	public String editUnitSettings(@PathVariable Long unitId, Model model, RedirectAttributes flash) {
 		Unit unit = dataService.getOneUnit(unitId);
 		model.addAttribute("unit", unit);
 		model.addAttribute("title", titleFormUnitString);
@@ -267,7 +267,7 @@ public class UnitController {
 	}
 
 	@GetMapping("/delete/{unitId}")
-	public String deleteUnit(@PathVariable(value = "unitId") Long unitId, Model model, RedirectAttributes flash) {
+	public String deleteUnit(@PathVariable Long unitId, Model model, RedirectAttributes flash) {
 		if (unitId > 0) {
 			dataService.deleteUnit(unitId);
 		}

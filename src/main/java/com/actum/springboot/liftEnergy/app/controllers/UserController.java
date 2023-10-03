@@ -48,7 +48,7 @@ public class UserController {
 	}
 
 	@GetMapping("/form/{userId}")
-	public String editUser(@PathVariable(value = "userId") Long userId, Model model, RedirectAttributes flash) {
+	public String editUser(@PathVariable Long userId, Model model, RedirectAttributes flash) {
 
 		User user = dataService.getOneUser(userId);
 		if (user == null) {
@@ -74,7 +74,7 @@ public class UserController {
 	}
 
 	@GetMapping("/delete/{userId}")
-	public String deleteUser(@PathVariable(value = "userId") Long userId, Model model, RedirectAttributes flash) {
+	public String deleteUser(@PathVariable Long userId, Model model, RedirectAttributes flash) {
 		if(userId > 0) {
 			dataService.deleteUser(userId);
 		}

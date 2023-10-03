@@ -28,18 +28,18 @@ public class SpringSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests()
-				.requestMatchers("/", "/css/**", "/icons/**", "/img/**", "/js/**", "/node_modules/**",
-						"/notifications/**", "/vendors/**", "/error/**")
-				.permitAll().requestMatchers(HttpMethod.POST, "/api/sensors-data/upload-data/**").permitAll()
-				.requestMatchers(HttpMethod.POST, "/api/unit-production/upload-data/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/sensors-data/get-dinagraph-data/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/unit/get-unit-setup/**").permitAll()
-				.requestMatchers(HttpMethod.POST, "/api/unit/set-motor-speed/**").permitAll()
-				.requestMatchers(HttpMethod.POST, "/pushover/message**").permitAll().requestMatchers("/unidad/**")
-				.hasAnyRole("USER").requestMatchers("/zona/**").hasAnyRole("ADMIN", "MANAGER").requestMatchers("/artix/**")
-				.hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin().successHandler(successHandler)
-				.loginPage("/login").permitAll().and().csrf().disable().logout().permitAll();
+        http.authorizeHttpRequests()
+                .requestMatchers("/", "/css/**", "/icons/**", "/img/**", "/js/**", "/node_modules/**",
+                        "/notifications/**", "/vendors/**", "/error/**")
+                .permitAll().requestMatchers(HttpMethod.POST, "/api/sensors-data/upload-data/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/unit-production/upload-data/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/sensors-data/get-dinagraph-data/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/unit/get-unit-setup/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/unit/set-motor-speed/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/pushover/message**").permitAll().requestMatchers("/unidad/**")
+                .hasAnyRole("USER").requestMatchers("/zona/**").hasAnyRole("ADMIN", "MANAGER").requestMatchers("/artix/**")
+                .hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin(login -> login.successHandler(successHandler)
+                .loginPage("/login").permitAll()).csrf(csrf -> csrf.disable()).logout(logout -> logout.permitAll());
 		return http.build();
 	}
 
